@@ -55,4 +55,7 @@ dependencies {
     implementation "android.arch.persistence.room:rxjava2:1.0.0"
     compile 'com.android.support:design:26.1.0'
 
+
+    //this is for pdf upload
+    compile 'com.github.barteksc:android-pdf-viewer:2.0.3'
 }
