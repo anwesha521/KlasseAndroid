@@ -81,12 +81,17 @@ public class Login extends AppCompatActivity{
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
 
+
                                 if (!task.isSuccessful()) {
                                     // there was an error
                                     if (pass.length() < 6) {
                                         pw.setError("Minimum length=6");
+                                        startInstructor();
                                     } else {
+
                                         Toast.makeText(Login.this, "Authentication failed", Toast.LENGTH_LONG).show();
+
+                                        startStudent();
                                     }
                                 } else
                                 {

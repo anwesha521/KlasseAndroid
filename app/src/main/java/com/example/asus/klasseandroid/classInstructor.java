@@ -26,6 +26,13 @@ public class classInstructor extends AppCompatActivity {
                 startAnnounce();
             }
         });
+        Button viewFeedback=findViewById(R.id.slidesbuttoninstruct);
+        viewFeedback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startFeedback();
+            }
+        });
 
 
     }
@@ -37,6 +44,11 @@ public class classInstructor extends AppCompatActivity {
     public void startAnnounce()
     {
         Intent launch = new Intent(this, InstructorAnnounce.class);
+        startActivity(launch);
+    }
+    public void startFeedback()
+    {
+        Intent launch = new Intent(this, ViewFeedback.class);
         startActivity(launch);
     }
 }

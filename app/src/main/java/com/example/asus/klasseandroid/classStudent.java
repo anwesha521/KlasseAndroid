@@ -11,6 +11,7 @@ import android.widget.ImageView;
 public class classStudent extends AppCompatActivity {
     Button chat;
     Button announce;
+    Button slides;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,11 +40,27 @@ public class classStudent extends AppCompatActivity {
             }
         });
 
+        //Here's the feedback/slides portion!
+        slides = findViewById(R.id.slidebutton);
+        slides.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startSlides();
+            }
+        });
+
+
+
 
     }
     public void startChat()
     {
         Intent launch = new Intent(this, ChatRoom.class);
+        startActivity(launch);
+    }
+
+    public void startSlides(){
+        Intent launch = new Intent(this, Feedback.class);
         startActivity(launch);
     }
     public void startAnnounce()

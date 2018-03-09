@@ -36,8 +36,11 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".classStudent" />
         <activity android:name=".ChatRoom" />
+        <activity android:name=".Feedback" />
+        <activity android:name=".ViewPdf" />
         <activity android:name=".StudentAnnounce" />
         <activity android:name=".InstructorAnnounce" />
+        <activity android:name=".ViewFeedback" />
         <activity android:name=".classInstructor"></activity>
     </application>
 
