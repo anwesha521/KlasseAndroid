@@ -34,7 +34,9 @@ import com.shockwave.pdfium.PdfDocument;
 
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -130,7 +132,8 @@ public class ViewPdf extends Activity implements OnPageChangeListener,OnLoadComp
     private void writeToFile(String data,Context context) {
         try {
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("feedback.txt", Context.MODE_PRIVATE));
-            outputStreamWriter.write(data);
+            outputStreamWriter.append(data);
+            outputStreamWriter.flush();
             outputStreamWriter.close();
         }
         catch (IOException e) {

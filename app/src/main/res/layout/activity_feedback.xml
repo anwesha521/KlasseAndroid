@@ -7,12 +7,27 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Pset 1"
-        android:onClick="pset1"/>
+        android:text="Week 1"
+        android:onClick="week1"/>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Pset 2"
-        android:onClick="pset2"/>
+        android:text="Week 2"
+        android:onClick="week2"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Week 3"
+        android:onClick="week3"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Week 4"
+        android:onClick="week4"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Week 5"
+        android:onClick="week5"/>
 
 </LinearLayout>

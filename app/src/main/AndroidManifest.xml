@@ -41,6 +41,7 @@
         <activity android:name=".StudentAnnounce" />
         <activity android:name=".InstructorAnnounce" />
         <activity android:name=".ViewFeedback" />
+        <activity android:name=".WeekView" />
         <activity android:name=".classInstructor"></activity>
     </application>
 
