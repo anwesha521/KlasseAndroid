@@ -11,9 +11,12 @@ public class classStudent extends AppCompatActivity {
     Button chat;
     Button announce;
     Button slides;
+    int room_id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+        room_id = intent.getIntExtra("id", 11);
         setContentView(R.layout.activity_class_student);
         chat= findViewById(R.id.chatbutton);
 
@@ -66,6 +69,7 @@ public class classStudent extends AppCompatActivity {
     public void startChat()
     {
         Intent launch = new Intent(this, ChatRoom.class);
+        launch.putExtra("id",room_id);
         startActivity(launch);
     }
 
@@ -77,13 +81,15 @@ public class classStudent extends AppCompatActivity {
     {
 
         Intent launch = new Intent(this, StudentAnnounce.class);
+        launch.putExtra("id",room_id);
+        startActivity(launch);
 
 
     }
     public void startFeedback()
     {
         Intent launch = new Intent(this, FeedBack.class);
-
+        launch.putExtra("id",room_id);
         startActivity(launch);
     }
     }

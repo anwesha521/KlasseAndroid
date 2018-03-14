@@ -44,6 +44,7 @@ public class studentMain extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
     }
 
     @Override
@@ -87,19 +88,19 @@ public class studentMain extends AppCompatActivity
         if (id == R.id.nav_1)
         {
             Intent launch = new Intent(this, classStudent.class);
-            launch.putExtra("class",1);
+            launch.putExtra("id",11);
             startActivity(launch);
 
         } else if (id == R.id.nav_2)
         {
             Intent launch = new Intent(this, classStudent.class);
-            launch.putExtra("class",2);
+            launch.putExtra("id",21);
             startActivity(launch);
 
         } else if (id == R.id.nav_3)
         {
             Intent launch = new Intent(this, classStudent.class);
-            launch.putExtra("class",3);
+            launch.putExtra("id",31);
             startActivity(launch);
 
         }   else if (id == R.id.nav_logout)

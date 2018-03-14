@@ -35,6 +35,7 @@
             android:label="@string/title_activity_instructor_main"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".classStudent" />
+        <activity android:name=".ChatRoomInstructor" />
         <activity android:name=".ChatRoom" />
         <activity android:name=".FeedBack" />
         <activity android:name=".ViewPdf" />

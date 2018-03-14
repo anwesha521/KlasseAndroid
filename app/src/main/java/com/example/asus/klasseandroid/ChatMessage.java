@@ -16,17 +16,23 @@ public class ChatMessage {
     private String messageType;
     private String question;
     private boolean verified;
+    private int room_id;
 
-    public ChatMessage(String messageText, String messageUser,String type) {
+    public ChatMessage(String messageText, String messageUser,String type, int id) {
         this.messageText = messageText;
         this.messageUser = messageUser;
 
         // Initialize to current time
         messageTime = new Date().getTime();
         messageType=type;
+        room_id=id;
 
 
 
+    }
+    public int get_id()
+    {
+        return room_id;
     }
     public boolean getVerified()
     {
