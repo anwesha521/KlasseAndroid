@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context="com.example.asus.klasseandroid.Welcome"
     android:background="#04A58C"
-   
+
     >
 
     <ImageView
