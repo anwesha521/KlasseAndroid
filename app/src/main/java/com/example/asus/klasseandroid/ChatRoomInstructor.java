@@ -12,20 +12,25 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Map;
 
-public class ChatRoom extends AppCompatActivity {
+
+public class ChatRoomInstructor extends AppCompatActivity {
     private FirebaseAnalytics mFirebaseAnalytics;
     private FirebaseListAdapter<ChatMessage> adapter;
     private EditText input;
     ListView listOfMessages;
     int type = 0;
     String q="";
+    boolean val=false;
+    ChatMessage mod;
 
     @Override
     protected void onStart() {
@@ -90,9 +95,13 @@ public class ChatRoom extends AppCompatActivity {
         adapter = new FirebaseListAdapter<ChatMessage>(this, ChatMessage.class,
                 R.layout.message, FirebaseDatabase.getInstance().getReference()) {
             @Override
-            protected void populateView(View v, final ChatMessage model, final int position) {
+            protected void populateView(View v, final ChatMessage model, final int position)
+            {
                 // Get references to the views of message.xml
-
+                Log.i("anwesha","val="+val);
+                if(mod!=null)
+                { Log.i("anwesha",mod.getMessageText()+" mod text");
+                mod.setVerified();}
 
                 TextView messageText = (TextView) v.findViewById(R.id.message_text);
                 TextView messageUser = (TextView) v.findViewById(R.id.message_user);
@@ -100,22 +109,59 @@ public class ChatRoom extends AppCompatActivity {
 
                 // Set their text
 
+
+
+                Log.i("anwesha",model.getMessageText()+" "+model.getVerified()+"");
+
+                messageTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)",
+                        model.getMessageTime()));
+                messageUser.setText(model.getMessageUser());
+
+                if (model.getMessageType().equals("reply"))
+                {
+                    messageText.setText(model.getQuestion()+model.getMessageText());
+
+                    if((mod!=null)&&(model.getMessageText().equals(mod.getMessageText())))
+                    {
+
+                        Log.i("anwesha","verified");
+                        model.setVerified();
+
+                        v.setBackgroundColor(Color.parseColor("#f7f26c"));
+                      String k=FirebaseDatabase.getInstance().getReference().child("verified").getKey();
+
+
+
+                    }
+                    else
+                        v.setBackgroundColor(Color.parseColor("#88f7a7"));
+
+
+                }
+                else
+
+                    messageText.setText(model.getMessageText());
+
                 v.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
-                        new AlertDialog.Builder(ChatRoom.this)
+                        new AlertDialog.Builder(ChatRoomInstructor.this)
                                 .setMessage(
-                                        "Reply to Question?")
+                                        "Verify?")
                                 .setPositiveButton(
                                         "Okay",
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(
                                                     DialogInterface dialog,
                                                     int which) {
+                                                if(model.getMessageType().equals("reply"))
+                                                {
+                                                val=true;
+                                                mod=model;}
+                                                else
+                                                    Toast.makeText(ChatRoomInstructor.this, "Can onlyverify replies", Toast.LENGTH_LONG).show();
                                                 dialog.cancel();
-                                                type = 1;
-                                                q=model.getMessageText();
-
+                                                displayChatMessages();
 
                                             }
                                         }).setNegativeButton("No",new DialogInterface.OnClickListener() {
@@ -126,29 +172,9 @@ public class ChatRoom extends AppCompatActivity {
 
                             }
                         }).show();
-                        Log.i("anwesha","type="+type);
                         return false;
                     }
                 });
-
-                messageTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)",
-                        model.getMessageTime()));
-                messageUser.setText(model.getMessageUser());
-
-                if (model.getMessageType().equals("reply"))
-                {
-                    messageText.setText(model.getQuestion()+model.getMessageText());
-                    Log.i("anwesha",model.getQuestion());
-                    if(model.getVerified()==true)
-                        v.setBackgroundColor(Color.parseColor("#f7f26c"));
-                    else
-                        v.setBackgroundColor(Color.parseColor("#88f7a7"));
-
-
-                }
-                else
-
-                 messageText.setText(model.getMessageText());
 
 
 
@@ -157,5 +183,11 @@ public class ChatRoom extends AppCompatActivity {
 
         };
         listOfMessages.setAdapter(adapter);
+    }
+
+    public void verify(View v)
+    {
+       mod.setVerified();
+       v.setBackgroundColor(Color.parseColor("#f7f26c"));
     }
 }

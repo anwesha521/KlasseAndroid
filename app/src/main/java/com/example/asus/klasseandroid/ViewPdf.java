@@ -68,7 +68,7 @@ public class ViewPdf extends Activity implements OnPageChangeListener,OnLoadComp
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Send Feedback!", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Send FeedBack!", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
 
                 // Build an AlertDialog

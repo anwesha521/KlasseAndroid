@@ -1,7 +1,6 @@
 package com.example.asus.klasseandroid;
 
 import android.content.Intent;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,6 +16,7 @@ public class classStudent extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_class_student);
         chat= findViewById(R.id.chatbutton);
+
         Button announce=findViewById(R.id.announcebutton);
         announce.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -26,6 +26,16 @@ public class classStudent extends AppCompatActivity {
         });
         ImageView ann=findViewById(R.id.announce_img);
         ann.bringToFront();
+
+
+        Button feedback = findViewById(R.id.slidebutton);
+        feedback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startFeedback();
+            }
+        });
+
 
         chat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,13 +70,19 @@ public class classStudent extends AppCompatActivity {
     }
 
     public void startSlides(){
-        Intent launch = new Intent(this, Feedback.class);
+        Intent launch = new Intent(this, FeedBack.class);
         startActivity(launch);
     }
     public void startAnnounce()
     {
 
         Intent launch = new Intent(this, StudentAnnounce.class);
+
+
+    }
+    public void startFeedback()
+    {
+        Intent launch = new Intent(this, FeedBack.class);
 
         startActivity(launch);
     }

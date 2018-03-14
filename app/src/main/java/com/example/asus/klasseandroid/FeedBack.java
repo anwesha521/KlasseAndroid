@@ -27,7 +27,7 @@ import java.util.List;
  * I guess the name isn't very apt :/
  */
 
-public class Feedback extends AppCompatActivity {
+public class FeedBack extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

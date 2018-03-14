@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 
 public class StudentFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -73,7 +72,7 @@ public class StudentFragment extends Fragment {
     }
 
     public void startSlide(){
-        Intent slide = new Intent(getActivity(), Feedback.class);
+        Intent slide = new Intent(getActivity(), FeedBack.class);
         startActivity(slide);
     }
 
