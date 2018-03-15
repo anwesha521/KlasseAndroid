@@ -37,7 +37,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".classStudent" />
         <activity android:name=".StudentQuiz" />
-      
+
         <activity android:name=".ChatRoomInstructor" />
         <activity android:name=".ChatRoom" />
         <activity android:name=".StudentAnnounce" />
