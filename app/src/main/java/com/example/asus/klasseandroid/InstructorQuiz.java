@@ -21,7 +21,7 @@ import java.util.Map;
 public class InstructorQuiz extends AppCompatActivity implements View.OnClickListener{
     InstructorQuizAdapter myAdapter;
     ArrayList<InstructorQuizAdapter.question> ql=new ArrayList<>();
-    String url="http://10.12.195.1/upload_quiz.php";
+    String url="http://10.12.176.11/upload_quiz.php";
     RequestQueue requestQueue;
 
     @Override

@@ -25,7 +25,7 @@ import java.util.ArrayList;
 public class StudentQuiz extends AppCompatActivity implements View.OnClickListener{
     StudentQuizAdapter myAdapter;
     ArrayList<String> Answer=new ArrayList<>();
-    String url="http://10.12.195.1/get_quiz.php";
+    String url="http://10.12.176.11/get_quiz.php";
     ArrayList<StudentQuizAdapter.question> sql=new ArrayList<>();
     String info;
 
