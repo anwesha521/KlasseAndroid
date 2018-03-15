@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout android:layout_width="match_parent"
+
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#ffffff"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorPrimaryDark"
+        android:text="View PDF"
+        android:textColor="#ffffff"
+        android:id="@+id/tv_header"
+        android:textSize="18dp"
+        android:gravity="center"></TextView>
+
+    <com.github.barteksc.pdfviewer.PDFView
+        android:id="@+id/pdfView"
+        android:layout_below="@+id/tv_header"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/feedback"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        app:srcCompat="@android:drawable/ic_dialog_email" />
+
+
+</RelativeLayout>

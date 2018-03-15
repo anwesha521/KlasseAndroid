@@ -40,11 +40,17 @@
 
         <activity android:name=".ChatRoomInstructor" />
         <activity android:name=".ChatRoom" />
+        <activity android:name=".FeedBack" />
+        <activity android:name=".ViewPdf" />
+        <activity android:name=".ViewFeedback" />
+        <activity android:name=".WeekView" />
         <activity android:name=".StudentAnnounce" />
         <activity android:name=".InstructorAnnounce" />
         <activity android:name=".classInstructor" />
-        <activity android:name=".FeedBack" />
-        <activity android:name=".InstructorQuiz"></activity>
+        <activity android:name=".InstructorQuiz">
+
+        </activity>
+
     </application>
 
 </manifest>

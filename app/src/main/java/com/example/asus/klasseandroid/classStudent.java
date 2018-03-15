@@ -1,7 +1,6 @@
 package com.example.asus.klasseandroid;
 
 import android.content.Intent;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +13,7 @@ public class classStudent extends AppCompatActivity {
     
     Button chat;
     Button announce;
+    Button slides;
     int room_id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +38,7 @@ public class classStudent extends AppCompatActivity {
                 startQuiz();
             }
         });
-        
+
         Button feedback = findViewById(R.id.slidebutton);
         feedback.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,6 +46,7 @@ public class classStudent extends AppCompatActivity {
                 startFeedback();
             }
         });
+
 
         chat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,6 +61,17 @@ public class classStudent extends AppCompatActivity {
             }
         });
 
+        //Here's the feedback/slides portion!
+        slides = findViewById(R.id.slidebutton);
+        slides.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startSlides();
+            }
+        });
+
+
+
 
     }
     public void startChat()
@@ -68,12 +80,18 @@ public class classStudent extends AppCompatActivity {
         launch.putExtra("id",room_id);
         startActivity(launch);
     }
+
+    public void startSlides(){
+        Intent launch = new Intent(this, FeedBack.class);
+        startActivity(launch);
+    }
     public void startAnnounce()
     {
 
         Intent launch = new Intent(this, StudentAnnounce.class);
         launch.putExtra("id",room_id);
         startActivity(launch);
+
 
     }
     

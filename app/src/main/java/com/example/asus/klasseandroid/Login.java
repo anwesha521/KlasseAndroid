@@ -1,11 +1,15 @@
 package com.example.asus.klasseandroid;
 
-
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.StrictMode;
+import android.provider.DocumentsContract;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -25,8 +29,6 @@ import com.android.volley.toolbox.Volley;
 import java.util.HashMap;
 import java.util.Map;
 
-
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -43,8 +45,8 @@ public class Login extends AppCompatActivity {
     String result="";
 
 
-   // private static final String HttpURL = "http://192.168.1.185/Klasse/get_login_details.php";
-   private static final String HttpURL = "http://10.12.195.1/Klasse/get_login_details.php";
+    // private static final String HttpURL = "http://192.168.1.185/Klasse/get_login_details.php";
+    private static final String HttpURL = "http://10.12.195.1/Klasse/get_login_details.php";
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,7 +113,7 @@ public class Login extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 //This code is executed if there is an error.
-             Log.i("anwesha","error");
+                Log.i("anwesha","error");
             }
         }) {
             protected Map<String, String> getParams() {
