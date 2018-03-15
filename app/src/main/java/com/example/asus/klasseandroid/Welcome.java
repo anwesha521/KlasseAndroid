@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import com.example.asus.klasseandroid.R;
 
 public class Welcome extends AppCompatActivity
 {
@@ -32,7 +33,7 @@ public class Welcome extends AppCompatActivity
     }
     public void startStudent()
     {
-        Intent launch = new Intent(this, Login.class);
+        Intent launch = new Intent(this, com.example.asus.klasseandroid.Login.class);
         Bundle b=new Bundle();
         b.putString("type","student");
         launch.putExtras(b);
@@ -40,7 +41,7 @@ public class Welcome extends AppCompatActivity
     }
     public void startInstruct()
     {
-        Intent launch = new Intent(this, Login.class);
+        Intent launch = new Intent(this, com.example.asus.klasseandroid.Login.class);
         Bundle b=new Bundle();
         b.putString("type","instructor");
         launch.putExtras(b);

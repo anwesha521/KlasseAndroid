@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.example.asus.klasseandroid.R;
+
 public class classStudent extends AppCompatActivity {
     Button chat;
     Button announce;
@@ -68,7 +70,7 @@ public class classStudent extends AppCompatActivity {
     }
     public void startFeedback()
     {
-        Intent launch = new Intent(this, FeedBack.class);
+        Intent launch = new Intent(this, Feedback.class);
         launch.putExtra("id",room_id);
         startActivity(launch);
     }

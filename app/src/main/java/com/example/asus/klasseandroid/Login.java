@@ -5,12 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.StrictMode;
-import android.provider.DocumentsContract;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
+
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -29,6 +24,8 @@ import com.android.volley.toolbox.Volley;
 
 import java.util.HashMap;
 import java.util.Map;
+
+
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

@@ -1,9 +1,7 @@
 package com.example.asus.klasseandroid;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.github.barteksc.pdfviewer.PDFView;
@@ -18,19 +16,17 @@ import java.util.List;
  * Created by harleen on 20/2/18.
  */
 
-public class FeedBack extends AppCompatActivity implements OnPageChangeListener,OnLoadCompleteListener {
-    private static final String TAG = FeedBack.class.getSimpleName();
+public class Feedback extends Activity implements OnPageChangeListener,OnLoadCompleteListener {
+    private static final String TAG = Feedback.class.getSimpleName();
     public static final String SAMPLE_FILE = "SolutionToPS1.pdf";
     PDFView pdfView;
     Integer pageNumber = 0;
     String pdfFileName;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_feed_back);
-        Intent intent = getIntent();
+        setContentView(R.layout.activity_feedback);
 
         pdfView = (PDFView) findViewById(R.id.pdfView);
         displayFromAsset(SAMPLE_FILE);
