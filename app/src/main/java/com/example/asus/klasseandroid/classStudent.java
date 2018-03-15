@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import com.example.asus.klasseandroid.R;
 
 public class classStudent extends AppCompatActivity {
+    
     Button chat;
     Button announce;
     int room_id;
@@ -30,7 +31,14 @@ public class classStudent extends AppCompatActivity {
             }
         });
 
-
+        Button quiz = findViewById(R.id.quizbutton);
+        quiz.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                startQuiz();
+            }
+        });
+        
         Button feedback = findViewById(R.id.slidebutton);
         feedback.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,9 +76,17 @@ public class classStudent extends AppCompatActivity {
         startActivity(launch);
 
     }
+    
+    public void startQuiz()
+    {
+        Intent launch = new Intent(this,StudentQuiz.class);
+        launch.putExtra("id",room_id);
+        startActivity(launch);
+    }
+    
     public void startFeedback()
     {
-        Intent launch = new Intent(this, Feedback.class);
+        Intent launch = new Intent(this, FeedBack.class);
         launch.putExtra("id",room_id);
         startActivity(launch);
     }

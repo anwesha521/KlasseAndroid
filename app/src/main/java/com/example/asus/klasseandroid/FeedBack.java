@@ -16,8 +16,8 @@ import java.util.List;
  * Created by harleen on 20/2/18.
  */
 
-public class Feedback extends Activity implements OnPageChangeListener,OnLoadCompleteListener {
-    private static final String TAG = Feedback.class.getSimpleName();
+public class FeedBack extends Activity implements OnPageChangeListener,OnLoadCompleteListener {
+    private static final String TAG = FeedBack.class.getSimpleName();
     public static final String SAMPLE_FILE = "SolutionToPS1.pdf";
     PDFView pdfView;
     Integer pageNumber = 0;

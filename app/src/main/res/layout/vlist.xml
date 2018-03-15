@@ -11,27 +11,47 @@
         android:gravity="center"
         android:textSize="22sp"
         android:layout_alignParentTop="true"/>
+    <LinearLayout
+        android:id="@id/mark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/title">
+
+        <TextView
+            android:id="@+id/mark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="@string/mark"/>
+        <EditText
+            android:id="@+id/point"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"/>
+    </LinearLayout>
+
 
     <Spinner
         android:id="@+id/type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:entries="@array/question_type"
-        android:layout_below="@id/title"/>
+        android:layout_below="@id/mark"/>
 
     <EditText
         android:id="@+id/description"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_below="@id/type"/>
+        android:layout_below="@id/type"
+        android:hint="Question Description"/>
     <Button
         android:id="@+id/addNext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/add_next"
         android:layout_alignParentLeft="true"
-        android:layout_below="@id/description"
-        android:onClick="add_next"/>
+        android:layout_below="@id/description"/>
     <Button
         android:id="@+id/delete"
         android:layout_width="wrap_content"
@@ -39,5 +59,87 @@
         android:text="@string/delete_button"
         android:layout_alignParentRight="true"
         android:layout_below="@id/description"/>
+
+    //Choices
+    <TextView
+        android:id="@+id/a"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="@string/A"
+        android:visibility="gone"
+        android:layout_below="@id/addNext"
+        android:layout_marginTop="17dp"
+        />
+    <EditText
+        android:id="@+id/a_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:visibility="gone"
+        android:layout_below="@id/addNext"
+        android:layout_toRightOf="@id/a"
+        />
+
+    <TextView
+        android:id="@+id/b"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="@string/B"
+        android:visibility="gone"
+        android:layout_below="@id/a_description"
+        android:layout_marginTop="17dp"
+        />
+    <EditText
+        android:id="@+id/b_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:visibility="gone"
+        android:layout_below="@id/a_description"
+        android:layout_toRightOf="@id/b"
+        />
+
+    <TextView
+        android:id="@+id/c"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="@string/C"
+        android:visibility="gone"
+        android:layout_below="@id/b_description"
+        android:layout_marginTop="17dp"
+        />
+    <EditText
+        android:id="@+id/c_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:visibility="gone"
+        android:layout_below="@id/b_description"
+        android:layout_toRightOf="@id/c"
+        />
+
+    <TextView
+        android:id="@+id/d"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="@string/D"
+        android:visibility="gone"
+        android:layout_below="@id/c_description"
+        android:layout_marginTop="17dp"
+        />
+    <EditText
+        android:id="@+id/d_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:visibility="gone"
+        android:layout_below="@id/c_description"
+        android:layout_toRightOf="@id/d"
+        />
+
 
 </RelativeLayout>

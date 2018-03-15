@@ -4,29 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+ >
 
-    android:orientation="vertical">
-
-    <Button
-        android:id="@+id/add"
+    <TextView
+        android:id="@+id/quizName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/add_button"
-        android:layout_alignParentTop="true"/>
-
+        android:textSize="22sp"
+        android:gravity="center"
+        />
     <ListView
-        android:id="@+id/questionList"
+        android:id="@+id/question_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/add"
-        android:layout_above="@id/save"/>
+        android:layout_below="@id/quizName"
+        android:layout_above="@id/submit"
+        />
     <Button
-        android:id="@+id/save"
+        android:id="@+id/submit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/save_button"
-        android:layout_alignParentBottom="true"/>
-
-
+        android:layout_alignParentBottom="true"
+        android:text="@string/submit"
+        />
 
 </RelativeLayout>
