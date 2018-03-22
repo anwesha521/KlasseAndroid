@@ -28,10 +28,12 @@ import static java.security.AccessController.getContext;
 public class InstructorAnnounce extends AppCompatActivity {
     private int room_id;
     private static final String HttpURL = "http://192.168.1.185/Klasse/post_announcement.php";
+    //private static final String HttpURL = "http://10.12.195.1/Klasse/get_login_details.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_instructor_announce);
+
         Intent intent = getIntent();
         room_id = intent.getIntExtra("id", 11);
         SharedPreferences prefName = getApplicationContext().getSharedPreferences("UserDetails", MODE_PRIVATE);

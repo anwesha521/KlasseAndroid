@@ -23,6 +23,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -42,6 +43,7 @@ public class studentMain extends AppCompatActivity
         setData();
         mChart.setDragEnabled(true);
         mChart.setScaleEnabled(true);
+        mChart.animateX(3000);
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -85,7 +87,7 @@ public class studentMain extends AppCompatActivity
 
         // create a data object with the datasets
         LineData data = new LineData(xVals, dataSets);
-
+        set1.setColors(ColorTemplate.VORDIPLOM_COLORS);
         // set data
         mChart.setData(data);
 

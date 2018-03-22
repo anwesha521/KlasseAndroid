@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:layout_weight="2"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.asus.klasseandroid.classStudent">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+
+        >
+
+        <Button
+            android:id="@+id/viewAnnounce"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#EC505E"
+            />
+        <ImageView
+            android:padding="20dp"
+            android:id="@+id/viewAnnounceImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/glasses"
+            android:layout_centerInParent="true"
+            android:elevation="2dp"
+            />
+        <TextView
+            android:padding="10dp"
+            android:textAlignment="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/viewAnnounceImg"
+            android:text="View Announcements"
+            android:elevation="2dp"
+            android:textSize="20sp"
+            android:textColor="#ffffff"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+
+        >
+
+        <Button
+            android:id="@+id/makeAnnounce"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#F5B149"
+            />
+        <ImageView
+            android:id="@+id/makeAnnounceImg"
+            android:padding="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/makeannounce"
+            android:layout_centerInParent="true"
+            android:elevation="2dp"
+            />
+        <TextView
+            android:padding="10dp"
+            android:textAlignment="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/makeAnnounceImg"
+            android:text="Make Announcement"
+            android:elevation="2dp"
+            android:textSize="20sp"
+            android:textColor="#ffffff"/>
+    </RelativeLayout>
+</LinearLayout>

@@ -129,13 +129,15 @@ public class ChatRoomInstructor extends AppCompatActivity {
 
                         messageText.setText(model.getQuestion()+":" + message);
 
-                        if ((model != null) && model.getVerified()) {
-                            v.setBackgroundColor(Color.parseColor("#f7f26c"));
-                        } else
-                            v.setBackgroundColor(Color.parseColor("#88f7a7"));
-                    } else
-
+                        if ((model != null)&&(model.getVerified()))
+                            v.setBackground(getResources().getDrawable(R.drawable.verified_bubble));
+                        else
+                            v.setBackground(getResources().getDrawable(R.drawable.reply_bubble));
+                    }
+                    else {
+                        v.setBackground(getResources().getDrawable(R.drawable.question_bubble));
                         messageText.setText(message);
+                    }
 
                     v.setOnLongClickListener(new View.OnLongClickListener() {
                         @Override

@@ -57,7 +57,7 @@ public  class classInstructor extends AppCompatActivity {
     }
 
     public void startAnnounce() {
-        Intent launch = new Intent(this, InstructorAnnounce.class);
+        Intent launch = new Intent(this, InstructorAnnounceMain.class);
         launch.putExtra("id",room_id);
         startActivity(launch);
     }

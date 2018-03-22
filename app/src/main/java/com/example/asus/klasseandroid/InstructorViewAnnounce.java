@@ -1,11 +1,13 @@
 package com.example.asus.klasseandroid;
 
-
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -20,9 +22,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class StudentAnnounce extends AppCompatActivity {
-
-    DisplayAdapter disadpt;
+public class InstructorViewAnnounce extends AppCompatActivity {
+    DisplayAdapaterInstructorAnnounce disadpt;
 
 
     private ArrayList<String> content = new ArrayList<String>();
@@ -30,30 +31,48 @@ public class StudentAnnounce extends AppCompatActivity {
     private ArrayList<Integer> ids=new ArrayList<>();
     private ArrayList<Announcements> announce=new ArrayList<>();
     private int room_id;
+    private static final String HttpURL = "http://192.168.1.185/Klasse/get_announcements.php";
+   // private static final String HttpURL = "http://10.12.195.1/Klasse/get_announcements.php";
+    private String name;
+    SharedPreferences prefName;
+    SharedPreferences.Editor editorName;
 
     private ListView list;
-   private static final String HttpURL = "http://192.168.1.185/Klasse/get_announcements.php";
-  // private static final String HttpURL = "http://10.12.195.1/Klasse/get_login_details.php";
-
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_student_announce);
+        prefName=getApplicationContext().getSharedPreferences("UserDetails",MODE_PRIVATE);
+        editorName=prefName.edit();
+        setContentView(R.layout.instructor_view_announce);
         Intent intent = getIntent();
         room_id = intent.getIntExtra("id", 11);
-        Log.i("anwesha",room_id+"");
-        list=findViewById(R.id.list_of_announcements);
-        loadAnnouncements();
-        disadpt = new DisplayAdapter(StudentAnnounce.this, content,names,ids);
-        list.setAdapter(disadpt);
+        TextView head=findViewById(R.id.instruct_view_header);
+        switch(room_id)
+        {
+            case 11:
+                head.setText("Your announcements for Elements of Software Construction");
+                break;
+            case 21:
+                head.setText("Your announcements for Computer Systems Engineering");
+                break;
+            case 31:
+                head.setText("Your announcements for Probability and Statistics");
+                break;
+            default:
+                head.setText("Uhhh");
 
+
+        }
+        list=findViewById(R.id.list_of_announcements);
+        name=prefName.getString("name","Anonymous");
+        loadAnnouncements();
+        disadpt = new DisplayAdapaterInstructorAnnounce(InstructorViewAnnounce.this, content,names,ids);
+        list.setAdapter(disadpt);
     }
     public void loadAnnouncements()
     {
 
-        RequestQueue requestQueue = Volley.newRequestQueue(StudentAnnounce.this);
+        RequestQueue requestQueue = Volley.newRequestQueue(InstructorViewAnnounce.this);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
                 HttpURL,
@@ -68,8 +87,9 @@ public class StudentAnnounce extends AppCompatActivity {
                             for(int i=0;i<response.length();i++){
                                 // Get current json object
                                 JSONObject ann = response.getJSONObject(i);
-
-                                announce.add(new Announcements(
+                                Log.i("anwesha",name+","+ann.getString("professor"));
+                                if(name.equalsIgnoreCase(ann.getString("professor")))
+                                    announce.add(new Announcements(
                                         ann.getString("professor"),
                                         ann.getString("content"),
                                         ann.getInt("class"),
@@ -87,7 +107,7 @@ public class StudentAnnounce extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error){
                         // Do something when error occurred
-                       Log.i("anwesha",error.getMessage());
+
                     }
                 }
         );
@@ -109,11 +129,10 @@ public class StudentAnnounce extends AppCompatActivity {
 
             }
             else
-                Log.i("anweshaclass",a.getClassnum()+"");
+                Log.i("anweshaclass","not entered"+a.getClassnum()+"");
 
         }
-        disadpt = new DisplayAdapter(StudentAnnounce.this, content,names,ids);
+        disadpt = new DisplayAdapaterInstructorAnnounce(InstructorViewAnnounce.this, content,names,ids);
         list.setAdapter(disadpt);
     }
-
 }

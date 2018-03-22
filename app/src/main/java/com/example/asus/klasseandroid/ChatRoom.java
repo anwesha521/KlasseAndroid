@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -104,8 +105,8 @@ public class ChatRoom extends AppCompatActivity {
 
                     }
                 }
-                    input.setText("");
-                    displayChatMessages();
+                input.setText("");
+                displayChatMessages();
 
             }
         });
@@ -130,6 +131,7 @@ public class ChatRoom extends AppCompatActivity {
                 Log.i("anweshaid",id+"");
 
                 if (id == room_id) {
+                    if(model.getMessageType().equalsIgnoreCase("question"))
                     v.setOnLongClickListener(new View.OnLongClickListener() {
                         @Override
                         public boolean onLongClick(View v) {
@@ -170,14 +172,15 @@ public class ChatRoom extends AppCompatActivity {
                         messageText.setText(model.getQuestion()+":" + message);
 
                         if ((model != null)&&(model.getVerified()))
-                            v.setBackgroundColor(Color.parseColor("#f7f26c"));
+                            v.setBackground(getResources().getDrawable(R.drawable.verified_bubble));
                         else
-                            v.setBackgroundColor(Color.parseColor("#88f7a7"));
+                            v.setBackground(getResources().getDrawable(R.drawable.reply_bubble));
 
 
-                    } else
-
+                    } else {
+                        v.setBackground(getResources().getDrawable(R.drawable.question_bubble));
                         messageText.setText(message);
+                    }
 
 
                 }

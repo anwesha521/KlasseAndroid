@@ -12,28 +12,51 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 
 public class instructorMain extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    private LineChart mChart;
+    private BarChart mChart;
+    ArrayList<BarEntry> BARENTRY ;
+    ArrayList<String> BarEntryLabels ;
+    BarDataSet Bardataset ;
+    BarData BARDATA ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_instructor_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        mChart = (LineChart) findViewById(R.id.linechartinstruct);
-        setData();
+        mChart = (BarChart) findViewById(R.id.barchartinstruct);
+        BARENTRY = new ArrayList<>();
+
+        BarEntryLabels = new ArrayList<String>();
+
+        AddValuesToBARENTRY();
+
+        AddValuesToBarEntryLabels();
+
+        Bardataset = new BarDataSet(BARENTRY, "Average scores");
+
+        BARDATA = new BarData(BarEntryLabels, Bardataset);
+
+        Bardataset.setColors(ColorTemplate.COLORFUL_COLORS);
+        mChart.setData(BARDATA);
+
+        mChart.animateX(4000);
         mChart.setDragEnabled(true);
         mChart.setScaleEnabled(true);
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -44,41 +67,25 @@ public class instructorMain extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
+    public void AddValuesToBARENTRY(){
 
-    private void setData() {
-        ArrayList<String> xVals = new ArrayList<String>();
-        xVals.add("Week 1");
-        xVals.add("Week 2");
-        xVals.add("Week 3");
-        xVals.add("Week 4");
+        BARENTRY.add(new BarEntry(80f, 0));
+        BARENTRY.add(new BarEntry(97f, 1));
+        BARENTRY.add(new BarEntry(85f, 2));
+        BARENTRY.add(new BarEntry(74f, 3));
+        BARENTRY.add(new BarEntry(73f, 4));
+        BARENTRY.add(new BarEntry(81f, 5));
 
-        ArrayList<Entry> yVals = new ArrayList<Entry>();
-        yVals.add(new Entry(80, 0));
-        yVals.add(new Entry(90, 1));
-        yVals.add(new Entry(84, 2));
-        yVals.add(new Entry(95, 3));
+    }
 
-        LineDataSet set1;
+    public void AddValuesToBarEntryLabels(){
 
-        set1 = new LineDataSet(yVals, "Your Students Performance");
-        set1.setFillAlpha(110);
-
-        set1.setColor(Color.BLACK);
-        set1.setCircleColor(Color.BLACK);
-        set1.setLineWidth(1f);
-        set1.setCircleRadius(3f);
-        set1.setDrawCircleHole(false);
-        set1.setValueTextSize(9f);
-        set1.setDrawFilled(true);
-
-        ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
-        dataSets.add(set1); // add the datasets
-
-        // create a data object with the datasets
-        LineData data = new LineData(xVals, dataSets);
-
-        // set data
-        mChart.setData(data);
+        BarEntryLabels.add("Week 1");
+        BarEntryLabels.add("Week 2");
+        BarEntryLabels.add("Week 4");
+        BarEntryLabels.add("Week 5");
+        BarEntryLabels.add("Week 6");
+        BarEntryLabels.add("Week 8");
 
     }
     @Override
