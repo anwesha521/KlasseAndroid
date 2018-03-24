@@ -86,8 +86,9 @@ public class Login extends AppCompatActivity{
                                     // there was an error
                                     if (pass.length() < 6) {
                                         pw.setError("Minimum length=6");
+                                        startStudent();
                                     } else {
-
+                                        startInstructor();
                                         Toast.makeText(Login.this, "Authentication failed", Toast.LENGTH_LONG).show();
                                       
                                     }

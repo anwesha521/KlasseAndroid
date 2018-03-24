@@ -2,9 +2,23 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/view_feedback"/>
+        android:orientation="vertical">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="UPLOAD PDF!"
+            android:onClick="uploadPdf"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="view feedback"
+            android:onClick="viewFeedback"/>
+
+    </LinearLayout>
+
 
 </android.support.constraint.ConstraintLayout>

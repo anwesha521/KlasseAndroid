@@ -1,5 +1,6 @@
 package com.example.asus.klasseandroid;
 
+
 /**
  * Created by harleen on 28/2/18.
  * This handles the viewing of the pdf
@@ -9,39 +10,33 @@ package com.example.asus.klasseandroid;
  */
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.PopupMenu;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 import com.shockwave.pdfium.PdfDocument;
 
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class ViewPdf extends Activity implements OnPageChangeListener,OnLoadCompleteListener {
@@ -51,6 +46,8 @@ public class ViewPdf extends Activity implements OnPageChangeListener,OnLoadComp
     PDFView pdfView;
     Integer pageNumber = 1;
     String pdfFileName;
+    String feedback;
+    String url = "http://192.168.0.121/feedback.php";
 
 
     @Override
@@ -86,7 +83,7 @@ public class ViewPdf extends Activity implements OnPageChangeListener,OnLoadComp
                 // Get the custom alert dialog view widgets reference
                 Button btn_positive = (Button) dialogView.findViewById(R.id.dialog_positive_btn);
                 Button btn_negative = (Button) dialogView.findViewById(R.id.dialog_negative_btn);
-                final EditText feedback = (EditText) dialogView.findViewById(R.id.enter_feedback);
+                final EditText text = (EditText) dialogView.findViewById(R.id.enter_feedback);
 
                 // Create the alert dialog
                 final AlertDialog dialog = builder.create();
@@ -98,13 +95,11 @@ public class ViewPdf extends Activity implements OnPageChangeListener,OnLoadComp
                         // Dismiss the alert dialog
 
                         dialog.cancel();
-                        String name = feedback.getText().toString();
+                        feedback = text.getText().toString();
                         ///////////I NEED TO FIX THE PAGE NUMBER ISSUE!!!///////
-                        int page = pageNumber + 1;
 
-                        String submit = "Submitted feedback: " + name + " for: " +pdfFileName + " pg " + page;
-                        writeToFile(submit, ViewPdf.this);
-                        Toast.makeText(getApplication(), submit, Toast.LENGTH_SHORT).show();
+                        submitFeedback(feedback, pdfFileName);
+                        //Toast.makeText(getApplication(), feedback, Toast.LENGTH_SHORT).show();
 
                     }
                 });
@@ -129,19 +124,41 @@ public class ViewPdf extends Activity implements OnPageChangeListener,OnLoadComp
 
     }
 
-    private void writeToFile(String data,Context context) {
-        try {
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("feedback.txt", Context.MODE_PRIVATE));
-            outputStreamWriter.append(data);
-            outputStreamWriter.flush();
-            outputStreamWriter.close();
-        }
-        catch (IOException e) {
-            Toast.makeText(getApplication(),
-                    "Oops! Something went wrong!", Toast.LENGTH_SHORT).show();
-            Log.e("Exception", "File write failed: " + e.toString());
-        }
+
+    private void submitFeedback(final String comments, final String filename) {
+        RequestQueue MyRequestQueue = Volley.newRequestQueue(ViewPdf.this);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(ViewPdf.this, "SUBMITTED!", Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
+                //Log.e("VOLLEY", error.getMessage());
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("feedback", comments);
+                params.put("pdfFileName",filename);
+
+
+                return params;
+            }
+        };
+
+        Toast.makeText(this, comments + filename, Toast.LENGTH_SHORT).show();
+        MyRequestQueue.add(stringRequest);
+
     }
+
+
+
+
+
 
 
 

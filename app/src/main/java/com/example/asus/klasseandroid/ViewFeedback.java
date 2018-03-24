@@ -1,9 +1,11 @@
 package com.example.asus.klasseandroid;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,39 +24,20 @@ public class ViewFeedback extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_feedback);
-        final TextView feedback = (TextView) findViewById(R.id.view_feedback);
-        feedback.setText(readFromFile(this));
     }
 
-    private String readFromFile(Context context) {
 
-        String ret = "";
 
-        try {
-            InputStream inputStream = context.openFileInput("feedback.txt");
+    public void uploadPdf(View view){
+        Intent intent = new Intent (this, UploadSlides.class);
 
-            if ( inputStream != null ) {
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                String receiveString = "";
-                StringBuilder stringBuilder = new StringBuilder();
+        startActivity(intent);
 
-                while ( (receiveString = bufferedReader.readLine()) != null ) {
-                    stringBuilder.append(receiveString );
-                }
+    }
+    public void viewFeedback(View view){
+        Intent intent = new Intent (this, Comments.class);
 
-                inputStream.close();
-                ret = stringBuilder.toString();
-            }
-        }
-        catch (FileNotFoundException e) {
-            Toast.makeText(ViewFeedback.this, "file not found", Toast.LENGTH_SHORT).show();
-            Log.e("login activity", "File not found: " + e.toString());
-        } catch (IOException e) {
-            Toast.makeText(ViewFeedback.this, "OOPS!", Toast.LENGTH_SHORT).show();
-            Log.e("login activity", "Can not read file: " + e.toString());
-        }
+        startActivity(intent);
 
-        return ret;
     }
 }
