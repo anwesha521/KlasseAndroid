@@ -17,9 +17,17 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.reflect.Array;
+import java.net.HttpURLConnection;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,7 +36,11 @@ import static java.security.AccessController.getContext;
 public class InstructorAnnounce extends AppCompatActivity {
     private int room_id;
     private static final String HttpURL = "http://192.168.1.185/Klasse/post_announcement.php";
+    private static final String HttpURLsendnotif = "http://192.168.1.185/Klasse/send_single_push.php";
     //private static final String HttpURL = "http://10.12.195.1/Klasse/post_announcement.php";
+    private static String HttpURLgetID = "http://192.168.1.185/Klasse/get_user_ids.php?class_id=";
+    final ArrayList<String> ids=new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +48,7 @@ public class InstructorAnnounce extends AppCompatActivity {
 
         Intent intent = getIntent();
         room_id = intent.getIntExtra("id", 11);
+
         SharedPreferences prefName = getApplicationContext().getSharedPreferences("UserDetails", MODE_PRIVATE);
         SharedPreferences.Editor editorName=prefName.edit();
         final String name=prefName.getString("name","Anonymous");
@@ -57,6 +70,81 @@ public class InstructorAnnounce extends AppCompatActivity {
 
     }
 
+    public void sentNotif(final String a)
+    {
+
+
+        RequestQueue requestQueue = Volley.newRequestQueue(InstructorAnnounce.this);
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
+                Request.Method.GET, HttpURLgetID+room_id,
+                null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                        try{
+
+                            for(int i=0;i<response.length();i++){
+                                // Get current json object
+
+                                JSONObject ann = response.getJSONObject(i);
+                                ids.add(ann.getString("user_id"));
+
+
+                            }
+
+                            RequestQueue MyRequestQueue = Volley.newRequestQueue(InstructorAnnounce.this);
+                            for(String i:ids) {
+                                final String id=i;
+
+                                StringRequest stringRequest = new StringRequest(Request.Method.POST, HttpURLsendnotif, new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+                                        Log.i("anwesha", "succesfully sent");
+                                    }
+                                }, new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
+                                        Log.i("anwesha", error.getMessage().toString());
+                                    }
+                                }) {
+                                    @Override
+                                    protected Map<String, String> getParams() {
+                                        Map<String, String> params = new HashMap<>();
+                                        params.put("title", "Announcement Posted");
+                                        params.put("message", a);
+                                        params.put("user_id", id);
+
+
+                                        return params;
+                                    }
+                                };
+
+                                MyRequestQueue.add(stringRequest);
+                            }
+
+
+                            ids.clear();
+                        }catch (JSONException e){
+                            e.printStackTrace();
+                            Log.i("anwesha",e.getMessage().toString());
+                        }
+
+                    }
+                },
+                new Response.ErrorListener(){
+                    @Override
+                    public void onErrorResponse(VolleyError error){
+                        // Do something when error occurred
+                        Log.i("anwesha",error.getMessage());
+                    }
+                }
+        );
+        requestQueue.add(jsonArrayRequest);
+
+    }
     public void postAnnouncement(final String name, final EditText e, final String a)
     {
         RequestQueue MyRequestQueue = Volley.newRequestQueue(InstructorAnnounce.this);
@@ -66,6 +154,7 @@ public class InstructorAnnounce extends AppCompatActivity {
                 if (response.contains("success")) {
                     Toast.makeText(getApplicationContext(), "Successfully posted!", Toast.LENGTH_SHORT).show();
                     e.setText("");
+                    sentNotif(a);
                 }
             }
         }, new Response.ErrorListener() {

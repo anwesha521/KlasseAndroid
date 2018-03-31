@@ -36,8 +36,8 @@ public class DisplayAdapaterInstructorAnnounce extends BaseAdapter {
     private ArrayList<Integer> ids;
     SharedPreferences pref;
     SharedPreferences.Editor ed;
-    //String HTTPUrl="http://192.168.1.185/Klasse/delete_announce.php?pid=";
-    String HTTPUrl = "http://10.12.195.1/Klasse/delete_announce.php?pid=";
+    String HTTPUrl="http://192.168.1.185/Klasse/delete_announce.php?pid=";
+    //String HTTPUrl = "http://10.12.195.1/Klasse/delete_announce.php?pid=";
 
     public DisplayAdapaterInstructorAnnounce(Context c,ArrayList<String> text,ArrayList<String> n,ArrayList<Integer> i) {
         this.mContext = c;
@@ -69,6 +69,7 @@ public class DisplayAdapaterInstructorAnnounce extends BaseAdapter {
         final Holder mHolder;
         final int position=pos;
         LayoutInflater layoutInflater;
+        String tempURL=HTTPUrl;
 
 
 
@@ -100,7 +101,8 @@ public class DisplayAdapaterInstructorAnnounce extends BaseAdapter {
                                         Log.i("anwesha","reached");
                                         dialog.cancel();
                                         int pid=ids.get(position);
-                                       removeAnnounce(pid,position);
+
+                                       removeAnnounce( HTTPUrl+String.valueOf(pid), position);
 
 
                                     }
@@ -117,13 +119,12 @@ public class DisplayAdapaterInstructorAnnounce extends BaseAdapter {
 
         return child;
     }
-    public void removeAnnounce(int i, int p)
+    public void removeAnnounce(String url, int p)
     {
         final int pos=p;
-        HTTPUrl=HTTPUrl+String.valueOf(i);
-        Log.i("anwesha","url="+HTTPUrl);
+        Log.i("anwesha",url);
         RequestQueue MyRequestQueue = Volley.newRequestQueue(mContext);
-        JsonObjectRequest delete_request = new JsonObjectRequest(HTTPUrl,
+        JsonObjectRequest delete_request = new JsonObjectRequest(url,
                 null, new Response.Listener<JSONObject>() {
 
             @Override

@@ -29,6 +29,8 @@ import com.android.volley.toolbox.Volley;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -46,6 +48,7 @@ public class Login extends AppCompatActivity {
 
 
     private static final String HttpURL = "http://192.168.1.185/Klasse/get_login_details.php";
+    private static final String URL_REGISTER_DEVICE = "http://192.168.1.185/Klasse/register_device.php";
    // private static final String HttpURL = "http://10.12.195.1/Klasse/get_login_details.php";
     @Override
 
@@ -54,6 +57,8 @@ public class Login extends AppCompatActivity {
         pref=getApplicationContext().getSharedPreferences("UserDetails",MODE_PRIVATE);
         ed=pref.edit();
         setContentView(R.layout.activity_student_login);
+
+
         Intent i = getIntent();
         Bundle b = i.getExtras();
         if (b != null) {
@@ -82,6 +87,38 @@ public class Login extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void register()
+    {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_REGISTER_DEVICE,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        Document doc = Jsoup.parse(response);
+                        result = doc.body().text();
+                        Toast.makeText(Login.this, result, Toast.LENGTH_LONG).show();
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(Login.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                }) {
+
+            @Override
+            protected Map<String, String> getParams()  {
+                Map<String, String> params = new HashMap<>();
+                params.put("token", pref.getString("token","0"));
+                params.put("user_id", pref.getString("id","0"));
+                return params;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
     }
 
     public void CheckEditTextIsEmptyOrNot() {
@@ -147,6 +184,7 @@ public class Login extends AppCompatActivity {
 
             ed.putString("name",vals[0]);
             ed.commit();
+            register();
             Log.i("anwesha",vals[0]+","+vals[1]+" TESTTYPE ");
             if(type.equalsIgnoreCase("student")&& vals[1].equalsIgnoreCase("student"))
             {
