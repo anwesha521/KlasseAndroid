@@ -13,6 +13,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -36,6 +38,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class instructorMain extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -46,7 +51,8 @@ public class instructorMain extends AppCompatActivity
     BarData BARDATA ;
     SharedPreferences pref;
     SharedPreferences.Editor ed;
-    String HTTPUrl = "http://10.12.195.1/Klasse/instructor_get_grades.php?instructor_id=";
+    //String HTTPUrl = "http://10.12.195.1/Klasse/instructor_get_grades.php?instructor_id=";
+    String HTTPUrl = "http://192.168.1.185/Klasse/instructor_get_grades.php?instructor_id=";
     ArrayList<StudentAnalytics> sa=new ArrayList<>();
 
     @Override
@@ -55,26 +61,20 @@ public class instructorMain extends AppCompatActivity
         setContentView(R.layout.activity_instructor_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        mChart = (BarChart) findViewById(R.id.barchartinstruct);
-        BARENTRY = new ArrayList<>();
-
-        BarEntryLabels = new ArrayList<String>();
         pref=getApplicationContext().getSharedPreferences("UserDetails",MODE_PRIVATE);
         ed=pref.edit();
         String id=pref.getString("id","1000000");
         HTTPUrl=HTTPUrl+id;
+
+        mChart = (BarChart) findViewById(R.id.barchartinstruct);
+        BARENTRY = new ArrayList<>();
+        BarEntryLabels = new ArrayList<String>();
+
+
+
         request();
 
-        Bardataset = new BarDataSet(BARENTRY, "Average scores");
 
-        BARDATA = new BarData(BarEntryLabels, Bardataset);
-
-        Bardataset.setColors(ColorTemplate.COLORFUL_COLORS);
-        mChart.setData(BARDATA);
-
-        mChart.animateX(4000);
-        mChart.setDragEnabled(true);
-        mChart.setScaleEnabled(true);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -84,6 +84,9 @@ public class instructorMain extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View header = navigationView.getHeaderView(0);
+        TextView name=(TextView) header.findViewById(R.id.header_name);
+        name.setText(pref.getString("name","Anonymous"));
     }
 
     public void request()
@@ -110,6 +113,8 @@ public class instructorMain extends AppCompatActivity
                             e.printStackTrace();
                             Log.i("anwesha",e.getMessage().toString());
                         }
+                        setDataChart();
+
                     }
                 },
                 new Response.ErrorListener(){
@@ -123,28 +128,51 @@ public class instructorMain extends AppCompatActivity
         requestQueue.add(jsonArrayRequest);
     }
 
+    public void setDataChart()
+    {
+        int count=0;
+        ArrayList<StudentAnalytics> s=sa;
+        Map<Integer, StudentAnalytics> map = new HashMap<>();
+        Map<Integer, Integer> total=new HashMap<>();
 
-   /* public void AddValuesToBARENTRY(){
+        for (StudentAnalytics p : s) {
+            int w = p.getWeek();
+            StudentAnalytics sum = map.get(w);
+            if (sum == null) {
 
-        BARENTRY.add(new BarEntry(80f, 0));
-        BARENTRY.add(new BarEntry(97f, 1));
-        BARENTRY.add(new BarEntry(85f, 2));
-        BARENTRY.add(new BarEntry(74f, 3));
-        BARENTRY.add(new BarEntry(73f, 4));
-        BARENTRY.add(new BarEntry(81f, 5));
+                sum = new StudentAnalytics(w,0,0);
+                map.put(w, sum);
+                total.put(w,0);
+
+            }
+            sum.setPercentage(sum.getPercentage() + p.getPercentage());
+            total.put(w,total.get(w)+1);
+
+        }
+        Map<Integer, StudentAnalytics> m = new TreeMap<>(map);
+        s=new ArrayList<StudentAnalytics>(m.values());
+
+        for(StudentAnalytics p:s)
+        {
+
+            BARENTRY.add(new BarEntry((float)p.getPercentage()/total.get(p.getWeek()),count++));
+            BarEntryLabels.add("Week "+p.getWeek());
+            Log.i("anwesha",(float)p.getPercentage()/total.get(p.getWeek())+" "+p.getWeek()+"w");
+
+        }
+        Bardataset = new BarDataSet(BARENTRY, "Average scores");
+
+        BARDATA = new BarData(BarEntryLabels, Bardataset);
+        mChart.setData(BARDATA);
+
+        Bardataset.setColors(ColorTemplate.COLORFUL_COLORS);
+
+        mChart.animateX(4000);
+        mChart.setDragEnabled(true);
+        mChart.setScaleEnabled(true);
 
     }
 
-    public void AddValuesToBarEntryLabels(){
-
-        BarEntryLabels.add("Week 1");
-        BarEntryLabels.add("Week 2");
-        BarEntryLabels.add("Week 4");
-        BarEntryLabels.add("Week 5");
-        BarEntryLabels.add("Week 6");
-        BarEntryLabels.add("Week 8");
-
-    }*/
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -53,7 +53,8 @@ public class studentMain extends AppCompatActivity
     private LineChart mChart;
     SharedPreferences pref;
     SharedPreferences.Editor ed;
-    String HTTPUrl = "http://10.12.195.1/Klasse/student_get_grades.php?student_id=";
+    //String HTTPUrl = "http://10.12.195.1/Klasse/student_get_grades.php?student_id=";
+    String HTTPUrl = "http://192.168.1.185/Klasse/student_get_grades.php?student_id=";
     TextView esc;
     TextView cse;
     TextView ps;
@@ -69,6 +70,8 @@ public class studentMain extends AppCompatActivity
         ed=pref.edit();
         String id=pref.getString("id","1000000");
         HTTPUrl=HTTPUrl+id;
+
+
 
         esc=(TextView) findViewById(R.id.esc_txt);
         cse=(TextView) findViewById(R.id.cse_txt);
@@ -89,6 +92,9 @@ public class studentMain extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View header = navigationView.getHeaderView(0);
+        TextView name=(TextView) header.findViewById(R.id.header_name);
+        name.setText(pref.getString("name","Anonymous"));
 
     }
 
@@ -139,7 +145,6 @@ public class studentMain extends AppCompatActivity
 
         for (StudentAnalytics p : s) {
             int c = p.getClassId();
-            Log.i("anwesha",p.getPercentage()+";");
             StudentAnalytics sum = map.get(c);
             if (sum == null) {
 

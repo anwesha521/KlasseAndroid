@@ -45,8 +45,8 @@ public class Login extends AppCompatActivity {
     String result="";
 
 
-    //private static final String HttpURL = "http://192.168.1.185/Klasse/get_login_details.php";
-    private static final String HttpURL = "http://10.12.195.1/Klasse/get_login_details.php";
+    private static final String HttpURL = "http://192.168.1.185/Klasse/get_login_details.php";
+   // private static final String HttpURL = "http://10.12.195.1/Klasse/get_login_details.php";
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,25 +136,29 @@ public class Login extends AppCompatActivity {
     public void postSuccess(String r)
     {
 
-        ed.putString("name",r);
-        ed.commit();
+
         if (r.equalsIgnoreCase("Failure"))
         {
 
             Toast.makeText(Login.this, "Login failed, try again.", Toast.LENGTH_LONG).show();
 
         } else {
+            String[] vals=r.split(",");
 
-            Log.i("anwesha","successss");
-            if(type.equalsIgnoreCase("student"))
+            ed.putString("name",vals[0]);
+            ed.commit();
+            Log.i("anwesha",vals[0]+","+vals[1]+" TESTTYPE ");
+            if(type.equalsIgnoreCase("student")&& vals[1].equalsIgnoreCase("student"))
             {
                 Intent intent = new Intent(Login.this, studentMain.class);
                 Login.this.startActivity(intent);}
-            else
+            else  if(type.equalsIgnoreCase("instructor")&& vals[1].equalsIgnoreCase("instructor"))
             {
                 Intent intent = new Intent(Login.this, instructorMain.class);
                 Login.this.startActivity(intent);
             }
+            else
+                Toast.makeText(Login.this, "Go back and select valid user type.", Toast.LENGTH_LONG).show();
 
         }
     }
