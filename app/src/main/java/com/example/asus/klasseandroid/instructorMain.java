@@ -1,6 +1,7 @@
 package com.example.asus.klasseandroid;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -9,9 +10,16 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.BarData;
@@ -23,6 +31,10 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class instructorMain extends AppCompatActivity
@@ -32,6 +44,11 @@ public class instructorMain extends AppCompatActivity
     ArrayList<String> BarEntryLabels ;
     BarDataSet Bardataset ;
     BarData BARDATA ;
+    SharedPreferences pref;
+    SharedPreferences.Editor ed;
+    String HTTPUrl = "http://10.12.195.1/Klasse/instructor_get_grades.php?instructor_id=";
+    ArrayList<StudentAnalytics> sa=new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,10 +59,11 @@ public class instructorMain extends AppCompatActivity
         BARENTRY = new ArrayList<>();
 
         BarEntryLabels = new ArrayList<String>();
-
-        AddValuesToBARENTRY();
-
-        AddValuesToBarEntryLabels();
+        pref=getApplicationContext().getSharedPreferences("UserDetails",MODE_PRIVATE);
+        ed=pref.edit();
+        String id=pref.getString("id","1000000");
+        HTTPUrl=HTTPUrl+id;
+        request();
 
         Bardataset = new BarDataSet(BARENTRY, "Average scores");
 
@@ -67,7 +85,46 @@ public class instructorMain extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
-    public void AddValuesToBARENTRY(){
+
+    public void request()
+    {
+        RequestQueue requestQueue = Volley.newRequestQueue(instructorMain.this);
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
+                Request.Method.GET,
+                HTTPUrl,
+                null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+
+                        try{
+
+                            for(int i=0;i<response.length();i++){
+                                // Get current json object
+                                JSONObject ann = response.getJSONObject(i);
+                                sa.add(new StudentAnalytics(ann.getInt("week"),ann.getInt("percentage"),ann.getInt("class_id")));
+
+                            }
+                        }catch (JSONException e){
+                            e.printStackTrace();
+                            Log.i("anwesha",e.getMessage().toString());
+                        }
+                    }
+                },
+                new Response.ErrorListener(){
+                    @Override
+                    public void onErrorResponse(VolleyError error){
+                        // Do something when error occurred
+                        Log.i("anwesha",error.getMessage());
+                    }
+                }
+        );
+        requestQueue.add(jsonArrayRequest);
+    }
+
+
+   /* public void AddValuesToBARENTRY(){
 
         BARENTRY.add(new BarEntry(80f, 0));
         BARENTRY.add(new BarEntry(97f, 1));
@@ -87,7 +144,7 @@ public class instructorMain extends AppCompatActivity
         BarEntryLabels.add("Week 6");
         BarEntryLabels.add("Week 8");
 
-    }
+    }*/
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

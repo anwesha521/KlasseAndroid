@@ -32,8 +32,8 @@ public class StudentAnnounce extends AppCompatActivity {
     private int room_id;
 
     private ListView list;
-   private static final String HttpURL = "http://192.168.1.185/Klasse/get_announcements.php";
-  // private static final String HttpURL = "http://10.12.195.1/Klasse/get_login_details.php";
+  // private static final String HttpURL = "http://192.168.1.185/Klasse/get_announcements.php";
+   private static final String HttpURL = "http://10.12.195.1/Klasse/get_login_details.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)

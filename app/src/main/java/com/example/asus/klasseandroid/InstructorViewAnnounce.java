@@ -31,8 +31,8 @@ public class InstructorViewAnnounce extends AppCompatActivity {
     private ArrayList<Integer> ids=new ArrayList<>();
     private ArrayList<Announcements> announce=new ArrayList<>();
     private int room_id;
-    private static final String HttpURL = "http://192.168.1.185/Klasse/get_announcements.php";
-   // private static final String HttpURL = "http://10.12.195.1/Klasse/get_announcements.php";
+    //private static final String HttpURL = "http://192.168.1.185/Klasse/get_announcements.php";
+   private static final String HttpURL = "http://10.12.195.1/Klasse/get_announcements.php";
     private String name;
     SharedPreferences prefName;
     SharedPreferences.Editor editorName;

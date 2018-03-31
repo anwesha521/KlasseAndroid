@@ -26,27 +26,31 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Your performance over this term"
+        android:textStyle="bold"
+        android:textAllCaps="true"
     />
     <TextView
+        android:id="@+id/esc_txt"
         android:textAlignment="center"
         android:padding="30dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Elements of Software Construction: 95th percentile"
+
 
         />
     <TextView
+        android:id="@+id/cse_txt"
         android:padding="30dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Computer Systems Engineering: 98th percentile"
+
         android:textAlignment="center"
         />
     <TextView
+        android:id="@+id/ps_txt"
         android:padding="30dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Probability and statistics: 92nd percentile"
         android:textAlignment="center"
         />
 

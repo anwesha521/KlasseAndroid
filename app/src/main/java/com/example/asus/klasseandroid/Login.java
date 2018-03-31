@@ -45,8 +45,8 @@ public class Login extends AppCompatActivity {
     String result="";
 
 
-    private static final String HttpURL = "http://192.168.1.185/Klasse/get_login_details.php";
-    //private static final String HttpURL = "http://10.12.195.1/Klasse/get_login_details.php";
+    //private static final String HttpURL = "http://192.168.1.185/Klasse/get_login_details.php";
+    private static final String HttpURL = "http://10.12.195.1/Klasse/get_login_details.php";
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +105,8 @@ public class Login extends AppCompatActivity {
             public void onResponse(String response) {
                 Document doc = Jsoup.parse(response);
                 result = doc.body().text();
+                ed.putString("id",email);
+                ed.commit();
                 Log.i("anwesharesult",result);
                 postSuccess(result);
 
