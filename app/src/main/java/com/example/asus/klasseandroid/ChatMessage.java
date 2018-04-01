@@ -17,8 +17,10 @@ public class ChatMessage {
     private String question;
     private boolean verified;
     private int room_id;
+    private  String id;
 
-    public ChatMessage(String messageText, String messageUser,String type, int id) {
+    public ChatMessage(String messageText, String messageUser,String type, int id, String i)
+    {
         this.messageText = messageText;
         this.messageUser = messageUser;
 
@@ -26,9 +28,15 @@ public class ChatMessage {
         messageTime = new Date().getTime();
         messageType=type;
         room_id=id;
+        this.id=i;
+    }
+    public ChatMessage()
+    {
 
-
-
+    }
+    public void set_id(int i)
+    {
+        room_id=i;
     }
     public int get_id()
     {
@@ -44,9 +52,6 @@ public class ChatMessage {
         verified=true;
     }
 
-    public ChatMessage(){
-
-    }
     public String getMessageType()
     {
         return messageType;
@@ -65,6 +70,7 @@ public class ChatMessage {
         question=q+": ";
         Log.i("anwesha",question);
     }
+
 
     public void setMessageText(String messageText) {
         this.messageText = messageText;
@@ -85,5 +91,13 @@ public class ChatMessage {
 
     public void setMessageTime(long messageTime) {
         this.messageTime = messageTime;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

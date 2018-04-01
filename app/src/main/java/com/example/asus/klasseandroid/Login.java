@@ -1,122 +1,203 @@
 package com.example.asus.klasseandroid;
 
-
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.StrictMode;
+import android.provider.DocumentsContract;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 
-public class Login extends AppCompatActivity{
+public class Login extends AppCompatActivity {
 
     EditText email;
     EditText pw;
     String type;
-    private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
+    SharedPreferences pref;
+    SharedPreferences.Editor ed;
+    Boolean CheckEditText;
+    String EmailHolder, PasswordHolder;
+    String result="";
 
 
+    private static final String HttpURL = "http://192.168.1.185/Klasse/get_login_details.php";
+    private static final String URL_REGISTER_DEVICE = "http://192.168.1.185/Klasse/register_device.php";
+   // private static final String HttpURL = "http://10.12.195.1/Klasse/get_login_details.php";
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAuth = FirebaseAuth.getInstance();
-
-
+        pref=getApplicationContext().getSharedPreferences("UserDetails",MODE_PRIVATE);
+        ed=pref.edit();
         setContentView(R.layout.activity_student_login);
-        Intent i=getIntent();
-        Bundle b=i.getExtras();
-        if(b!=null)
-        {
-            type=b.getString("type");
+
+
+        Intent i = getIntent();
+        Bundle b = i.getExtras();
+        if (b != null) {
+            type = b.getString("type");
         }
 
-        Button login=findViewById(R.id.signin);
-        email=findViewById(R.id.userId);
-        pw=findViewById(R.id.password);
-       // Log.i("anwesha",email.getText().toString());
-
-
-
+        Button login = findViewById(R.id.signin);
+        email = findViewById(R.id.userId);
+        pw = findViewById(R.id.password);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 
-                final String em=email.getText().toString();
+                CheckEditTextIsEmptyOrNot();
 
+                if (CheckEditText) {
 
-                final String pass=pw.getText().toString();
-                /*Log.i("anwesha",em+pass);
-                mAuth.createUserWithEmailAndPassword(em, pass).addOnCompleteListener(Login.this,new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
+                    UserLoginFunction(EmailHolder, PasswordHolder);
 
-                        if(task.isSuccessful()){
+                } else {
 
-                            String user_id = mAuth.getCurrentUser().getUid();
-                            Log.i("anwesha",user_id);
+                    Toast.makeText(Login.this, "Please fill all form fields.", Toast.LENGTH_LONG).show();
 
+                }
 
-                        }
-                        else
-                            Log.i("anwesha",task.getException().getMessage());
-                    }
-                });
-*/
-                mAuth.signInWithEmailAndPassword(em, pass)
-                        .addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-
-
-                                if (!task.isSuccessful()) {
-                                    // there was an error
-                                    if (pass.length() < 6) {
-                                        pw.setError("Minimum length=6");
-                                    } else {
-
-                                        Toast.makeText(Login.this, "Authentication failed", Toast.LENGTH_LONG).show();
-                                      
-                                    }
-                                } else
-                                {
-                                    //to get user info from database
-
-
-                                    if(type.equals("student"))
-                                        startStudent();
-                                    else
-                                        startInstructor();
-                                    finish();
-                                }
-                            }
-                        });
             }
         });
+    }
+
+    public void register()
+    {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, URL_REGISTER_DEVICE,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        Document doc = Jsoup.parse(response);
+                        result = doc.body().text();
+                        Toast.makeText(Login.this, result, Toast.LENGTH_LONG).show();
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(Login.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                }) {
+
+            @Override
+            protected Map<String, String> getParams()  {
+                Map<String, String> params = new HashMap<>();
+                params.put("token", pref.getString("token","0"));
+                params.put("user_id", pref.getString("id","0"));
+                return params;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    public void CheckEditTextIsEmptyOrNot() {
+
+        EmailHolder = email.getText().toString();
+        PasswordHolder = pw.getText().toString();
+
+        if (TextUtils.isEmpty(EmailHolder) || TextUtils.isEmpty(PasswordHolder)) {
+            CheckEditText = false;
+        } else {
+
+            CheckEditText = true;
+        }
+    }
+
+    public void UserLoginFunction(final String email, final String password) {
+
+        RequestQueue MyRequestQueue = Volley.newRequestQueue(Login.this);
+        StringRequest MyStringRequest = new StringRequest(Request.Method.POST, HttpURL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Document doc = Jsoup.parse(response);
+                result = doc.body().text();
+                ed.putString("id",email);
+                ed.commit();
+                Log.i("anwesharesult",result);
+                postSuccess(result);
 
             }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //This code is executed if there is an error.
+                Log.i("anwesha","error");
+            }
+        }) {
+            protected Map<String, String> getParams() {
+                Map<String, String> MyData = new HashMap<String, String>();
+                Log.i("anweshalogin",email+password);
+                MyData.put("user_id", email);
+                MyData.put("password",password);
+                return MyData;
+            }
+        };
 
-    public void startStudent()
-    {
-        Intent launch = new Intent(this, studentMain.class);
-        startActivity(launch);
+
+        MyRequestQueue.add(MyStringRequest);
+
+
+
     }
-    public void startInstructor()
+    public void postSuccess(String r)
     {
-        Intent launch = new Intent(this, instructorMain.class);
-        startActivity(launch);
+
+
+        if (r.equalsIgnoreCase("Failure"))
+        {
+
+            Toast.makeText(Login.this, "Login failed, try again.", Toast.LENGTH_LONG).show();
+
+        } else {
+            String[] vals=r.split(",");
+
+            ed.putString("name",vals[0]);
+            ed.commit();
+            register();
+            Log.i("anwesha",vals[0]+","+vals[1]+" TESTTYPE ");
+            if(type.equalsIgnoreCase("student")&& vals[1].equalsIgnoreCase("student"))
+            {
+                Intent intent = new Intent(Login.this, studentMain.class);
+                Login.this.startActivity(intent);}
+            else  if(type.equalsIgnoreCase("instructor")&& vals[1].equalsIgnoreCase("instructor"))
+            {
+                Intent intent = new Intent(Login.this, instructorMain.class);
+                Login.this.startActivity(intent);
+            }
+            else
+                Toast.makeText(Login.this, "Go back and select valid user type.", Toast.LENGTH_LONG).show();
+
+        }
     }
 }

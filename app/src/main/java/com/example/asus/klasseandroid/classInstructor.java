@@ -23,8 +23,16 @@ public  class classInstructor extends AppCompatActivity {
                 startChat();
             }
         });
-        Button announce = findViewById(R.id.announceinstruct);
-        Button quiz = findViewById(R.id.quizbuttoninstruct);
+
+        Button announce=findViewById(R.id.announceinstruct);
+        Button quiz=findViewById(R.id.quizbuttoninstruct);
+        quiz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startQuiz();
+            }
+        });
+
         announce.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -49,7 +57,7 @@ public  class classInstructor extends AppCompatActivity {
     }
 
     public void startAnnounce() {
-        Intent launch = new Intent(this, InstructorAnnounce.class);
+        Intent launch = new Intent(this, InstructorAnnounceMain.class);
         launch.putExtra("id",room_id);
         startActivity(launch);
     }

@@ -8,6 +8,7 @@ buildscript {
         maven {
             url 'https://maven.fabric.io/public'
         }
+
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.1'
@@ -18,14 +19,20 @@ buildscript {
         classpath 'com.google.gms:google-services:3.1.0'
     }
 }
+ext {
+    archRoomVersion = "1.1.0-alpha1"
+}
 
 allprojects {
     repositories {
         google()
         jcenter()
+        maven { url 'https://jitpack.io' }
         maven {
             url 'https://maven.fabric.io/public'
+
         }
+
     }
 }
 

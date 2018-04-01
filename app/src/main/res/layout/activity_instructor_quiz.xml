@@ -11,7 +11,7 @@
         android:id="@+id/add"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add Question"
+        android:text="@string/add_button"
         android:layout_alignParentTop="true"/>
 
     <ListView
@@ -24,7 +24,7 @@
         android:id="@+id/save"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Save"
+        android:text="@string/save_button"
         android:layout_alignParentBottom="true"/>
 
 

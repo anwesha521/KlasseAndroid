@@ -6,25 +6,21 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_1"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Class 1" />
+            android:icon="@drawable/esc"
+            android:title="50.003" />
         <item
             android:id="@+id/nav_2"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Class 2" />
+            android:icon="@drawable/cse"
+            android:title="50.005" />
         <item
             android:id="@+id/nav_3"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Class 3" />
+            android:icon="@drawable/ps"
+            android:title="50.034" />
 
     </group>
 
     <item android:title="Communicate">
         <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
             <item
                 android:id="@+id/nav_logout"
                 android:icon="@drawable/ic_menu_send"

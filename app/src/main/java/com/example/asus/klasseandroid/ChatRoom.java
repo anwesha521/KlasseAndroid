@@ -4,16 +4,19 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -33,8 +36,11 @@ public class ChatRoom extends AppCompatActivity {
     int room_id;
 
     SharedPreferences pref;
+    SharedPreferences prefName;
     SharedPreferences.Editor editor;
+    SharedPreferences.Editor editorName;
     String t;
+    String id;
 
     @Override
     protected void onStart()
@@ -51,6 +57,8 @@ public class ChatRoom extends AppCompatActivity {
         Intent intent = getIntent();
         pref=getApplicationContext().getSharedPreferences("Messages",MODE_PRIVATE);
         editor = pref.edit();
+        prefName=getApplicationContext().getSharedPreferences("UserDetails",MODE_PRIVATE);
+        editorName=prefName.edit();
         room_id = intent.getIntExtra("id", 11);
         Log.i("anwesha",room_id+"=room id");
 
@@ -64,41 +72,42 @@ public class ChatRoom extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 input = (EditText) findViewById(R.id.input);
-                if (type == 1) {
-                    ChatMessage cm = new ChatMessage(input.getText().toString(),
-                            FirebaseAuth.getInstance()
-                                    .getCurrentUser()
-                                    .getDisplayName(), "reply", room_id);
-                    editor.putString(input.getText().toString()+"question",q);
-                    editor.putInt(input.getText().toString()+"id",room_id);
-                    t="reply";
-
-                    FirebaseDatabase.getInstance()
-                            .getReference()
-                            .push()
-                            .setValue(cm);
-                    type = 0;
-
-
-
+                String txt=input.getText().toString();
+                if (TextUtils.isEmpty(txt)) {
+                    Toast.makeText(ChatRoom.this, "Please enter message.", Toast.LENGTH_LONG).show();
                 } else {
-                    FirebaseDatabase.getInstance()
-                            .getReference()
-                            .push()
-                            .setValue(new ChatMessage(input.getText().toString(),
-                                    FirebaseAuth.getInstance()
-                                            .getCurrentUser()
-                                            .getDisplayName(), "question", room_id)
-                            );
-                    editor.putInt(input.getText().toString()+"id",room_id);
-                    t="question";
+
+                    if (type == 1) {
 
 
+                        id = FirebaseDatabase.getInstance()
+                                .getReference()
+                                .push().getKey();
+                        ChatMessage cm = new ChatMessage(txt,
+                                prefName.getString("name", "Anonymous"), "reply", room_id, id);
+                        cm.setQuestion(q);
+
+                        FirebaseDatabase.getInstance()
+                                .getReference().child(id).setValue(cm);
+                        type = 0;
+
+
+                    } else {
+                        id = FirebaseDatabase.getInstance()
+                                .getReference()
+                                .push().getKey();
+                        ChatMessage cm = new ChatMessage(txt,
+                                prefName.getString("name", "Anonymous"), "question", room_id, id);
+
+                        FirebaseDatabase.getInstance()
+                                .getReference().child(id).setValue(cm);
+
+
+                    }
                 }
-                editor.putString(input.getText().toString(), t);
-                editor.commit();
                 input.setText("");
                 displayChatMessages();
+
             }
         });
 
@@ -118,11 +127,11 @@ public class ChatRoom extends AppCompatActivity {
 
                 // Set their text
                 final String message = model.getMessageText();
-                String msgtype = pref.getString(message, "question");
-                int id = pref.getInt(message+"id",11);
+                final int id = model.get_id();
                 Log.i("anweshaid",id+"");
 
                 if (id == room_id) {
+                    if(model.getMessageType().equalsIgnoreCase("question"))
                     v.setOnLongClickListener(new View.OnLongClickListener() {
                         @Override
                         public boolean onLongClick(View v) {
@@ -158,18 +167,20 @@ public class ChatRoom extends AppCompatActivity {
                             model.getMessageTime()));
                     messageUser.setText(model.getMessageUser());
 
-                    if (msgtype.equals("reply")) {
-                        messageText.setText(pref.getString(message+"question","")+": " + message);
-                        boolean ver = pref.getBoolean(message+"verified", false);
-                        if ((model != null)&&(ver == true))
-                            v.setBackgroundColor(Color.parseColor("#f7f26c"));
+                    if (model.getMessageType().equals("reply"))
+                    {
+                        messageText.setText(model.getQuestion()+":" + message);
+
+                        if ((model != null)&&(model.getVerified()))
+                            v.setBackground(getResources().getDrawable(R.drawable.verified_bubble));
                         else
-                            v.setBackgroundColor(Color.parseColor("#88f7a7"));
+                            v.setBackground(getResources().getDrawable(R.drawable.reply_bubble));
 
 
-                    } else
-
+                    } else {
+                        v.setBackground(getResources().getDrawable(R.drawable.question_bubble));
                         messageText.setText(message);
+                    }
 
 
                 }
