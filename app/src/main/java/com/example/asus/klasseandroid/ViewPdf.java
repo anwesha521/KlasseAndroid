@@ -48,7 +48,7 @@ public class ViewPdf extends Activity implements OnPageChangeListener,OnLoadComp
     String pdfFileName;
     String feedback;
     String url = "http://10.12.48.32/feedback.php";
-    String pgNumber;
+    String pg;
 
 
     @Override
@@ -84,7 +84,8 @@ public class ViewPdf extends Activity implements OnPageChangeListener,OnLoadComp
                 // Get the custom alert dialog view widgets reference
                 Button btn_positive = (Button) dialogView.findViewById(R.id.dialog_positive_btn);
                 Button btn_negative = (Button) dialogView.findViewById(R.id.dialog_negative_btn);
-                final EditText text = (EditText) dialogView.findViewById(R.id.enter_feedback);
+                final EditText feedbackText = (EditText) dialogView.findViewById(R.id.enter_feedback);
+                final EditText pgNumberText = (EditText) dialogView.findViewById(R.id.enter_pg_number);
 
                 // Create the alert dialog
                 final AlertDialog dialog = builder.create();
@@ -96,10 +97,11 @@ public class ViewPdf extends Activity implements OnPageChangeListener,OnLoadComp
                         // Dismiss the alert dialog
 
                         dialog.cancel();
-                        feedback = text.getText().toString();
+                        feedback = feedbackText.getText().toString();
+                        pg = pgNumberText.getText().toString();
                         ///////////I NEED TO FIX THE PAGE NUMBER ISSUE!!!///////
 
-                        submitFeedback(feedback, pdfFileName, pageNumber);
+                        submitFeedback(feedback, pdfFileName, pg);
                         //Toast.makeText(getApplication(), feedback, Toast.LENGTH_SHORT).show();
 
                     }
@@ -126,8 +128,8 @@ public class ViewPdf extends Activity implements OnPageChangeListener,OnLoadComp
     }
 
 
-    private void submitFeedback(final String comments, final String filename, final int pageNumber) {
-        pgNumber = Integer.toString(pageNumber);
+    private void submitFeedback(final String comments, final String filename, final String pgNumber) {
+
         RequestQueue MyRequestQueue = Volley.newRequestQueue(ViewPdf.this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
