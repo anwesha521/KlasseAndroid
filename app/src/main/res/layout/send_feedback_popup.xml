@@ -19,6 +19,16 @@
         android:textColorHint="#ffffff"
         android:textColor="#ffffff"
         />
+    <EditText
+        android:id="@+id/enter_pg_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="ENTER PAGE NUMBER"
+        android:textSize="15dp"
+        android:textColorHint="#ffffff"
+        android:textColor="#ffffff"
+        android:layout_below="@id/enter_feedback"
+        />
     <Button
         android:id="@+id/dialog_positive_btn"
         android:layout_width="wrap_content"
@@ -26,7 +36,7 @@
         android:text="OK"
         android:layout_alignParentRight="true"
         android:background="#24748c"
-        android:layout_below="@id/enter_feedback"
+        android:layout_below="@id/enter_pg_number"
         android:textColor="#ffffff"
         />
     <Button
