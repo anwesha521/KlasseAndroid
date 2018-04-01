@@ -54,7 +54,7 @@
                 android:layout_centerInParent="true"
                 android:layout_alignParentLeft="true"
                 android:background="#04A58C"
-                android:text="Make Announcement"
+                android:text="Announcements"
                 android:padding="10dp"
                 android:gravity="left|center_vertical"
                 android:textColor="#ffffff"
