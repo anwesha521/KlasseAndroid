@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    android:background="@color/colorAccent"
     tools:context="com.example.asus.klasseandroid.UploadSlides">
     <TextView
         android:layout_width="match_parent"
@@ -14,19 +13,18 @@
         android:textSize="18sp"
         android:id="@+id/tvHeading"
         android:text="Touch the icon below to upload file to server"
-        android:textColor="#fff"
-        android:textStyle="bold"/>
+        android:textColor="#000"/>
     <ImageButton
         android:layout_margin="20dp"
         android:id="@+id/btn_choose"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/feedback"
+        android:src="@drawable/slides"
         android:layout_gravity="center"
         />
     <EditText
         android:layout_gravity="center"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/week"
         android:hint="Enter Week Number"
@@ -34,17 +32,16 @@
         />
 
     <EditText
-        android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/fileName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:hint="Enter file name"
-        android:textColor="#ffffff"
-        />
+        android:textColor="#ffffff" />
 
     <TextView
         android:id="@+id/tv_file_name"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#fff"
         android:layout_marginTop="10dp"
@@ -53,15 +50,14 @@
         android:layout_centerHorizontal="true"/>
 
     <Button
+        android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/btn_upload"
         android:text="Upload"
-        android:textStyle="bold"
-        android:textSize="20sp"
         android:layout_alignParentBottom="true"
         android:gravity="center"
-        android:textColor="#fff"
-        android:background="#039be5"/>
+        android:textColor="#ffffff"
+        android:background="@drawable/week_button"/>
 
 </LinearLayout>
