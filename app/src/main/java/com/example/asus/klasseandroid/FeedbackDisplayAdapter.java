@@ -1,88 +1,59 @@
 package com.example.asus.klasseandroid;
 
-/**
- * Created by ASUS on 20-02-2018.
- */
-import java.util.ArrayList;
-
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.util.Log;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.CheckBox;
-import android.widget.Checkable;
-import android.widget.CompoundButton;
 import android.widget.TextView;
 
-public class FeedbackDisplayAdapter extends BaseAdapter {
-    private Context mContext;
-    private ArrayList<String> content;
-    private ArrayList<String> pdfFileNames;
-    private ArrayList<Integer> ids;
+
+import java.util.List;
+
+public class FeedbackDisplayAdapter extends RecyclerView.Adapter<FeedbackDisplayAdapter.FeedbackViewHolder> {
 
 
+    private Context mCtx;
+    private List<FeedbackLayout> feedbackList;
 
-
-    public FeedbackDisplayAdapter(Context c,ArrayList<String> content,ArrayList<String> pdfFileNames,ArrayList<Integer> i) {
-        this.mContext = c;
-        this.pdfFileNames=pdfFileNames;
-        this.content = content;
-        this.ids=i;
+    public FeedbackDisplayAdapter(Context mCtx, List<FeedbackLayout> feedbackList) {
+        this.mCtx = mCtx;
+        this.feedbackList = feedbackList;
     }
 
-
-    public int getCount() {
-        // TODO Auto-generated method stub
-        return content.size();
+    @Override
+    public FeedbackViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(mCtx);
+        View view = inflater.inflate(R.layout.activity_feedback_layout, null);
+        return new FeedbackViewHolder(view);
     }
 
-    public Object getItem(int position) {
-        // TODO Auto-generated method stub
-        return null;
+    @Override
+    public void onBindViewHolder(FeedbackViewHolder holder, int position) {
+        FeedbackLayout feedback = feedbackList.get(position);
+        holder.textViewFileName.setText(String.valueOf(feedback.getPdfFileName()));
+        holder.textViewFeedback.setText(String.valueOf(feedback.getFeedback()));
+        holder.textViewPgNumber.setText(String.valueOf(feedback.getPgNumber()));
+        holder.textViewTime.setText(String.valueOf(feedback.getTime()));
     }
 
-    public long getItemId(int position) {
-        // TODO Auto-generated method stub
-        return 0;
+    @Override
+    public int getItemCount() {
+        return feedbackList.size();
     }
 
-    public View getView(int pos, View child, ViewGroup parent) {
-        final Holder mHolder;
-        final int position=pos;
-        LayoutInflater layoutInflater;
+    class FeedbackViewHolder extends RecyclerView.ViewHolder {
 
+        TextView textViewFileName, textViewFeedback, textViewPgNumber, textViewTime;
 
+        public FeedbackViewHolder(View itemView) {
+            super(itemView);
 
+            textViewFileName = itemView.findViewById(R.id.pdfFileName);
+            textViewFeedback = itemView.findViewById(R.id.feedbackContent);
+            textViewPgNumber = itemView.findViewById(R.id.pgNumber);
+            textViewTime = itemView.findViewById(R.id.time);
 
-        if (child == null) {
-            layoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            child = layoutInflater.inflate(R.layout.activity_feedback_layout, null);
-            mHolder = new Holder();
-            mHolder.feedbackContent = (TextView) child.findViewById(R.id.feedbackcontent);
-            mHolder.pdfFileName = (TextView) child.findViewById(R.id.pdfFileName);
-            child.setTag(mHolder);
-        } else {
-            mHolder = (Holder) child.getTag();
         }
-
-        Log.i("anweshaid",ids.get(position)+" "+content.get(position));
-        mHolder.feedbackContent.setText(content.get(position));
-        mHolder.pdfFileName.setText(pdfFileNames.get(position));
-
-
-
-
-        return child;
     }
-
-    public class Holder {
-        TextView feedbackContent;
-        TextView pdfFileName;
-
-
-    }
-
 }

@@ -1,47 +1,42 @@
 package com.example.asus.klasseandroid;
 
-/**
- * Created by ASUS on 09-03-2018.
- */
-
 public class FeedbackLayout {
     private String feedback;
     private String pdfFileName;
-    //private int pgNumber;
+    private String pgNumber;
+    private String time;
 
-    public int getId() {
-        return id;
+    public FeedbackLayout(String feedback, String pdfFileName, String pgNumber, String time){
+        this.feedback = feedback;
+        this.pdfFileName = pdfFileName;
+        this.pgNumber = pgNumber;
+        this.time = time;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public String getTime() {
+        return time;
     }
 
-    private int id;
-
+    public String getPgNumber() {
+        return pgNumber;
+    }
 
 
 
     public String getFeedback() {
+
         return feedback;
     }
 
-    public void setFeedback(String feedback) {
-        this.feedback = feedback;
-    }
+
 
     public String getPdfFileName() {
+
         return pdfFileName;
     }
 
-    public void setPdfFileName(String pdfFileName) {
-        this.pdfFileName = pdfFileName;
-    }
 
 
-    public FeedbackLayout(String feeedback, String pdfFileName,int i)
-    {       this.feedback = feedback;
-        this.pdfFileName = getPdfFileName();
-        id=i;
-    }
+
+
 }

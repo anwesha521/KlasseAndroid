@@ -47,7 +47,8 @@ public class ViewPdf extends Activity implements OnPageChangeListener,OnLoadComp
     Integer pageNumber = 1;
     String pdfFileName;
     String feedback;
-    String url = "http://192.168.0.121/feedback.php";
+    String url = "http://10.12.48.32/feedback.php";
+    String pgNumber;
 
 
     @Override
@@ -98,7 +99,7 @@ public class ViewPdf extends Activity implements OnPageChangeListener,OnLoadComp
                         feedback = text.getText().toString();
                         ///////////I NEED TO FIX THE PAGE NUMBER ISSUE!!!///////
 
-                        submitFeedback(feedback, pdfFileName);
+                        submitFeedback(feedback, pdfFileName, pageNumber);
                         //Toast.makeText(getApplication(), feedback, Toast.LENGTH_SHORT).show();
 
                     }
@@ -125,7 +126,8 @@ public class ViewPdf extends Activity implements OnPageChangeListener,OnLoadComp
     }
 
 
-    private void submitFeedback(final String comments, final String filename) {
+    private void submitFeedback(final String comments, final String filename, final int pageNumber) {
+        pgNumber = Integer.toString(pageNumber);
         RequestQueue MyRequestQueue = Volley.newRequestQueue(ViewPdf.this);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -144,6 +146,7 @@ public class ViewPdf extends Activity implements OnPageChangeListener,OnLoadComp
                 Map<String, String> params = new HashMap<>();
                 params.put("feedback", comments);
                 params.put("pdfFileName",filename);
+                params.put("pgNumber",pgNumber);
 
 
                 return params;
