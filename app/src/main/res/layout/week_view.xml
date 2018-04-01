@@ -3,16 +3,17 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
     android:layout_width="match_parent">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Files uploaded for the week"
+        android:textSize="30sp"
 
-    <Button
+        android:layout_gravity="center"/>
+    <ListView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Pset 1"
-        android:onClick="pset1"/>
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Pset 2"
-        android:onClick="pset2"/>
+        android:id="@+id/listViewPDF"
+        android:layout_height="wrap_content">
+    </ListView>
 
 </LinearLayout>

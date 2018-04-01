@@ -1,9 +1,10 @@
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
     android:background="@color/colorAccent"
     tools:context="com.example.asus.klasseandroid.UploadSlides">
     <TextView
@@ -15,13 +16,31 @@
         android:text="Touch the icon below to upload file to server"
         android:textColor="#fff"
         android:textStyle="bold"/>
-    <ImageView
-        android:id="@+id/ivAttachment"
+    <ImageButton
+        android:layout_margin="20dp"
+        android:id="@+id/btn_choose"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:src="@drawable/feedback"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"/>
+        android:layout_gravity="center"
+        />
+    <EditText
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/week"
+        android:hint="Enter Week Number"
+        android:textColor="#ffffff"
+        />
+
+    <EditText
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fileName"
+        android:hint="Enter file name"
+        android:textColor="#ffffff"
+        />
 
     <TextView
         android:id="@+id/tv_file_name"
@@ -45,4 +64,4 @@
         android:textColor="#fff"
         android:background="#039be5"/>
 
-</RelativeLayout>
+</LinearLayout>
