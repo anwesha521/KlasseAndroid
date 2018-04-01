@@ -1,24 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+
     <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="UPLOAD PDF!"
-            android:onClick="uploadPdf"/>
+        android:orientation="horizontal"
+
+        android:weightSum="2"
+        >
 
         <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#F5B149"
+            android:onClick="uploadPdf"
+            android:text="Upload PDF!"
+            android:textColor="#ffffff"
+            android:textStyle="bold"
+            android:textSize="20sp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="#04A58C"
             android:text="view feedback"
-            android:onClick="viewFeedback"/>
+            android:textColor="#ffffff"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:onClick="viewFeedback"
+             android:layout_weight="1"/>
 
     </LinearLayout>
-
-
-</android.support.constraint.ConstraintLayout>

@@ -19,7 +19,7 @@
         android:id="@+id/btn_choose"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/slides"
+        android:src="@drawable/upload"
         android:layout_gravity="center"
         />
     <EditText
