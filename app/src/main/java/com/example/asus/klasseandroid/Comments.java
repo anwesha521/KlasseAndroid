@@ -4,6 +4,7 @@ package com.example.asus.klasseandroid;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -23,6 +24,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.widget.LinearLayout.HORIZONTAL;
 
 public class Comments extends AppCompatActivity {
 
@@ -46,7 +49,8 @@ public class Comments extends AppCompatActivity {
         recyclerView = findViewById(R.id.recylcerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
+        DividerItemDecoration itemDecor = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        recyclerView.addItemDecoration(itemDecor);
         //initializing the productlist
         feedbackList = new ArrayList<>();
 
@@ -78,12 +82,12 @@ public class Comments extends AppCompatActivity {
                                 //getting product object from json array
                                 JSONObject feedback = array.getJSONObject(i);
 
-                                //adding the product to product list
+                                //adding the product to feedback list
                                 feedbackList.add(new FeedbackLayout(
                                         feedback.getString("feedback"),
-                                        feedback.getString("pdfFileName"),
-                                        feedback.getString("pgNumber"),
-                                        feedback.getString("time")
+                                        "file name: " + feedback.getString("pdfFileName"),
+                                        "Page no: " + feedback.getString("pgNumber"),
+                                        "date: " + feedback.getString("time")
                                 ));
                             }
 
