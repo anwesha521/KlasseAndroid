@@ -1,4 +1,4 @@
-package notifications;
+package com.example.asus.klasseandroid;
 
 import android.content.SharedPreferences;
 import android.util.Log;

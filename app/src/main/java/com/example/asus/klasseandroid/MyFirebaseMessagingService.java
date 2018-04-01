@@ -1,18 +1,14 @@
-package notifications;
+package com.example.asus.klasseandroid;
 
 import android.content.Intent;
 import android.util.Log;
 
-import com.example.asus.klasseandroid.studentMain;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**
- * Created by Belal on 03/11/16.
- */
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 

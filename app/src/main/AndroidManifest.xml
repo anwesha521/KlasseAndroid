@@ -39,13 +39,17 @@
             android:label="@string/title_activity_instructor_main"
             android:theme="@style/AppTheme.NoActionBar" />
         <service
-            android:name="notifications.MyFirebaseInstanceIDService">
+            android:name=".MyFirebaseInstanceIDService"
+            android:enabled="true"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
         </service>
         <service
-            android:name="notifications.MyFirebaseMessagingService">
+            android:name=".MyFirebaseMessagingService"
+            android:enabled="true"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
@@ -64,7 +68,7 @@
         <activity android:name=".InstructorQuiz"/>
 
         <activity android:name="feedback.Comments"/>
-        <activity android:name=".InstructorQuiz" />
+
         <activity android:name="announcements.InstructorAnnounceMain" />
         <activity android:name="announcements.InstructorViewAnnounce"></activity>
     </application>
