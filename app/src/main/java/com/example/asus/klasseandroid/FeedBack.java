@@ -32,27 +32,32 @@ import java.util.List;
  */
 
 public class FeedBack extends AppCompatActivity {
-
+    private int room_id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feedback);
+        Intent intent = getIntent();
+        room_id = intent.getIntExtra("id", 11);
 
     }
     /**Called when the user taps the a pdf file name*/
     public void week1(View view){
         Intent intent = new Intent (this, WeekView.class);
         intent.putExtra("week",1);
+        intent.putExtra("id",room_id);
         startActivity(intent);
     }
     public void week2(View view){
         Intent intent = new Intent (this, WeekView.class);
         intent.putExtra("week",2);
+        intent.putExtra("id",room_id);
         startActivity(intent);
     }
     public void week3(View view){
         Intent intent = new Intent (this, WeekView.class);
         intent.putExtra("week",3);
+        intent.putExtra("id",room_id);
         startActivity(intent);
     }
 

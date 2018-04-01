@@ -64,6 +64,7 @@ public  class classInstructor extends AppCompatActivity {
 
     public void startFeedback() {
         Intent launch = new Intent(this, ViewFeedback.class);
+        launch.putExtra("id",room_id);
         startActivity(launch);
     }
 

@@ -41,7 +41,7 @@ public class UploadSlides extends AppCompatActivity {
 
 
     public static String UPLOAD_URL;
-
+    private int room_id;
 
     //Pdf request code
     private int PICK_PDF_REQUEST = 1;
@@ -62,7 +62,9 @@ public class UploadSlides extends AppCompatActivity {
 
         //Requesting storage permission
         requestStoragePermission();
+        Intent intent = getIntent();
 
+        room_id=intent.getIntExtra("id", 11);
         //Initializing views
         buttonChoose = (ImageButton) findViewById(R.id.btn_choose);
         buttonUpload = (Button) findViewById(R.id.btn_upload);
@@ -117,6 +119,7 @@ public class UploadSlides extends AppCompatActivity {
                         .addFileToUpload(path, "pdf") //Adding file
                         .addParameter("name", name) //Adding text parameter to the request
                         .addParameter("week",week)
+                        .addParameter("class",room_id+"")
                         .setNotificationConfig(new UploadNotificationConfig())
                         .setMaxRetries(2)
                         .startUpload(); //Starting the upload

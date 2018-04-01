@@ -31,6 +31,7 @@ public class WeekView  extends AppCompatActivity {
     PdfAdapter pdfAdapter;
     private ListView listView;
     private int week;
+    private int room_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,7 @@ public class WeekView  extends AppCompatActivity {
         setContentView(R.layout.week_view);
         Intent intent = getIntent();
         week = intent.getIntExtra("week", 1);
+        room_id=intent.getIntExtra("id", 11);
         listView = (ListView) findViewById(R.id.listViewPDF);
 
         PDF_FETCH_URL="http://"+getResources().getString(R.string.ip)+"/Klasse/getpdfs.php?week=";
@@ -51,7 +53,7 @@ public class WeekView  extends AppCompatActivity {
     private void getPdfs() {
 
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, PDF_FETCH_URL+week,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, PDF_FETCH_URL+week+"&class="+room_id,
 
                 new Response.Listener<String>() {
                     @Override

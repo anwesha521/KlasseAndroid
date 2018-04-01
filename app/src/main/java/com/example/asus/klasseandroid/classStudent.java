@@ -83,6 +83,7 @@ public class classStudent extends AppCompatActivity {
 
     public void startSlides(){
         Intent launch = new Intent(this, FeedBack.class);
+        launch.putExtra("id",room_id);
         startActivity(launch);
     }
     public void startAnnounce()

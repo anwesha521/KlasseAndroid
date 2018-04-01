@@ -5,23 +5,31 @@
     android:padding="20dp">
 
     <TextView
+        android:id="@+id/pdfName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/pdfName"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:textAlignment="center"
+        android:textColor="#ffffff" />
 
     <Button
+        android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="View PDF"
         android:id="@+id/pdfView"
+        android:textColor="#ffffff"
+        android:background="@drawable/week_button"
         />
 
     <Button
+        android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Submit Feedback for PDF"
         android:id="@+id/pdffeedback"
+        android:textColor="#ffffff"
+        android:background="@drawable/week_button"
         />
 
 </LinearLayout>

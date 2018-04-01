@@ -55,7 +55,7 @@ public class PdfAdapter extends ArrayAdapter<PDF>
 
         pdf = data.get(position);
 
-        holder.name.setText(pdf.getName());
+        holder.name.setText("Name: "+pdf.getName());
         holder.viewpdf.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
