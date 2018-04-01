@@ -1,6 +1,5 @@
-package com.example.asus.klasseandroid;
+package announcements;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +14,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.asus.klasseandroid.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;

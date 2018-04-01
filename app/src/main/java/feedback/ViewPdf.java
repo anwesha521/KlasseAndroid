@@ -1,13 +1,5 @@
-package com.example.asus.klasseandroid;
+package feedback;
 
-
-/**
- * Created by harleen on 28/2/18.
- * This handles the viewing of the pdf
- * As well as the feedback portion
- * there's a popup menu that they can use to
- * post feedback based on the slides that they're on!
- */
 
 import android.app.Activity;
 import android.content.Intent;
@@ -33,7 +25,7 @@ import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 import com.shockwave.pdfium.PdfDocument;
-
+import com.example.asus.klasseandroid.R;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

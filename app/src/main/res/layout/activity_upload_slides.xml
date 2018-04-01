@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    tools:context="com.example.asus.klasseandroid.UploadSlides">
+    tools:context="com.example.asus.klasseandroid.feedback.UploadSlides">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/week"
         android:hint="Enter Week Number"
-        android:textColor="#ffffff"
+
         />
 
     <EditText
@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:hint="Enter file name"
-        android:textColor="#ffffff" />
+         />
 
     <TextView
         android:id="@+id/tv_file_name"

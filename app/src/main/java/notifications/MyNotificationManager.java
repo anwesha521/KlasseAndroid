@@ -1,4 +1,4 @@
-package com.example.asus.klasseandroid;
+package notifications;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v4.app.NotificationCompat;
+
+import com.example.asus.klasseandroid.R;
 
 public class MyNotificationManager {
 

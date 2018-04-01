@@ -1,4 +1,4 @@
-package com.example.asus.klasseandroid;
+package feedback;
 
 /**
  * Created by ASUS on 01-04-2018.

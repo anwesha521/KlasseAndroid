@@ -1,9 +1,8 @@
-package com.example.asus.klasseandroid;
+package chatroom;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -17,22 +16,27 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.asus.klasseandroid.R;
 import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class ChatRoomInstructor extends AppCompatActivity {
+
+public class ChatRoom extends AppCompatActivity {
     private FirebaseAnalytics mFirebaseAnalytics;
     private FirebaseListAdapter<ChatMessage> adapter;
     private EditText input;
     ListView listOfMessages;
     int type = 0;
-    String q = "";
+    String q="";
     int room_id;
-    SharedPreferences prefName;
-    SharedPreferences.Editor editorName;
-    String id;
 
+    SharedPreferences pref;
+    SharedPreferences prefName;
+    SharedPreferences.Editor editor;
+    SharedPreferences.Editor editorName;
+    String t;
+    String id;
 
     @Override
     protected void onStart()
@@ -47,15 +51,17 @@ public class ChatRoomInstructor extends AppCompatActivity {
         setContentView(R.layout.activity_chat_room);
 
         Intent intent = getIntent();
-
-        room_id = intent.getIntExtra("id", 11);
+        pref=getApplicationContext().getSharedPreferences("Messages",MODE_PRIVATE);
+        editor = pref.edit();
         prefName=getApplicationContext().getSharedPreferences("UserDetails",MODE_PRIVATE);
         editorName=prefName.edit();
+        room_id = intent.getIntExtra("id", 11);
+        Log.i("anwesha",room_id+"=room id");
+
         FloatingActionButton fab =
                 (FloatingActionButton) findViewById(R.id.fab);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         listOfMessages = (ListView) findViewById(R.id.list_of_messages);
-
 
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -64,8 +70,9 @@ public class ChatRoomInstructor extends AppCompatActivity {
                 input = (EditText) findViewById(R.id.input);
                 String txt=input.getText().toString();
                 if (TextUtils.isEmpty(txt)) {
-                    Toast.makeText(ChatRoomInstructor.this, "Please enter message.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ChatRoom.this, "Please enter message.", Toast.LENGTH_LONG).show();
                 } else {
+
                     if (type == 1) {
 
 
@@ -94,71 +101,49 @@ public class ChatRoomInstructor extends AppCompatActivity {
 
                     }
                 }
-                    input.setText("");
-                    displayChatMessages();
+                input.setText("");
+                displayChatMessages();
 
             }
         });
 
 
-
     }
+
     public void displayChatMessages() {
 
         adapter = new FirebaseListAdapter<ChatMessage>(this, ChatMessage.class,
                 R.layout.message, FirebaseDatabase.getInstance().getReference()) {
             @Override
             protected void populateView(View v, final ChatMessage model, final int position) {
-                // Get references to the views of message.xml
 
                 TextView messageText = (TextView) v.findViewById(R.id.message_text);
                 TextView messageUser = (TextView) v.findViewById(R.id.message_user);
                 TextView messageTime = (TextView) v.findViewById(R.id.message_time);
 
+                // Set their text
                 final String message = model.getMessageText();
                 final int id = model.get_id();
+                Log.i("anweshaid",id+"");
 
-
-                Log.i("anwesha", model.getMessageText() + " " + model.getVerified() + " "+id);
                 if (id == room_id) {
-                    messageTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)",
-                            model.getMessageTime()));
-                    messageUser.setText(model.getMessageUser());
-
-                    if (model.getMessageType().equals("reply")) {
-
-                        messageText.setText(model.getQuestion()+"\n" + message);
-
-                        if ((model != null)&&(model.getVerified()))
-                            v.setBackground(getResources().getDrawable(R.drawable.verified_bubble));
-                        else
-                            v.setBackground(getResources().getDrawable(R.drawable.reply_bubble));
-                    }
-                    else {
-                        v.setBackground(getResources().getDrawable(R.drawable.question_bubble));
-                        messageText.setText(message);
-                    }
-
+                    if(model.getMessageType().equalsIgnoreCase("question"))
                     v.setOnLongClickListener(new View.OnLongClickListener() {
                         @Override
                         public boolean onLongClick(View v) {
-                            new AlertDialog.Builder(ChatRoomInstructor.this)
+                            new AlertDialog.Builder(ChatRoom.this)
                                     .setMessage(
-                                            "Verify?")
+                                            "Reply to Question?")
                                     .setPositiveButton(
                                             "Okay",
                                             new DialogInterface.OnClickListener() {
                                                 public void onClick(
                                                         DialogInterface dialog,
                                                         int which) {
-                                                    if (model.getMessageType().equals("reply")) {
-                                                        FirebaseDatabase.getInstance().getReference().child(model.getId()).child("verified").setValue(true);
-
-
-                                                    } else
-                                                        Toast.makeText(ChatRoomInstructor.this, "Can only verify replies", Toast.LENGTH_LONG).show();
                                                     dialog.cancel();
-                                                    displayChatMessages();
+                                                    type = 1;
+                                                    q = model.getMessageText();
+
 
                                                 }
                                             }).setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -169,19 +154,35 @@ public class ChatRoomInstructor extends AppCompatActivity {
 
                                 }
                             }).show();
+                            Log.i("anwesha", "type=" + type);
                             return false;
                         }
                     });
 
+                    messageTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)",
+                            model.getMessageTime()));
+                    messageUser.setText(model.getMessageUser());
+
+                    if (model.getMessageType().equals("reply"))
+                    {
+                        messageText.setText(model.getQuestion()+"\n" + message);
+
+                        if ((model != null)&&(model.getVerified()))
+                            v.setBackground(getResources().getDrawable(R.drawable.verified_bubble));
+                        else
+                            v.setBackground(getResources().getDrawable(R.drawable.reply_bubble));
+
+
+                    } else {
+                        v.setBackground(getResources().getDrawable(R.drawable.question_bubble));
+                        messageText.setText(message);
+                    }
+
 
                 }
-
-
             }
+
         };
         listOfMessages.setAdapter(adapter);
-
-
-
     }
 }

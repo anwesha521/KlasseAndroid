@@ -5,7 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
+
+import announcements.InstructorAnnounceMain;
+import chatroom.ChatRoomInstructor;
+import feedback.ViewFeedback;
 
 public  class classInstructor extends AppCompatActivity {
     int room_id;

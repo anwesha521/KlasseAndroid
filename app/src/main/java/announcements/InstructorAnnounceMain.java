@@ -1,10 +1,12 @@
-package com.example.asus.klasseandroid;
+package announcements;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import com.example.asus.klasseandroid.R;
 
 public class InstructorAnnounceMain extends AppCompatActivity {
     private int room_id;

@@ -5,9 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 
-import com.example.asus.klasseandroid.R;
+import announcements.StudentAnnounce;
+import chatroom.ChatRoom;
+import feedback.FeedBack;
 
 public class classStudent extends AppCompatActivity {
     

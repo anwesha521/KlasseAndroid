@@ -1,4 +1,4 @@
-package com.example.asus.klasseandroid;
+package feedback;
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;

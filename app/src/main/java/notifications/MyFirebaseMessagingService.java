@@ -1,8 +1,9 @@
-package com.example.asus.klasseandroid;
+package notifications;
 
 import android.content.Intent;
 import android.util.Log;
 
+import com.example.asus.klasseandroid.studentMain;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 

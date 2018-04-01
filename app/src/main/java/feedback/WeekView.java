@@ -1,9 +1,8 @@
-package com.example.asus.klasseandroid;
+package feedback;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -13,6 +12,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.asus.klasseandroid.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;

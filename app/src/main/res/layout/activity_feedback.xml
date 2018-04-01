@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:padding="100dp"
-    android:background="#F5B149"
+    android:background="@drawable/slidebg"
+
     >
 
     <Button

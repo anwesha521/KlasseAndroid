@@ -1,4 +1,4 @@
-package com.example.asus.klasseandroid;
+package chatroom;
 
 import android.util.Log;
 

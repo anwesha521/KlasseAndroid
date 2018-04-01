@@ -1,4 +1,4 @@
-package com.example.asus.klasseandroid;
+package announcements;
 
 /**
  * Created by ASUS on 20-02-2018.
@@ -16,6 +16,8 @@ import android.widget.CheckBox;
 import android.widget.Checkable;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+
+import com.example.asus.klasseandroid.R;
 
 public class DisplayAdapter extends BaseAdapter {
     private Context mContext;

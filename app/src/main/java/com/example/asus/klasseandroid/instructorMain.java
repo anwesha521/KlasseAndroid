@@ -69,6 +69,7 @@ public class instructorMain extends AppCompatActivity
         HTTPUrl=HTTPUrl+id;
 
         mChart = (BarChart) findViewById(R.id.barchartinstruct);
+        mChart.setDescription("");
         BARENTRY = new ArrayList<>();
         BarEntryLabels = new ArrayList<String>();
 

@@ -1,4 +1,4 @@
-package com.example.asus.klasseandroid;
+package announcements;
 
 /**
  * Created by ASUS on 20-02-2018.
@@ -25,6 +25,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.asus.klasseandroid.R;
 import com.google.firebase.database.FirebaseDatabase;
 
 import org.json.JSONObject;

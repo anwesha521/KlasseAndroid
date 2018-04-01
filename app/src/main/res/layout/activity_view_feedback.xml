@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:background="#04A58C"
-            android:text="view feedback"
+            android:text="View feedback"
             android:textColor="#ffffff"
             android:textStyle="bold"
             android:textSize="20sp"

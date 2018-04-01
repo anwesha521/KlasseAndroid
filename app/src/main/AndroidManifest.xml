@@ -39,35 +39,34 @@
             android:label="@string/title_activity_instructor_main"
             android:theme="@style/AppTheme.NoActionBar" />
         <service
-            android:name=".MyFirebaseInstanceIDService">
+            android:name="notifications.MyFirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>
         </service>
         <service
-            android:name=".MyFirebaseMessagingService">
+            android:name="notifications.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
         <activity android:name=".classStudent" />
         <activity android:name=".StudentQuiz" />
-        <activity android:name=".ChatRoomInstructor" />
-        <activity android:name=".ChatRoom" />
-        <activity android:name=".FeedBack" />
-        <activity android:name=".ViewPdf" />
-        <activity android:name=".ViewFeedback" />
-        <activity android:name=".WeekView" />
-        <activity android:name=".StudentAnnounce" />
-        <activity android:name=".InstructorAnnounce" />
+        <activity android:name="chatroom.ChatRoomInstructor" />
+        <activity android:name="chatroom.ChatRoom" />
+        <activity android:name="feedback.FeedBack" />
+        <activity android:name="feedback.ViewFeedback" />
+        <activity android:name="feedback.WeekView" />
+        <activity android:name="announcements.StudentAnnounce" />
+        <activity android:name="announcements.InstructorAnnounce" />
         <activity android:name=".classInstructor" />
-        <activity android:name=".UploadSlides" />
+        <activity android:name="feedback.UploadSlides" />
         <activity android:name=".InstructorQuiz"/>
 
-        <activity android:name=".Comments"/>
+        <activity android:name="feedback.Comments"/>
         <activity android:name=".InstructorQuiz" />
-        <activity android:name=".InstructorAnnounceMain" />
-        <activity android:name=".InstructorViewAnnounce"></activity>
+        <activity android:name="announcements.InstructorAnnounceMain" />
+        <activity android:name="announcements.InstructorViewAnnounce"></activity>
     </application>
 
 </manifest>

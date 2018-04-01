@@ -1,4 +1,4 @@
-package com.example.asus.klasseandroid;
+package feedback;
 
 public class FeedbackLayout {
     private String feedback;

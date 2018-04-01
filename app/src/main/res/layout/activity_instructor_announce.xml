@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.asus.klasseandroid.InstructorAnnounce">
+    tools:context="com.example.asus.klasseandroid.announcements.InstructorAnnounce">
 
     <TextView
         android:layout_width="match_parent"
