@@ -51,8 +51,7 @@ public class instructorMain extends AppCompatActivity
     BarData BARDATA ;
     SharedPreferences pref;
     SharedPreferences.Editor ed;
-    //String HTTPUrl = "http://10.12.195.1/Klasse/instructor_get_grades.php?instructor_id=";
-    String HTTPUrl = "http://192.168.1.185/Klasse/instructor_get_grades.php?instructor_id=";
+    String HTTPUrl;
     ArrayList<StudentAnalytics> sa=new ArrayList<>();
 
     @Override
@@ -63,6 +62,9 @@ public class instructorMain extends AppCompatActivity
         setSupportActionBar(toolbar);
         pref=getApplicationContext().getSharedPreferences("UserDetails",MODE_PRIVATE);
         ed=pref.edit();
+        HTTPUrl = "http://"+getResources().getString(R.string.ip)+"/Klasse/instructor_get_grades.php?instructor_id=";
+
+
         String id=pref.getString("id","1000000");
         HTTPUrl=HTTPUrl+id;
 

@@ -36,8 +36,8 @@ public class DisplayAdapaterInstructorAnnounce extends BaseAdapter {
     private ArrayList<Integer> ids;
     SharedPreferences pref;
     SharedPreferences.Editor ed;
-    String HTTPUrl="http://192.168.1.185/Klasse/delete_announce.php?pid=";
-    //String HTTPUrl = "http://10.12.195.1/Klasse/delete_announce.php?pid=";
+    String HTTPUrl;
+
 
     public DisplayAdapaterInstructorAnnounce(Context c,ArrayList<String> text,ArrayList<String> n,ArrayList<Integer> i) {
         this.mContext = c;
@@ -46,6 +46,7 @@ public class DisplayAdapaterInstructorAnnounce extends BaseAdapter {
         this.ids=i;
         pref=mContext.getSharedPreferences("AnmntMsg",Context.MODE_PRIVATE);
         ed=pref.edit();
+        HTTPUrl="http://"+mContext.getResources().getString(R.string.ip)+"/Klasse/delete_announce.php?pid=";
 
     }
 

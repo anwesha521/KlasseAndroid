@@ -53,8 +53,7 @@ public class studentMain extends AppCompatActivity
     private LineChart mChart;
     SharedPreferences pref;
     SharedPreferences.Editor ed;
-    //String HTTPUrl = "http://10.12.195.1/Klasse/student_get_grades.php?student_id=";
-    String HTTPUrl = "http://192.168.1.185/Klasse/student_get_grades.php?student_id=";
+    String HTTPUrl;
     TextView esc;
     TextView cse;
     TextView ps;
@@ -66,6 +65,9 @@ public class studentMain extends AppCompatActivity
         setContentView(R.layout.activity_student_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        HTTPUrl = "http://"+getResources().getString(R.string.ip)+"/Klasse/student_get_grades.php?student_id=";
+
         pref=getApplicationContext().getSharedPreferences("UserDetails",MODE_PRIVATE);
         ed=pref.edit();
         String id=pref.getString("id","1000000");
@@ -166,13 +168,13 @@ public class studentMain extends AppCompatActivity
             switch(stest.getClassId())
             {
                 case 11:
-                    esc.setText("Elements of Software construction: "+stest.getPercentage()/total.get(stest.getClassId()));
+                    esc.setText("Elements of Software construction: "+stest.getPercentage()/total.get(stest.getClassId())+"%");
                     break;
                 case 21:
-                    cse.setText("Computer Systems Engineering: "+stest.getPercentage()/total.get(stest.getClassId()));
+                    cse.setText("Computer Systems Engineering: "+stest.getPercentage()/total.get(stest.getClassId())+"%");
                     break;
                 case 31:
-                    ps.setText("Probability and Statistics: "+stest.getPercentage()/total.get(stest.getClassId()));
+                    ps.setText("Probability and Statistics: "+stest.getPercentage()/total.get(stest.getClassId())+"%");
                     break;
                 default:
                     Log.i("anwesha",stest.getClassId()+"test");

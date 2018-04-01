@@ -32,8 +32,7 @@ public class StudentAnnounce extends AppCompatActivity {
     private int room_id;
 
     private ListView list;
-   private static final String HttpURL = "http://192.168.1.185/Klasse/get_announcements.php";
-   //private static final String HttpURL = "http://10.12.195.1/Klasse/get_login_details.php";
+   private static String HttpURL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -43,6 +42,8 @@ public class StudentAnnounce extends AppCompatActivity {
         setContentView(R.layout.activity_student_announce);
         Intent intent = getIntent();
         room_id = intent.getIntExtra("id", 11);
+        HttpURL = "http://"+getResources().getString(R.string.ip)+"/Klasse/get_announcements.php";
+
         Log.i("anwesha",room_id+"");
         list=findViewById(R.id.list_of_announcements);
         loadAnnouncements();

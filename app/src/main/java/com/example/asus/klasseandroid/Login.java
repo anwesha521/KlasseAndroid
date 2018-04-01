@@ -47,9 +47,9 @@ public class Login extends AppCompatActivity {
     String result="";
 
 
-    private static final String HttpURL = "http://192.168.1.185/Klasse/get_login_details.php";
-    private static final String URL_REGISTER_DEVICE = "http://192.168.1.185/Klasse/register_device.php";
-   // private static final String HttpURL = "http://10.12.195.1/Klasse/get_login_details.php";
+    private static String HttpURL;
+    private static String URL_REGISTER_DEVICE;
+
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +57,10 @@ public class Login extends AppCompatActivity {
         pref=getApplicationContext().getSharedPreferences("UserDetails",MODE_PRIVATE);
         ed=pref.edit();
         setContentView(R.layout.activity_student_login);
+
+
+        HttpURL = "http://"+getResources().getString(R.string.ip)+"/Klasse/get_login_details.php";
+        URL_REGISTER_DEVICE = "http://"+getResources().getString(R.string.ip)+"/Klasse/register_device.php";
 
 
         Intent i = getIntent();

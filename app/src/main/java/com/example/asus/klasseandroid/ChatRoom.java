@@ -169,7 +169,7 @@ public class ChatRoom extends AppCompatActivity {
 
                     if (model.getMessageType().equals("reply"))
                     {
-                        messageText.setText(model.getQuestion()+":" + message);
+                        messageText.setText(model.getQuestion()+"\n" + message);
 
                         if ((model != null)&&(model.getVerified()))
                             v.setBackground(getResources().getDrawable(R.drawable.verified_bubble));

@@ -67,7 +67,7 @@ public class ChatMessage {
 
     public void setQuestion(String q)
     {
-        question=q+": ";
+        question=q+" ";
         Log.i("anwesha",question);
     }
 

@@ -35,10 +35,9 @@ import static java.security.AccessController.getContext;
 
 public class InstructorAnnounce extends AppCompatActivity {
     private int room_id;
-    private static final String HttpURL = "http://192.168.1.185/Klasse/post_announcement.php";
-    private static final String HttpURLsendnotif = "http://192.168.1.185/Klasse/send_single_push.php";
-    //private static final String HttpURL = "http://10.12.195.1/Klasse/post_announcement.php";
-    private static String HttpURLgetID = "http://192.168.1.185/Klasse/get_user_ids.php?class_id=";
+    private static String HttpURL;
+    private static String HttpURLsendnotif ;
+    private static String HttpURLgetID;
     final ArrayList<String> ids=new ArrayList<>();
 
     @Override
@@ -48,6 +47,10 @@ public class InstructorAnnounce extends AppCompatActivity {
 
         Intent intent = getIntent();
         room_id = intent.getIntExtra("id", 11);
+        HttpURLgetID = "http://"+getResources().getString(R.string.ip)+"/Klasse/get_user_ids.php?class_id=";
+        HttpURL="http://"+getResources().getString(R.string.ip)+"/Klasse/post_announcement.php";
+        HttpURLsendnotif ="http://"+getResources().getString(R.string.ip)+"/Klasse/send_single_push.php";
+
 
         SharedPreferences prefName = getApplicationContext().getSharedPreferences("UserDetails", MODE_PRIVATE);
         SharedPreferences.Editor editorName=prefName.edit();

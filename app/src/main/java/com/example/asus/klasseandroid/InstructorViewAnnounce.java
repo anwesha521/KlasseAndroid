@@ -31,8 +31,8 @@ public class InstructorViewAnnounce extends AppCompatActivity {
     private ArrayList<Integer> ids=new ArrayList<>();
     private ArrayList<Announcements> announce=new ArrayList<>();
     private int room_id;
-    private static final String HttpURL = "http://192.168.1.185/Klasse/get_announcements.php";
-    //private static final String HttpURL = "http://10.12.195.1/Klasse/get_announcements.php";
+    private static String HttpURL;
+
     private String name;
     SharedPreferences prefName;
     SharedPreferences.Editor editorName;
@@ -46,6 +46,10 @@ public class InstructorViewAnnounce extends AppCompatActivity {
         setContentView(R.layout.instructor_view_announce);
         Intent intent = getIntent();
         room_id = intent.getIntExtra("id", 11);
+
+        HttpURL = "http://"+getResources().getString(R.string.ip)+"/Klasse/get_announcements.php";
+
+
         TextView head=findViewById(R.id.instruct_view_header);
         switch(room_id)
         {
