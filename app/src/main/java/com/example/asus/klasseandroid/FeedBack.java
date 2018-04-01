@@ -42,23 +42,19 @@ public class FeedBack extends AppCompatActivity {
     /**Called when the user taps the a pdf file name*/
     public void week1(View view){
         Intent intent = new Intent (this, WeekView.class);
+        intent.putExtra("week",1);
         startActivity(intent);
     }
     public void week2(View view){
         Intent intent = new Intent (this, WeekView.class);
+        intent.putExtra("week",2);
         startActivity(intent);
     }
     public void week3(View view){
         Intent intent = new Intent (this, WeekView.class);
+        intent.putExtra("week",3);
         startActivity(intent);
     }
-    public void week4(View view){
-        Intent intent = new Intent (this, WeekView.class);
-        startActivity(intent);
-    }
-    public void week5(View view){
-        Intent intent = new Intent (this, WeekView.class);
-        startActivity(intent);
-    }
+
 
 }
