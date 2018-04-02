@@ -36,14 +36,12 @@ public class LoginTest1 {
     @Test
     public void loginTest1() {
         // Added a sleep statement to match the app's execution delay.
-        // The recommended way to handle such scenarios is to use Espresso idling resources:
-        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
         try {
             Thread.sleep(60000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
+        //Testing for students
         ViewInteraction appCompatButton = onView(
                 allOf(withId(R.id.student), withText("    Student   "),
                         childAtPosition(
@@ -54,9 +52,6 @@ public class LoginTest1 {
                         isDisplayed()));
         appCompatButton.perform(click());
 
-        // Added a sleep statement to match the app's execution delay.
-        // The recommended way to handle such scenarios is to use Espresso idling resources:
-        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
         try {
             Thread.sleep(3594445);
         } catch (InterruptedException e) {
@@ -73,9 +68,6 @@ public class LoginTest1 {
                         isDisplayed()));
         appCompatEditText.perform(click());
 
-        // Added a sleep statement to match the app's execution delay.
-        // The recommended way to handle such scenarios is to use Espresso idling resources:
-        // https://google.github.io/android-testing-support-library/docs/espresso/idling-resource/index.html
         try {
             Thread.sleep(60000);
         } catch (InterruptedException e) {
@@ -90,7 +82,7 @@ public class LoginTest1 {
                                         0),
                                 0),
                         isDisplayed()));
-        appCompatEditText2.perform(replaceText("100"), closeSoftKeyboard());
+        appCompatEditText2.perform(replaceText("100"), closeSoftKeyboard()); //testing wrong credentials
 
         ViewInteraction appCompatEditText3 = onView(
                 allOf(withId(R.id.password),
@@ -100,7 +92,7 @@ public class LoginTest1 {
                                         0),
                                 1),
                         isDisplayed()));
-        appCompatEditText3.perform(replaceText("pass"), closeSoftKeyboard());
+        appCompatEditText3.perform(replaceText("anwesha123"), closeSoftKeyboard()); //testing with valid password
 
         ViewInteraction appCompatButton2 = onView(
                 allOf(withId(R.id.signin), withText("Sign in"),
@@ -111,6 +103,13 @@ public class LoginTest1 {
                                 2),
                         isDisplayed()));
         appCompatButton2.perform(click());
+    }
+
+
+
+    @Test
+    public void loginTest2() {
+
 
         ViewInteraction appCompatEditText4 = onView(
                 allOf(withId(R.id.userId), withText("100"),
@@ -133,17 +132,17 @@ public class LoginTest1 {
         appCompatEditText5.perform(closeSoftKeyboard());
 
         ViewInteraction appCompatEditText6 = onView(
-                allOf(withId(R.id.password), withText("pass"),
+                allOf(withId(R.id.password), withText("anwesha123"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
                                         0),
                                 1),
                         isDisplayed()));
-        appCompatEditText6.perform(replaceText("anwesha123"));
+        appCompatEditText6.perform(replaceText("           "));//testing with blank space
 
         ViewInteraction appCompatEditText7 = onView(
-                allOf(withId(R.id.password), withText("anwesha123"),
+                allOf(withId(R.id.password), withText("           "),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
@@ -152,7 +151,20 @@ public class LoginTest1 {
                         isDisplayed()));
         appCompatEditText7.perform(closeSoftKeyboard());
 
-        ViewInteraction appCompatEditText8 = onView(
+        ViewInteraction appCompatButton3 = onView(
+                allOf(withId(R.id.signin), withText("Sign in"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                2),
+                        isDisplayed()));
+        appCompatButton3.perform(click());
+    }
+/*
+        @Test
+        public void loginTest3() {
+       *//* ViewInteraction appCompatEditText8 = onView(
                 allOf(withId(R.id.userId), withText("10000"),
                         childAtPosition(
                                 childAtPosition(
@@ -341,8 +353,8 @@ public class LoginTest1 {
                                 2),
                         isDisplayed()));
         appCompatButton6.perform(click());
-
-    }
+*//*
+    }*/
 
     private static Matcher<View> childAtPosition(
             final Matcher<View> parentMatcher, final int position) {
