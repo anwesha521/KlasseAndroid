@@ -33,8 +33,8 @@ public class StudentViewQuiz extends AppCompatActivity {
     ListView listView;
     RequestQueue requestQueue;
     StudentViewAdapter myViewAdapter;
-    String url1="http://10.12.176.11/get_quiz.php?class_id=";
-    String url2="http://10.12.176.11/get_grades_student.php";
+    String url1="http://"+getResources().getString(R.string.ip)+"/Klasse/get_quiz.php?class_id=";
+    String url2="http://"+getResources().getString(R.string.ip)+"/Klasse/get_grades_student.php";
     ArrayList<String> names;
     ArrayList<String> statuses;
     ArrayList<Integer> weeks;

@@ -34,7 +34,7 @@ import java.util.Arrays;
 
 public class InstructorViewQuiz extends AppCompatActivity implements View.OnClickListener{
     InstructorViewStudentQuizAdapter myAdapter;
-    String url2="http://10.12.176.11/get_quiz.php?class_id=";
+    String url2;
     ArrayList<InstructorViewStudentQuizAdapter.question> sql=new ArrayList<>();
     ListView Questions;
     int week;
@@ -48,7 +48,7 @@ public class InstructorViewQuiz extends AppCompatActivity implements View.OnClic
         Intent intent=getIntent();
         week=intent.getIntExtra("week",1);
         id=intent.getIntExtra("id",11);
-
+        url2="http://"+getResources().getString(R.string.ip)+"/Klasse/get_quiz.php?class_id=";
         TextView name=(TextView)findViewById(R.id.quizName);
         String nameText="Week "+week;
         name.setText(nameText);

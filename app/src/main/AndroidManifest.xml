@@ -55,7 +55,7 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
+        <activity android:name=".StudentViewQuiz"/>
         <activity android:name=".classStudent" />
         <activity android:name=".StudentQuiz" />
         <activity android:name="chatroom.ChatRoomInstructor" />
@@ -72,6 +72,11 @@
         <activity android:name="announcements.InstructorAnnounceMain" />
         <activity android:name="announcements.InstructorViewAnnounce" />
         <activity android:name=".quiz"></activity>
+        <activity android:name=".ManageQuiz"></activity>
+        <activity android:name=".InstructorEditQuiz"></activity>
+        <activity android:name=".InstructorViewQuiz"></activity>
+
+
     </application>
 
 </manifest>

@@ -2,6 +2,7 @@ package com.example.asus.klasseandroid;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -29,6 +30,8 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,13 +40,15 @@ import java.util.Map;
 public class InstructorEditQuiz extends AppCompatActivity implements View.OnClickListener{
     InstructorEditQuizAdapter myAdapter;
     ArrayList<InstructorEditQuizAdapter.question> ql=new ArrayList<>();
-    String url="http://10.12.176.11/upload_quiz.php";
-    String url2="http://10.12.176.11/get_quiz.php?class_id=";
+    String url;
+    String url2;
     ListView listView;
     RequestQueue requestQueue;
     int week_number;
-    int instructor_id;
+    String instructor_id;
     int id;
+
+    SharedPreferences pref;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -53,6 +58,11 @@ public class InstructorEditQuiz extends AppCompatActivity implements View.OnClic
         Intent intent=getIntent();
         week_number=intent.getIntExtra("week",1);
         id=intent.getIntExtra("id",11);
+        pref=getApplicationContext().getSharedPreferences("UserDetails",MODE_PRIVATE);
+        instructor_id=pref.getString("id","0");
+
+        url="http://"+getResources().getString(R.string.ip)+"/Klasse/update_quiz.php";
+        url2="http://"+getResources().getString(R.string.ip)+"/Klasse/get_quiz_edit.php?class_id=";
 
         TextView week=(TextView)findViewById(R.id.firstLine);
         String weekText="Week "+week_number;
@@ -73,16 +83,19 @@ public class InstructorEditQuiz extends AppCompatActivity implements View.OnClic
     }
 
     public void EditReadData(){
-        StringRequest stringRequest=new StringRequest(Request.Method.GET, url2,
+        StringRequest stringRequest=new StringRequest(Request.Method.GET, url2+id+"&week_del="+week_number,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try{
                             JSONArray array=new JSONArray(response);
-                            for(int i=0;i<array.length();i++){
+                            for(int i=0;i<array.length();i++)
+                            {
                                 JSONObject question=array.getJSONObject(i);
+                                Log.i("anweshatest",question.getInt("week")+" "+week_number);
                                 if(question.getInt("week")==week_number){
-                                    instructor_id=question.getInt("instructor_id");
+
+                                    instructor_id=question.getString("instructor_id");
                                     ql.add(new InstructorEditQuizAdapter.question(
                                             question.getString("description"),
                                             question.getString("type"),
@@ -95,18 +108,20 @@ public class InstructorEditQuiz extends AppCompatActivity implements View.OnClic
                                     ));
                                 }
                             }
+
                             Log.i("shunqi",ql.get(0).description);
-                            InstructorEditQuizAdapter myAdapter=new InstructorEditQuizAdapter(ql,instructor_id,InstructorEditQuiz.this);
+                            myAdapter=new InstructorEditQuizAdapter(ql,Integer.valueOf(instructor_id),InstructorEditQuiz.this);
                             listView.setAdapter(myAdapter);
                         }catch (JSONException e){
                             e.printStackTrace();
+                            Log.i("anwesha",e.toString());
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                            Log.i("anwesha",error.getMessage().toString());
                     }
                 });
         getRequestQueue().add(stringRequest);
@@ -122,7 +137,9 @@ public class InstructorEditQuiz extends AppCompatActivity implements View.OnClic
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            Toast.makeText(InstructorEditQuiz.this, response, Toast.LENGTH_SHORT).show();
+                            Document doc = Jsoup.parse(response);
+                            String result = doc.body().text();
+                            Toast.makeText(InstructorEditQuiz.this, result, Toast.LENGTH_SHORT).show();
                         }
                     },
                     new Response.ErrorListener() {

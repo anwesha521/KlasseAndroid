@@ -37,8 +37,8 @@ import java.util.Map;
 
 public class StudentQuiz extends AppCompatActivity implements View.OnClickListener{
     StudentQuizAdapter myAdapter;
-    String url2="http://10.12.176.11/get_quiz.php?class_id=";
-    String url3="http://10.12.176.11/submit.php";
+    String url2="http://"+getResources().getString(R.string.ip)+"/Klasse/get_quiz.php?class_id=";
+    String url3="http://"+getResources().getString(R.string.ip)+"/Klasse/submit.php";
     ArrayList<StudentQuizAdapter.question> sql=new ArrayList<>();
     StudentQuizAdapter.quiz quiz;
     ListView Questions;

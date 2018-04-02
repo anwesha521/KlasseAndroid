@@ -72,7 +72,7 @@ public  class classInstructor extends AppCompatActivity {
     }
 
     public void startQuiz() {
-        Intent launch = new Intent(this, InstructorQuiz.class);
+        Intent launch = new Intent(this, quiz.class);
         launch.putExtra("id",room_id);
         startActivity(launch);
     }

@@ -34,7 +34,7 @@ import java.util.Map;
 public class InstructorQuiz extends AppCompatActivity implements View.OnClickListener{
     InstructorQuizAdapter myAdapter;
     ArrayList<InstructorQuizAdapter.question> ql=new ArrayList<>();
-    String url="http://10.12.176.11/upload_quiz.php";
+    String url;
     RequestQueue requestQueue;
     EditText quiz_name;
     EditText week;
@@ -47,7 +47,7 @@ public class InstructorQuiz extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_instructor_quiz);
         ql.add(new InstructorQuizAdapter.question());
-
+        url="http://"+getResources().getString(R.string.ip)+"/Klasse/upload_quiz.php";
         Intent intent=getIntent();
         room_id=intent.getIntExtra("id",11);
 
