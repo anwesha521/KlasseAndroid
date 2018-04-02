@@ -11,7 +11,12 @@ import android.widget.TextView;
 import com.example.asus.klasseandroid.R;
 
 import java.util.List;
-
+/**
+ * Created by harleen on 28/3/18.
+ * This just defines the way the feedback looks!
+ * it's important for when using
+ * recyclerView
+ */
 public class FeedbackDisplayAdapter extends RecyclerView.Adapter<FeedbackDisplayAdapter.FeedbackViewHolder> {
 
 

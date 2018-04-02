@@ -9,13 +9,16 @@ import com.example.asus.klasseandroid.R;
 
 /**
  * Created by harleen on 10/3/18.
+ * This page lets the instructor choose
+ * if he wants to upload slides or
+ * view the feedback that the students have written
  */
 
-public class ViewFeedback extends AppCompatActivity {
+public class ChooseSlidesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_feedback);
+        setContentView(R.layout.activity_choose_slides_activity);
     }
 
 

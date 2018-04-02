@@ -9,20 +9,21 @@ import android.view.View;
 
 import com.example.asus.klasseandroid.R;
 
-import feedback.WeekView;
-
 /**
- * Created by harleen on 20/2/18.
- * This is where the slides are displayed
- * I guess the name isn't very apt :/
+ * Created by harleen on 20/2/18.]
+ * THis is where all the buttons for all the weeks
+ * are displayed!
+ * THe student can click on a button to
+ * pull up a page where all pdfs uploaded for that week
+ * can be viewed.
  */
 
-public class FeedBack extends AppCompatActivity {
+public class SlidesWeekView extends AppCompatActivity {
     private int room_id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_feedback);
+        setContentView(R.layout.activity_slides_week_view);
         Intent intent = getIntent();
         room_id = intent.getIntExtra("id", 11);
 
