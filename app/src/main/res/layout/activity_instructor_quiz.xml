@@ -4,21 +4,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    tools:context="com.example.asus.klasseandroid.InstructorQuiz"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/add"
+    <LinearLayout
+        android:id="@+id/firstLine"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/add_button"
-        android:layout_alignParentTop="true"/>
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true">
+
+        <EditText
+            android:id="@+id/quiz_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Quiz Title"
+            android:gravity="center"
+            android:layout_weight="1"/>
+
+        <EditText
+            android:id="@+id/week"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Week"
+            android:gravity="center"
+            android:layout_weight="3"/>
+    </LinearLayout>
+
 
     <ListView
         android:id="@+id/questionList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/add"
+        android:layout_below="@id/firstLine"
         android:layout_above="@id/save"/>
     <Button
         android:id="@+id/save"

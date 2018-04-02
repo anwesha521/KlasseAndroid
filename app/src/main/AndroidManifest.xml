@@ -4,8 +4,8 @@
     package="com.example.asus.klasseandroid">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
@@ -38,12 +38,13 @@
             android:name=".instructorMain"
             android:label="@string/title_activity_instructor_main"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <service
             android:name=".MyFirebaseInstanceIDService"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
         <service
@@ -51,9 +52,10 @@
             android:enabled="true"
             android:exported="true">
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
         <activity android:name=".classStudent" />
         <activity android:name=".StudentQuiz" />
         <activity android:name="chatroom.ChatRoomInstructor" />
@@ -65,12 +67,11 @@
         <activity android:name="announcements.InstructorAnnounce" />
         <activity android:name=".classInstructor" />
         <activity android:name="feedback.UploadSlides" />
-        <activity android:name=".InstructorQuiz"/>
-
-        <activity android:name="feedback.Comments"/>
-
+        <activity android:name=".InstructorQuiz" />
+        <activity android:name="feedback.Comments" />
         <activity android:name="announcements.InstructorAnnounceMain" />
-        <activity android:name="announcements.InstructorViewAnnounce"></activity>
+        <activity android:name="announcements.InstructorViewAnnounce" />
+        <activity android:name=".quiz"></activity>
     </application>
 
 </manifest>

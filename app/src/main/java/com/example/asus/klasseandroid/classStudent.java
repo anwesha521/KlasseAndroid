@@ -99,7 +99,7 @@ public class classStudent extends AppCompatActivity {
     
     public void startQuiz()
     {
-        Intent launch = new Intent(this,StudentQuiz.class);
+        Intent launch = new Intent(this,StudentViewQuiz.class);
         launch.putExtra("id",room_id);
         startActivity(launch);
     }
