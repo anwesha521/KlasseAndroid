@@ -1,5 +1,12 @@
 package feedback;
 
+/**
+ * Created by harleen on 28/3/18.
+ * This works together with the display adapter
+ * to fill up the elements in each
+ * recyclerView list item!
+ */
+
 public class FeedbackLayout {
     private String feedback;
     private String pdfFileName;

@@ -8,7 +8,7 @@ import android.widget.Button;
 
 import announcements.InstructorAnnounceMain;
 import chatroom.ChatRoomInstructor;
-import feedback.ViewFeedback;
+import feedback.ChooseSlidesActivity;
 
 public  class classInstructor extends AppCompatActivity {
     int room_id;
@@ -66,7 +66,7 @@ public  class classInstructor extends AppCompatActivity {
     }
 
     public void startFeedback() {
-        Intent launch = new Intent(this, ViewFeedback.class);
+        Intent launch = new Intent(this, ChooseSlidesActivity.class);
         launch.putExtra("id",room_id);
         startActivity(launch);
     }

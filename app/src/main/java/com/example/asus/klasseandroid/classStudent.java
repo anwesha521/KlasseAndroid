@@ -8,7 +8,7 @@ import android.widget.Button;
 
 import announcements.StudentAnnounce;
 import chatroom.ChatRoom;
-import feedback.FeedBack;
+import feedback.SlidesWeekView;
 
 public class classStudent extends AppCompatActivity {
     
@@ -83,7 +83,7 @@ public class classStudent extends AppCompatActivity {
     }
 
     public void startSlides(){
-        Intent launch = new Intent(this, FeedBack.class);
+        Intent launch = new Intent(this, SlidesWeekView.class);
         launch.putExtra("id",room_id);
         startActivity(launch);
     }
@@ -106,7 +106,7 @@ public class classStudent extends AppCompatActivity {
     
     public void startFeedback()
     {
-        Intent launch = new Intent(this, FeedBack.class);
+        Intent launch = new Intent(this, SlidesWeekView.class);
         launch.putExtra("id",room_id);
         startActivity(launch);
     }

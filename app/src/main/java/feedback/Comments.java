@@ -20,6 +20,14 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+/**
+ * Created by harleen on 28/3/18.
+ * This page displays all comments submitted
+ * by the students!
+ * It will display the name of the pdf, pg number
+ * as well as the date and actual feedback
+ */
+
 
 public class Comments extends AppCompatActivity {
 
