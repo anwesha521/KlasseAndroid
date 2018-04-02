@@ -4,28 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.asus.klasseandroid.StudentQuiz">
+    tools:context="com.example.asus.klasseandroid.InstructorEditQuiz"
+    android:orientation="vertical">
 
     <TextView
-        android:id="@+id/quizName"
+        android:id="@+id/firstLine"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="22sp"
         android:gravity="center"
-        />
+        android:textSize="27sp"/>
+
+
     <ListView
-        android:id="@+id/question_list"
+        android:id="@+id/questionList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/quizName"
-        android:layout_above="@id/submit"
-        />
+        android:layout_below="@id/firstLine"
+        android:layout_above="@id/save"/>
     <Button
-        android:id="@+id/submit"
+        android:id="@+id/save"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="@string/submit"
-        />
+        android:text="@string/save_button"
+        android:layout_alignParentBottom="true"/>
+
+
 
 </RelativeLayout>

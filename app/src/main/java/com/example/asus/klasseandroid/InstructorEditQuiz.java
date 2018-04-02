@@ -27,40 +27,52 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class InstructorQuiz extends AppCompatActivity implements View.OnClickListener{
-    InstructorQuizAdapter myAdapter;
-    ArrayList<InstructorQuizAdapter.question> ql=new ArrayList<>();
+public class InstructorEditQuiz extends AppCompatActivity implements View.OnClickListener{
+    InstructorEditQuizAdapter myAdapter;
+    ArrayList<InstructorEditQuizAdapter.question> ql=new ArrayList<>();
     String url;
+    String url2;
+    ListView listView;
     RequestQueue requestQueue;
-    EditText quiz_name;
-    EditText week;
+    int week_number;
+    String instructor_id;
+    int id;
 
-    int room_id;
     SharedPreferences pref;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_instructor_quiz);
-        ql.add(new InstructorQuizAdapter.question());
-        url="http://"+getResources().getString(R.string.ip)+"/Klasse/upload_quiz.php";
-        Intent intent=getIntent();
-        room_id=intent.getIntExtra("id",11);
+        setContentView(R.layout.activity_instructor_edit_quiz);
 
-        quiz_name=(EditText)findViewById(R.id.quiz_name);
-        week=(EditText)findViewById(R.id.week);
+        Intent intent=getIntent();
+        week_number=intent.getIntExtra("week",1);
+        id=intent.getIntExtra("id",11);
+        pref=getApplicationContext().getSharedPreferences("UserDetails",MODE_PRIVATE);
+        instructor_id=pref.getString("id","0");
+
+        url="http://"+getResources().getString(R.string.ip)+"/Klasse/update_quiz.php";
+        url2="http://"+getResources().getString(R.string.ip)+"/Klasse/get_quiz_edit.php?class_id=";
+
+        TextView week=(TextView)findViewById(R.id.firstLine);
+        String weekText="Week "+week_number;
+        week.setText(weekText);
+
         Button save=(Button)findViewById(R.id.save);
         save.setOnClickListener(this);
 
-        pref=getApplicationContext().getSharedPreferences("UserDetails",MODE_PRIVATE);
-
-        myAdapter=new InstructorQuizAdapter(ql,this);
-        ListView listView=(ListView)findViewById(R.id.questionList);
-        listView.setAdapter(myAdapter);
+        listView=(ListView)findViewById(R.id.questionList);
+        EditReadData();
     }
 
     public RequestQueue getRequestQueue(){
@@ -70,31 +82,77 @@ public class InstructorQuiz extends AppCompatActivity implements View.OnClickLis
         return requestQueue;
     }
 
+    public void EditReadData(){
+        StringRequest stringRequest=new StringRequest(Request.Method.GET, url2+id+"&week_del="+week_number,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try{
+                            JSONArray array=new JSONArray(response);
+                            for(int i=0;i<array.length();i++)
+                            {
+                                JSONObject question=array.getJSONObject(i);
+                                Log.i("anweshatest",question.getInt("week")+" "+week_number);
+                                if(question.getInt("week")==week_number){
+
+                                    instructor_id=question.getString("instructor_id");
+                                    ql.add(new InstructorEditQuizAdapter.question(
+                                            question.getString("description"),
+                                            question.getString("type"),
+                                            question.getString("mark"),
+                                            question.getString("a_choice"),
+                                            question.getString("b_choice"),
+                                            question.getString("c_choice"),
+                                            question.getString("d_choice"),
+                                            question.getString("answer")
+                                    ));
+                                }
+                            }
+
+                            Log.i("shunqi",ql.get(0).description);
+                            myAdapter=new InstructorEditQuizAdapter(ql,Integer.valueOf(instructor_id),InstructorEditQuiz.this);
+                            listView.setAdapter(myAdapter);
+                        }catch (JSONException e){
+                            e.printStackTrace();
+                            Log.i("anwesha",e.toString());
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                            Log.i("anwesha",error.getMessage().toString());
+                    }
+                });
+        getRequestQueue().add(stringRequest);
+    }
+
 
     @Override
     public void onClick(View view) {
         ql=myAdapter.getQl();
         //upload the question list to database
-        for(final InstructorQuizAdapter.question q:ql){
+        for(final InstructorEditQuizAdapter.question q:ql){
             StringRequest stringRequest=new StringRequest(Request.Method.POST, url,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            Toast.makeText(InstructorQuiz.this, response, Toast.LENGTH_SHORT).show();
+                            Document doc = Jsoup.parse(response);
+                            String result = doc.body().text();
+                            Toast.makeText(InstructorEditQuiz.this, result, Toast.LENGTH_SHORT).show();
                         }
                     },
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(InstructorQuiz.this,error.toString(),Toast.LENGTH_LONG).show();
+                            Toast.makeText(InstructorEditQuiz.this,error.toString(),Toast.LENGTH_LONG).show();
                         }
                     }){
                 @Override
                 protected Map<String,String> getParams(){
                     Map<String,String> params=new HashMap<>();
-                    params.put("quiz_name",quiz_name.getText().toString());
-                    params.put("week",week.getText().toString());
-                    params.put("instructor_id",pref.getString("id","0"));
+                    params.put("week",week_number+"");
+                    params.put("instructor_id",myAdapter.instructor_id+"");
                     params.put("description",q.description);
                     if(q.type==0){
                         params.put("type","QNA");
@@ -107,7 +165,7 @@ public class InstructorQuiz extends AppCompatActivity implements View.OnClickLis
                     params.put("c_choice",q.c);
                     params.put("d_choice",q.d);
                     params.put("answer",q.answer);
-                    params.put("class_id",room_id+"");
+                    params.put("class_id",id+"");
                     return params;
                 }
             };
@@ -117,13 +175,15 @@ public class InstructorQuiz extends AppCompatActivity implements View.OnClickLis
     }
 }
 
-class InstructorQuizAdapter extends BaseAdapter {
+class InstructorEditQuizAdapter extends BaseAdapter {
     private ArrayList<question> ql=new ArrayList<>();
     private Context context;
+    int instructor_id;
 
-    public InstructorQuizAdapter(ArrayList<question> input, Context context){
+    public InstructorEditQuizAdapter(ArrayList<question> input,int instructor_id, Context context){
         ql=input;
         this.context=context;
+        this.instructor_id=instructor_id;
     }
 
     @Override
@@ -146,7 +206,7 @@ class InstructorQuizAdapter extends BaseAdapter {
         View view=convertView;
         if(view==null){
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.vlist, null);
+            view = inflater.inflate(R.layout.edit_list, null);
         }
 
         TextView title=(TextView)view.findViewById(R.id.title);
@@ -335,9 +395,6 @@ class InstructorQuizAdapter extends BaseAdapter {
 
         return view;
     }
-    public void add(){
-        ql.add(new question());
-    }
 
     static class question{
         String description="";
@@ -348,6 +405,21 @@ class InstructorQuizAdapter extends BaseAdapter {
         String c="";
         String d="";
         String answer="";
+        public question(){}
+        public question(String description,String type,String point,String a,String b,String c,String d,String answer){
+            this.description=description;
+            this.point=point;
+            this.a=a;
+            this.b=b;
+            this.c=c;
+            this.d=d;
+            this.answer=answer;
+            if(type.equals("QNA")){
+                this.type=0;
+            }else if(type.equals("MCQ")){
+                this.type=1;
+            }
+        }
     }
     public ArrayList<question> getQl(){
         return ql;

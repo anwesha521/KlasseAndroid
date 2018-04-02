@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -32,43 +31,35 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
-public class StudentQuiz extends AppCompatActivity implements View.OnClickListener{
-    StudentQuizAdapter myAdapter;
-    String url2="http://"+getResources().getString(R.string.ip)+"/Klasse/get_quiz.php?class_id=";
-    String url3="http://"+getResources().getString(R.string.ip)+"/Klasse/submit.php";
-    ArrayList<StudentQuizAdapter.question> sql=new ArrayList<>();
-    StudentQuizAdapter.quiz quiz;
+public class InstructorViewQuiz extends AppCompatActivity implements View.OnClickListener{
+    InstructorViewStudentQuizAdapter myAdapter;
+    String url2;
+    ArrayList<InstructorViewStudentQuizAdapter.question> sql=new ArrayList<>();
     ListView Questions;
-    String quizName;
-    String week;
-
-    int room_id;
+    int week;
+    int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_student_quiz);
+        setContentView(R.layout.activity_instructor_view_quiz);
 
         Intent intent=getIntent();
-        quizName=intent.getStringExtra("name");
-        room_id=intent.getIntExtra("id",11);
-
+        week=intent.getIntExtra("week",1);
+        id=intent.getIntExtra("id",11);
+        url2="http://"+getResources().getString(R.string.ip)+"/Klasse/get_quiz.php?class_id=";
         TextView name=(TextView)findViewById(R.id.quizName);
-        name.setText(quizName);
+        String nameText="Week "+week;
+        name.setText(nameText);
 
         Questions=(ListView)findViewById(R.id.question_list);
         getQuestions();
-
-        Button submit=(Button)findViewById(R.id.submit);
-        submit.setOnClickListener(this);
     }
 
     public void getQuestions(){
-        RequestQueue requestQueue=Volley.newRequestQueue(StudentQuiz.this);
-        StringRequest stringRequest=new StringRequest(Request.Method.GET, url2+room_id,
+        RequestQueue requestQueue=Volley.newRequestQueue(InstructorViewQuiz.this);
+        StringRequest stringRequest=new StringRequest(Request.Method.GET, url2+id,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -76,22 +67,19 @@ public class StudentQuiz extends AppCompatActivity implements View.OnClickListen
                             JSONArray array=new JSONArray(response);
                             for(int i=0;i<array.length();i++){
                                 JSONObject question=array.getJSONObject(i);
-                                if(question.getString("quiz_name").equals(quizName)){
-                                    week=question.getString("week");
-                                    sql.add(new StudentQuizAdapter.question(
+                                if(question.getInt("week")==week){
+                                    sql.add(new InstructorViewStudentQuizAdapter.question(
                                             question.getString("description"),
                                             question.getString("type"),
                                             question.getString("mark"),
                                             question.getString("a_choice"),
                                             question.getString("b_choice"),
                                             question.getString("c_choice"),
-                                            question.getString("d_choice"),
-                                            question.getString("answer")
+                                            question.getString("d_choice")
                                     ));
                                 }
                             }
-                            quiz=new StudentQuizAdapter.quiz(quizName,sql);
-                            myAdapter=new StudentQuizAdapter(quiz,StudentQuiz.this);
+                            myAdapter=new InstructorViewStudentQuizAdapter(sql,InstructorViewQuiz.this);
                             Questions.setAdapter(myAdapter);
                         }catch (JSONException e){
                             e.printStackTrace();
@@ -101,7 +89,7 @@ public class StudentQuiz extends AppCompatActivity implements View.OnClickListen
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(StudentQuiz.this,error.toString(),Toast.LENGTH_LONG).show();
+                        Toast.makeText(InstructorViewQuiz.this,error.toString(),Toast.LENGTH_LONG).show();
                     }
                 }){
         };
@@ -112,41 +100,10 @@ public class StudentQuiz extends AppCompatActivity implements View.OnClickListen
 
     @Override
     public void onClick(View view) {
-        RequestQueue requestQueue=Volley.newRequestQueue(StudentQuiz.this);
-        //upload the answer to database
-        //Toast.makeText(StudentQuiz.this,Answer.toString(),Toast.LENGTH_LONG).show();
-        StringRequest stringRequest=new StringRequest(Request.Method.POST, url3,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Toast.makeText(StudentQuiz.this,response,Toast.LENGTH_LONG).show();
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(StudentQuiz.this,error.toString(),Toast.LENGTH_LONG).show();
-                    }
-                }){
-            @Override
-            protected Map<String,String> getParams(){
-                Map<String,String> params=new HashMap<>();
-                params.put("quizname",quizName);
-                params.put("id","");
-                params.put("answers",myAdapter.getAnswer().toString());
-                params.put("week",week);
-                params.put("correct",myAdapter.getCorrect().toString());
-                params.put("marks",myAdapter.getMarks().toString());
-                params.put("total",myAdapter.getTotal()+"");
-                params.put("type",myAdapter.getType().toString());
-                return params;
-            }
-        };
-        requestQueue.add(stringRequest);
     }
 }
 
-class StudentQuizAdapter extends BaseAdapter {
+class InstructorViewStudentQuizAdapter extends BaseAdapter {
     private String quiz_name;
     ArrayList<question> questions=new ArrayList<>();
     private Context context;
@@ -155,9 +112,8 @@ class StudentQuizAdapter extends BaseAdapter {
     private ArrayList<String> correct;
     private ArrayList<String> type;
 
-    public StudentQuizAdapter(quiz q, Context context){
-        quiz_name=q.name;
-        questions=q.ql;
+    public InstructorViewStudentQuizAdapter(ArrayList<question> ql, Context context){
+        questions=ql;
         this.context=context;
         int size=questions.size();
         answers=new ArrayList<>(Arrays.asList(new String[size]));
@@ -186,7 +142,7 @@ class StudentQuizAdapter extends BaseAdapter {
         View view=convertView;
         if(view==null){
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.student_question_list, null);
+            view = inflater.inflate(R.layout.view_list, null);
         }
 
         TextView question_number=(TextView)view.findViewById(R.id.number);
@@ -260,9 +216,8 @@ class StudentQuizAdapter extends BaseAdapter {
         String b="";
         String c="";
         String d="";
-        String correct="";
 
-        public question(String description,String type,String point,String a,String b,String c,String d,String correct){
+        public question(String description,String type,String point,String a,String b,String c,String d){
             this.description=description;
             this.type=type;
             this.point=point;
@@ -270,57 +225,6 @@ class StudentQuizAdapter extends BaseAdapter {
             this.b=b;
             this.c=c;
             this.d=d;
-            this.correct=correct;
         }
-    }
-    static class quiz{
-        String name;
-        ArrayList<question> ql=new ArrayList<>();
-
-        public quiz(String name,ArrayList<question> ql){
-            this.name=name;
-            this.ql=ql;
-        }
-        public quiz(String name){
-            this.name=name;
-        }
-
-        public void add(question q){
-            ql.add(q);
-        }
-    }
-
-    public ArrayList<String> getAnswer(){
-        return answers;
-    }
-
-    public ArrayList<Integer> getMarks(){
-        for(int i=0;i<questions.size();i++){
-            int n=Integer.parseInt(questions.get(i).point);
-            marks.set(i,n);
-        }
-        return marks;
-    }
-
-    public int getTotal(){
-        int total=0;
-        for(question q:questions){
-            total+=Integer.parseInt(q.point);
-        }
-        return total;
-    }
-
-    public ArrayList<String> getCorrect(){
-        for(int i=0;i<questions.size();i++){
-            correct.set(i,questions.get(i).correct);
-        }
-        return correct;
-    }
-
-    public ArrayList<String> getType(){
-        for(int i=0;i<questions.size();i++){
-            type.set(i,questions.get(i).type);
-        }
-        return type;
     }
 }

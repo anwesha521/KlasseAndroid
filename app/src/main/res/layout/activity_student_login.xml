@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="90dp"
-    android:background="@drawable/loginbg"
+    android:background="#04A58C"
     tools:context="com.example.asus.klasseandroid.Login">
 
 <EditText
@@ -44,7 +44,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:layout_margin="20dp"
-    android:background="#03705F"
+    android:background="#2CC9BA"
     android:elevation="20dp"
     android:padding="20dp"
     android:text="Sign in"
