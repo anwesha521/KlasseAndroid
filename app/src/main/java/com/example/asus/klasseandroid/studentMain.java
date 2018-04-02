@@ -84,6 +84,7 @@ public class studentMain extends AppCompatActivity
         mChart.setDragEnabled(true);
         mChart.setScaleEnabled(true);
         mChart.animateX(3000);
+        mChart.setDescription("");
 
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -228,14 +229,15 @@ public class studentMain extends AppCompatActivity
         set1.setCircleRadius(3f);
         set1.setDrawCircleHole(false);
         set1.setValueTextSize(9f);
-        set1.setDrawFilled(true);
+        //set1.setDrawFilled(true);
+        //set1.setFillColor(R.color.colorPrimaryDark);
 
         ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
         dataSets.add(set1); // add the datasets
 
         // create a data object with the datasets
         LineData data = new LineData(xVals, dataSets);
-        set1.setColors(ColorTemplate.VORDIPLOM_COLORS);
+        //set1.setColors(ColorTemplate);
         // set data
         mChart.setData(data);
 

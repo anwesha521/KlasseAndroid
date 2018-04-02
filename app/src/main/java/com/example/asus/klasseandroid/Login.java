@@ -103,7 +103,7 @@ public class Login extends AppCompatActivity {
 
                         Document doc = Jsoup.parse(response);
                         result = doc.body().text();
-                        Toast.makeText(Login.this, result, Toast.LENGTH_LONG).show();
+                       // Toast.makeText(Login.this, result, Toast.LENGTH_LONG).show();
 
                     }
                 },
