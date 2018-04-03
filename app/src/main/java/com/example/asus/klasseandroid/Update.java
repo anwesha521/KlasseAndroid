@@ -49,7 +49,7 @@ class Update  {
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
-
+                          studentList.clear();
 
                         try {
 
@@ -57,7 +57,8 @@ class Update  {
                                 // Get current json object
                                 JSONObject ann = response.getJSONObject(i);
                                 Log.i("anweshagetweek",ann.getInt("week")+"ttt");
-                                studentList.add(new Student1(ann.getString("student_id"), ann.getInt("week"), ann.getString("type"), ann.getString("answers"), ann.getString("correct"), ann.getString("marks"), ann.getInt("total")));
+
+                                  studentList.add(new Student1(ann.getString("student_id"), ann.getInt("week"), ann.getString("type"), ann.getString("answers"), ann.getString("correct"), ann.getString("marks"), ann.getInt("total")));
 
 
                             }
@@ -123,6 +124,7 @@ class Update  {
 
             MyRequestQueue.add(stringRequest);
             break;
+
         }
     }
 
