@@ -76,6 +76,17 @@ dependencies {
     // Optional -- Mockito framework
     testCompile 'org.mockito:mockito-core:1.10.19'
 
+    testCompile "org.robolectric:robolectric:3.3.2"
+    testImplementation "org.robolectric:robolectric:3.8"
+
+    android {
+        testOptions {
+            unitTests {
+                includeAndroidResources = true
+            }
+        }
+    }
+
 
 }
 
