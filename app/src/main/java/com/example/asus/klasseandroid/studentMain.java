@@ -59,12 +59,12 @@ public class studentMain extends AppCompatActivity
     TextView ps;
    ArrayList<StudentAnalytics> sa=new ArrayList<>();
 
-   @Override
+   /*@Override
    protected void onStart() {
 
        super.onStart();
        request();
-   }
+   }*/
 
 
     @Override

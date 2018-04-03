@@ -34,12 +34,13 @@ class Update  {
 
     public static void calculate(String instid,SharedPreferences pref, String HTTPUrl, String HTTPUrlinsert, Context c, int class_id) {
 
+        Log.i("anweshawhat",HTTPUrl+"?student_id="+pref.getString("id","0"));
         final int room_id=class_id;
         final Context c1=c;
         final String HTTPUrlInsert1=HTTPUrlinsert;
         final String instid1=instid;
 
-        Log.i("anwesha",instid+"instid");
+
         RequestQueue requestQueue = Volley.newRequestQueue(c);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
@@ -55,10 +56,12 @@ class Update  {
                             for (int i = 0; i < response.length(); i++) {
                                 // Get current json object
                                 JSONObject ann = response.getJSONObject(i);
+                                Log.i("anweshagetweek",ann.getInt("week")+"ttt");
                                 studentList.add(new Student1(ann.getString("student_id"), ann.getInt("week"), ann.getString("type"), ann.getString("answers"), ann.getString("correct"), ann.getString("marks"), ann.getInt("total")));
 
 
                             }
+                            Log.i("anwesha","testingwhy");
                             calculate1(studentList);
                             update(c1,HTTPUrlInsert1,instid1,room_id);
 
@@ -86,8 +89,8 @@ class Update  {
 
     public static void update(Context c1,String HTTPUrlInsert1, final String instid1, final int room_id ) {
         for (Student1 stu : studentList) {
-
             final Student1 s = stu;
+
             RequestQueue MyRequestQueue = Volley.newRequestQueue(c1);
             StringRequest stringRequest = new StringRequest(Request.Method.POST, HTTPUrlInsert1, new Response.Listener<String>() {
                 @Override
@@ -105,6 +108,7 @@ class Update  {
             }) {
                 @Override
                 protected Map<String, String> getParams() {
+                    Log.i("anweshatestwk",s.week+"  ");
                     Map<String, String> params = new HashMap<>();
                     params.put("student_id", s.id + "");
                     params.put("instructor_id", instid1);
@@ -131,22 +135,22 @@ class Update  {
             String[] type = parseArray(s.type);
             double gradeGot = 0;
 
-            if (!checkLength(answer, correct, marks, type)) {
+            /*if (!checkLength(answer, correct, marks, type)) {
                 //  System.out.println("Length error happens for student: "+s.id);
                 Log.i("anwesha", "Length error happens for student: " + s.id);
                 continue;
-            }
+            }*/
 
             for (int i = 0; i < answer.length; ++i) {
                 int thisQuestion = Integer.parseInt(marks[i]);
 
                 if (type[i].trim().equals("MCQ")) {
-                    if (answer[i].trim().toLowerCase().equals(correct[i].toLowerCase())) {
+                    if (answer[i].toLowerCase().equals(correct[i].toLowerCase())) {
                         gradeGot += thisQuestion;
                         Log.i("anwesha", gradeGot + " gg");
                     }
                 } else if (type[i].trim().equals("QNA")) {
-                    if (checkQNA(answer[i].trim(), correct[i].trim())) {
+                    if (checkQNA(answer[i], correct[i])) {
                         gradeGot += thisQuestion;
                         Log.i("anwesha", gradeGot + " gg1");
                     }
@@ -162,11 +166,11 @@ class Update  {
     public static boolean checkQNA(String answer, String correct) {
         String[] ca = correct.split(",");
         for (String s : ca) {
-            if (answer.trim().toLowerCase().contains(s.toLowerCase())) {
-                return true;
+            if (!answer.toLowerCase().contains(s.toLowerCase())) {
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     public static String[] parseArray(String s) {

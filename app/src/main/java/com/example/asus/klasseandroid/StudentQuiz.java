@@ -124,8 +124,6 @@ public class StudentQuiz extends AppCompatActivity implements View.OnClickListen
     @Override
     public void onClick(View view) {
         final int room=room_id;
-        if(flag==false) {
-            flag=true;
 
             RequestQueue requestQueue = Volley.newRequestQueue(StudentQuiz.this);
 
@@ -162,9 +160,7 @@ public class StudentQuiz extends AppCompatActivity implements View.OnClickListen
                 }
             };
             requestQueue.add(stringRequest);
-        }
-        else
-            Toast.makeText(StudentQuiz.this, "Cannot submit more than once!" + " in quiz", Toast.LENGTH_LONG).show();
+
 
 
 
