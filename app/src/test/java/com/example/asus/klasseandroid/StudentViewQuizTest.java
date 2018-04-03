@@ -1,14 +1,20 @@
 package com.example.asus.klasseandroid;
 
+import android.os.Build;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.Shadows;
+import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowListView;
 
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -16,12 +22,24 @@ import static org.junit.Assert.*;
 
 import com.example.asus.klasseandroid.StudentViewQuiz.*;
 
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Scheduler;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.internal.schedulers.ExecutorScheduler;
+import io.reactivex.plugins.RxJavaPlugins;
+
 /**
  * Created by wsq96 on 2018/4/3.
  */
 
+@RunWith(RobolectricTestRunner.class)
+//@Config(constants = BuildConfig.class)
+@Config(sdk = Build.VERSION_CODES.JELLY_BEAN_MR2)
+
 public class StudentViewQuizTest {
     private StudentViewQuiz activity;
+
 
     @Before
     public void setUp() throws Exception{
@@ -36,7 +54,7 @@ public class StudentViewQuizTest {
         TextView textView=(TextView)activity.findViewById(R.id.first);
 
         String text=textView.getText().toString();
-        assertEquals(equalTo("Quizzes"),text);
+        assertEquals("Quizzes",text);
     }
 
     @Test
@@ -45,7 +63,7 @@ public class StudentViewQuizTest {
     }
 
     @Test
-    public void listViewTextTest(){
+    public void listViewTextTest() throws Exception{
         ListView listView=(ListView)activity.findViewById(R.id.quiz);
         assertNotNull("listView doesn't exist",listView);
 
@@ -53,11 +71,17 @@ public class StudentViewQuizTest {
         shadowListView.populateItems();
 
         StudentViewAdapter adapter=(StudentViewAdapter) listView.getAdapter();
-        if(adapter.getCount()!=0){
+        if(listView.getChildCount()>0){
             assertNotNull(adapter.viewQuizzes);
             assertNotNull(adapter.context);
             assertNotNull(adapter.statuses);
-            //assertNotEquals();
+            assertNotEquals(0,adapter.room_id);
+            assertEquals(adapter.statuses.size(),adapter.viewQuizzes.size());
+
+            for(int i=0;i<adapter.viewQuizzes.size();i++){
+                assertNotNull(adapter.viewQuizzes.get(i));
+                assertNotNull(adapter.statuses.get(i));
+            }
         }
     }
 
