@@ -29,6 +29,7 @@ public class SlidesWeekView extends AppCompatActivity {
 
     }
     /**Called when the user taps the a pdf file name*/
+
     public void week1(View view){
         Intent intent = new Intent (this, WeekView.class);
         intent.putExtra("week",1);
