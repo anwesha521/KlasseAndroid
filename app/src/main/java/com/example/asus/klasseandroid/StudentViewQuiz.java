@@ -48,7 +48,7 @@ public class StudentViewQuiz extends AppCompatActivity {
         setContentView(R.layout.activity_student_view_quiz);
 
         Intent intent = getIntent();
-        room_id = intent.getIntExtra("id", 11);
+        room_id = intent.getIntExtra("id", 0);
         url1 = "http://" + getResources().getString(R.string.ip) + "/Klasse/get_quiz.php?class_id=";
         url2 = "http://" + getResources().getString(R.string.ip) + "/Klasse/get_answers.php";
 
@@ -92,6 +92,14 @@ public class StudentViewQuiz extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+
+                        final ArrayList<String> real_names=new ArrayList<>();
+                        final ArrayList<String> real_status=new ArrayList<>();
+
+                        for(String name:names){
+                            real_names.add(name);
+                        }
+
                         statuses = new ArrayList<String>(Arrays.asList(new String[weeks.size()]));
                         StringRequest stringRequest = new StringRequest(Request.Method.GET, url2,
                                 new Response.Listener<String>() {
@@ -109,15 +117,19 @@ public class StudentViewQuiz extends AppCompatActivity {
                                                 }
                                             }
 
-                                                Log.i("shunqi", names.toString());
-                                                for (int j = 0; j < weeks.size(); j++) {
-                                                    if (statuses.get(j) == null) {
-                                                        statuses.set(j, "");
-                                                    }
+                                            Log.i("shunqi", names.toString());
+                                            for (int j = 0; j < weeks.size(); j++) {
+                                                if (statuses.get(j) == null) {
+                                                    statuses.set(j, "");
                                                 }
+                                            }
+
+                                            for(String name:real_names){
+                                                real_status.add(statuses.get(names.indexOf(name)));
+                                            }
 
                                             Log.i("shunqi", names.toString()+statuses.toString());
-                                            myViewAdapter = new StudentViewAdapter(names, statuses, StudentViewQuiz.this,room_id);
+                                            myViewAdapter = new StudentViewAdapter(real_names, real_status, StudentViewQuiz.this,room_id);
                                             listView.setAdapter(myViewAdapter);
                                         } catch (JSONException e) {
                                             Log.i("anwesha","enterederror"+e.getMessage());
