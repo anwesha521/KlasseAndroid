@@ -50,7 +50,7 @@ class Update  {
                     @Override
                     public void onResponse(JSONArray response) {
 
-
+                         studentList.clear();
                         try {
 
                             for (int i = 0; i < response.length(); i++) {
@@ -90,6 +90,8 @@ class Update  {
     public static void update(Context c1,String HTTPUrlInsert1, final String instid1, final int room_id ) {
         for (Student1 stu : studentList) {
             final Student1 s = stu;
+
+            
 
             RequestQueue MyRequestQueue = Volley.newRequestQueue(c1);
             StringRequest stringRequest = new StringRequest(Request.Method.POST, HTTPUrlInsert1, new Response.Listener<String>() {
