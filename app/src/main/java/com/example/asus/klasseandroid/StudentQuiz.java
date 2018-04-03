@@ -92,7 +92,9 @@ public class StudentQuiz extends AppCompatActivity implements View.OnClickListen
                                             question.getString("b_choice"),
                                             question.getString("c_choice"),
                                             question.getString("d_choice"),
+                                            question.getString("instructor_id"),
                                             question.getString("answer")
+
                                     ));
                                 }
                             }
@@ -118,6 +120,7 @@ public class StudentQuiz extends AppCompatActivity implements View.OnClickListen
 
     @Override
     public void onClick(View view) {
+        final int room=room_id;
         RequestQueue requestQueue=Volley.newRequestQueue(StudentQuiz.this);
 
         StringRequest stringRequest=new StringRequest(Request.Method.POST, url3,
@@ -127,6 +130,7 @@ public class StudentQuiz extends AppCompatActivity implements View.OnClickListen
                         Document doc = Jsoup.parse(response);
                         String result = doc.body().text();
                         Toast.makeText(StudentQuiz.this,result,Toast.LENGTH_LONG).show();
+                        Update.calculate("http://"+getResources().getString(R.string.ip)+"/Klasse/student_calculate.php","http://"+getResources().getString(R.string.ip)+"/Klasse/insert_grades.php",getApplicationContext(),room_id);
                     }
                 },
                 new Response.ErrorListener() {
@@ -146,6 +150,8 @@ public class StudentQuiz extends AppCompatActivity implements View.OnClickListen
                 params.put("marks",myAdapter.getMarks().toString());
                 params.put("total",myAdapter.getTotal()+"");
                 params.put("type",myAdapter.getType().toString());
+                params.put("class_id",room+"");
+                params.put("instructor_id",myAdapter.getInstructorId());
                 return params;
             }
         };
@@ -161,6 +167,7 @@ class StudentQuizAdapter extends BaseAdapter {
     private ArrayList<Integer> marks;
     private ArrayList<String> correct;
     private ArrayList<String> type;
+    private ArrayList<String> inst;
 
     public StudentQuizAdapter(quiz q, Context context){
         quiz_name=q.name;
@@ -171,6 +178,7 @@ class StudentQuizAdapter extends BaseAdapter {
         marks=new ArrayList<>(Arrays.asList(new Integer[size]));
         correct=new ArrayList<>(Arrays.asList(new String[size]));
         type=new ArrayList<>(Arrays.asList(new String[size]));
+        inst=new ArrayList<>(Arrays.asList(new String[size]));
     }
 
     @Override
@@ -186,6 +194,11 @@ class StudentQuizAdapter extends BaseAdapter {
     @Override
     public long getItemId(int i) {
         return 0;
+    }
+
+    public String getInstructorId()
+    {
+        return questions.get(0).instructor_id;
     }
 
     @Override
@@ -268,10 +281,12 @@ class StudentQuizAdapter extends BaseAdapter {
         String c="";
         String d="";
         String correct="";
+        String instructor_id;
 
-        public question(String description,String type,String point,String a,String b,String c,String d,String correct){
+        public question(String description,String type,String point,String a,String b,String c,String d,String instructor_id,String correct){
             this.description=description;
             this.type=type;
+            this.instructor_id=instructor_id;
             this.point=point;
             this.a=a;
             this.b=b;

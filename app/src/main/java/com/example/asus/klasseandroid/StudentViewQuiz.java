@@ -50,7 +50,7 @@ public class StudentViewQuiz extends AppCompatActivity {
         Intent intent = getIntent();
         room_id = intent.getIntExtra("id", 11);
         url1 = "http://" + getResources().getString(R.string.ip) + "/Klasse/get_quiz.php?class_id=";
-        url2 = "http://" + getResources().getString(R.string.ip) + "/Klasse/get_grades_student.php";
+        url2 = "http://" + getResources().getString(R.string.ip) + "/Klasse/get_answers.php";
 
         requestQueue = Volley.newRequestQueue(StudentViewQuiz.this);
         listView = (ListView) findViewById(R.id.quiz);
@@ -143,6 +143,8 @@ public class StudentViewQuiz extends AppCompatActivity {
                 });
         requestQueue.add(stringRequest);
     }
+
+
 
 }
 
