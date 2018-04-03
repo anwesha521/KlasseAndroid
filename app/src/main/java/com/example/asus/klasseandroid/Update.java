@@ -1,6 +1,7 @@
 package com.example.asus.klasseandroid;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
@@ -16,6 +17,8 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -29,14 +32,18 @@ class Update  {
 
     static ArrayList<Student1> studentList = new ArrayList<>();
 
-    public static void calculate(String HTTPUrl, String HTTPUrlinsert, Context c, int class_id) {
+    public static void calculate(String instid,SharedPreferences pref, String HTTPUrl, String HTTPUrlinsert, Context c, int class_id) {
 
         final int room_id=class_id;
+        final Context c1=c;
+        final String HTTPUrlInsert1=HTTPUrlinsert;
+        final String instid1=instid;
 
+        Log.i("anwesha",instid+"instid");
         RequestQueue requestQueue = Volley.newRequestQueue(c);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
-                HTTPUrl,
+                HTTPUrl+"?student_id="+pref.getString("id","0"),
                 null,
                 new Response.Listener<JSONArray>() {
                     @Override
@@ -48,12 +55,18 @@ class Update  {
                             for (int i = 0; i < response.length(); i++) {
                                 // Get current json object
                                 JSONObject ann = response.getJSONObject(i);
-                                studentList.add(new Student1(ann.getString("student_id"), ann.getInt("week"), ann.getString("type"), ann.getString("answer"), ann.getString("correct"), ann.getString("marks"), ann.getInt("total")));
-                                calculate1(studentList);
+                                studentList.add(new Student1(ann.getString("student_id"), ann.getInt("week"), ann.getString("type"), ann.getString("answers"), ann.getString("correct"), ann.getString("marks"), ann.getInt("total")));
+
+
                             }
+                            calculate1(studentList);
+                            update(c1,HTTPUrlInsert1,instid1,room_id);
+
+
+
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Log.i("anwesha", e.getMessage().toString());
+                            Log.i("anwesha", e.getMessage().toString()+"gdgdgdgd");
                         }
 
                     }
@@ -69,32 +82,35 @@ class Update  {
         requestQueue.add(jsonArrayRequest);
 
 
-        for (Student1 stu : studentList)
-        {
+    }
 
-            final Student1 s=stu;
-            RequestQueue MyRequestQueue = Volley.newRequestQueue(c);
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, HTTPUrlinsert, new Response.Listener<String>() {
+    public static void update(Context c1,String HTTPUrlInsert1, final String instid1, final int room_id ) {
+        for (Student1 stu : studentList) {
+
+            final Student1 s = stu;
+            RequestQueue MyRequestQueue = Volley.newRequestQueue(c1);
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, HTTPUrlInsert1, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    Log.i("anwesha","updated");
+                    Document doc = Jsoup.parse(response);
+                    String result = doc.body().text();
+                    Log.i("anwesha", "updated" + result);
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
 
-                    Log.i("anwesha", error.getMessage().toString());
+                    Log.i("anwesha", error.getMessage().toString() + "in update");
                 }
             }) {
                 @Override
                 protected Map<String, String> getParams() {
                     Map<String, String> params = new HashMap<>();
-                    params.put("student_id", s.id+"");
-                    params.put("professor_id","2000003");
+                    params.put("student_id", s.id + "");
+                    params.put("instructor_id", instid1);
                     params.put("percentage", Math.round(s.percentage) + "");
-                    params.put("class_id",room_id + "");
+                    params.put("class_id", room_id + "");
                     params.put("week", s.week + "");
-
 
 
                     return params;
@@ -102,7 +118,7 @@ class Update  {
             };
 
             MyRequestQueue.add(stringRequest);
-
+            break;
         }
     }
 
@@ -124,18 +140,18 @@ class Update  {
             for (int i = 0; i < answer.length; ++i) {
                 int thisQuestion = Integer.parseInt(marks[i]);
 
-                if (type[i].equals("MCQ")) {
-                    if (answer[i].toLowerCase().equals(correct[i].toLowerCase())) {
+                if (type[i].trim().equals("MCQ")) {
+                    if (answer[i].trim().toLowerCase().equals(correct[i].toLowerCase())) {
                         gradeGot += thisQuestion;
                         Log.i("anwesha", gradeGot + " gg");
                     }
-                } else if (type[i].equals("QNA")) {
-                    if (checkQNA(answer[i], correct[i])) {
+                } else if (type[i].trim().equals("QNA")) {
+                    if (checkQNA(answer[i].trim(), correct[i].trim())) {
                         gradeGot += thisQuestion;
                         Log.i("anwesha", gradeGot + " gg1");
                     }
                 } else {
-                    System.out.println("Type error happens for student: " + s.id);
+                   // System.out.println("Type error happens for student: " + s.id);
                 }
             }
 
@@ -146,11 +162,11 @@ class Update  {
     public static boolean checkQNA(String answer, String correct) {
         String[] ca = correct.split(",");
         for (String s : ca) {
-            if (!answer.toLowerCase().contains(s.toLowerCase())) {
-                return false;
+            if (answer.trim().toLowerCase().contains(s.toLowerCase())) {
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     public static String[] parseArray(String s) {

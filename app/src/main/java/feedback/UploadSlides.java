@@ -7,6 +7,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -93,7 +94,15 @@ public class UploadSlides extends AppCompatActivity {
         String week =editTextWeek.getText().toString().trim();
 
         //getting the actual path of the image
-        String path = FilePath.getPath(this, filePath);
+        String path=null;
+        try {
+            path = FilePath.getPath(this, filePath);
+        }
+        catch(Exception e)
+        {
+            Toast.makeText(this, "Please choose a pdf", Toast.LENGTH_LONG).show();
+        }
+        Log.i("anweshapath",path+" testing");
 
         if (path == null) {
 

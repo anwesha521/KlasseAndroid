@@ -59,6 +59,14 @@ public class studentMain extends AppCompatActivity
     TextView ps;
    ArrayList<StudentAnalytics> sa=new ArrayList<>();
 
+   @Override
+   protected void onStart() {
+
+       super.onStart();
+       request();
+   }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,7 +127,7 @@ public class studentMain extends AppCompatActivity
                                 // Get current json object
                                 JSONObject ann = response.getJSONObject(i);
                                 sa.add(new StudentAnalytics(ann.getInt("week"),ann.getInt("percentage"),ann.getInt("class_id")));
-
+                                Log.i("anwesha",ann.getInt("percentage")+" ");
                             }
                         }catch (JSONException e){
                             e.printStackTrace();

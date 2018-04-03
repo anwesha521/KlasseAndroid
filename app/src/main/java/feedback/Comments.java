@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -33,7 +34,7 @@ public class Comments extends AppCompatActivity {
 
 
     //this is the JSON Data URL
-    private static final String URL = "http://10.12.48.32/Api.php";
+    private static String URL;
 
     //a list to store all the products
     List<FeedbackLayout> feedbackList;
@@ -46,7 +47,7 @@ public class Comments extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comments);
-
+        URL = "http://"+getResources().getString(R.string.ip)+"/Klasse/api.php";
         //getting the recyclerview from xml
         recyclerView = findViewById(R.id.recylcerView);
         recyclerView.setHasFixedSize(true);
@@ -91,6 +92,7 @@ public class Comments extends AppCompatActivity {
                                         "Page no: " + feedback.getString("pgNumber"),
                                         "date: " + feedback.getString("time")
                                 ));
+                                Log.i("anwesha",feedback.getString("feedback"));
                             }
 
                             //creating adapter object and setting it to recyclerview
@@ -98,13 +100,14 @@ public class Comments extends AppCompatActivity {
                             recyclerView.setAdapter(adapter);
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            Log.i("anwesha","enterederror"+e.getMessage()+" ");
                         }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        Log.i("anwehsha",error.getMessage()+"eerer");
                     }
                 });
 

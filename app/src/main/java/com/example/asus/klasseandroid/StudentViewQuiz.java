@@ -120,7 +120,7 @@ public class StudentViewQuiz extends AppCompatActivity {
                                             myViewAdapter = new StudentViewAdapter(names, statuses, StudentViewQuiz.this,room_id);
                                             listView.setAdapter(myViewAdapter);
                                         } catch (JSONException e) {
-                                            Log.i("anwesha","enterederror");
+                                            Log.i("anwesha","enterederror"+e.getMessage());
                                             e.printStackTrace();
                                         }
                                     }

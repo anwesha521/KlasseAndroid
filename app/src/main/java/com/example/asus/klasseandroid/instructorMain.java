@@ -55,6 +55,13 @@ public class instructorMain extends AppCompatActivity
     ArrayList<StudentAnalytics> sa=new ArrayList<>();
 
     @Override
+    protected void onStart() {
+
+        super.onStart();
+        request();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_instructor_main);
@@ -70,8 +77,6 @@ public class instructorMain extends AppCompatActivity
 
         mChart = (BarChart) findViewById(R.id.barchartinstruct);
         mChart.setDescription("");
-        BARENTRY = new ArrayList<>();
-        BarEntryLabels = new ArrayList<String>();
 
 
 
@@ -134,6 +139,9 @@ public class instructorMain extends AppCompatActivity
     public void setDataChart()
     {
         int count=0;
+        BARENTRY = new ArrayList<>();
+        BarEntryLabels = new ArrayList<String>();
+
         ArrayList<StudentAnalytics> s=sa;
         Map<Integer, StudentAnalytics> map = new HashMap<>();
         Map<Integer, Integer> total=new HashMap<>();

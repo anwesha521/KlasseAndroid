@@ -8,6 +8,7 @@ import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,7 @@ public class StudentQuiz extends AppCompatActivity implements View.OnClickListen
     String week;
     SharedPreferences pref;
     int room_id;
+    boolean flag=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +105,7 @@ public class StudentQuiz extends AppCompatActivity implements View.OnClickListen
                             Questions.setAdapter(myAdapter);
                         }catch (JSONException e){
                             e.printStackTrace();
+                            Log.i("anwesha",e.getMessage()+"ppppp");
                         }
                     }
                 },
@@ -121,41 +124,50 @@ public class StudentQuiz extends AppCompatActivity implements View.OnClickListen
     @Override
     public void onClick(View view) {
         final int room=room_id;
-        RequestQueue requestQueue=Volley.newRequestQueue(StudentQuiz.this);
+        if(flag==false) {
+            flag=true;
 
-        StringRequest stringRequest=new StringRequest(Request.Method.POST, url3,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Document doc = Jsoup.parse(response);
-                        String result = doc.body().text();
-                        Toast.makeText(StudentQuiz.this,result,Toast.LENGTH_LONG).show();
-                        Update.calculate("http://"+getResources().getString(R.string.ip)+"/Klasse/student_calculate.php","http://"+getResources().getString(R.string.ip)+"/Klasse/insert_grades.php",getApplicationContext(),room_id);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(StudentQuiz.this,error.toString(),Toast.LENGTH_LONG).show();
-                    }
-                }){
-            @Override
-            protected Map<String,String> getParams(){
-                Map<String,String> params=new HashMap<>();
-                params.put("quizname",quizName);
-                params.put("student_id",pref.getString("id","0"));
-                params.put("answers",myAdapter.getAnswer().toString());
-                params.put("week",week);
-                params.put("correct",myAdapter.getCorrect().toString());
-                params.put("marks",myAdapter.getMarks().toString());
-                params.put("total",myAdapter.getTotal()+"");
-                params.put("type",myAdapter.getType().toString());
-                params.put("class_id",room+"");
-                params.put("instructor_id",myAdapter.getInstructorId());
-                return params;
-            }
-        };
-        requestQueue.add(stringRequest);
+            RequestQueue requestQueue = Volley.newRequestQueue(StudentQuiz.this);
+
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url3,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Document doc = Jsoup.parse(response);
+                            String result = doc.body().text();
+                            Toast.makeText(StudentQuiz.this, result, Toast.LENGTH_LONG).show();
+                            Update.calculate(myAdapter.getInstructorId(), pref, "http://" + getResources().getString(R.string.ip) + "/Klasse/student_calculate.php", "http://" + getResources().getString(R.string.ip) + "/Klasse/insert_grades.php", getApplicationContext(), room_id);
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(StudentQuiz.this, error.toString() + " in quiz", Toast.LENGTH_LONG).show();
+                        }
+                    }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("quizname", quizName);
+                    params.put("student_id", pref.getString("id", "0"));
+                    params.put("answers", myAdapter.getAnswer().toString());
+                    params.put("week", week);
+                    params.put("correct", myAdapter.getCorrect().toString());
+                    params.put("marks", myAdapter.getMarks().toString());
+                    params.put("total", myAdapter.getTotal() + "");
+                    params.put("type", myAdapter.getType().toString());
+                    params.put("class_id", room + "");
+                    params.put("instructor_id", myAdapter.getInstructorId());
+                    return params;
+                }
+            };
+            requestQueue.add(stringRequest);
+        }
+        else
+            Toast.makeText(StudentQuiz.this, "Cannot submit more than once!" + " in quiz", Toast.LENGTH_LONG).show();
+
+
+
     }
 }
 
@@ -167,7 +179,6 @@ class StudentQuizAdapter extends BaseAdapter {
     private ArrayList<Integer> marks;
     private ArrayList<String> correct;
     private ArrayList<String> type;
-    private ArrayList<String> inst;
 
     public StudentQuizAdapter(quiz q, Context context){
         quiz_name=q.name;
@@ -178,7 +189,7 @@ class StudentQuizAdapter extends BaseAdapter {
         marks=new ArrayList<>(Arrays.asList(new Integer[size]));
         correct=new ArrayList<>(Arrays.asList(new String[size]));
         type=new ArrayList<>(Arrays.asList(new String[size]));
-        inst=new ArrayList<>(Arrays.asList(new String[size]));
+
     }
 
     @Override
@@ -281,7 +292,7 @@ class StudentQuizAdapter extends BaseAdapter {
         String c="";
         String d="";
         String correct="";
-        String instructor_id;
+        String instructor_id="";
 
         public question(String description,String type,String point,String a,String b,String c,String d,String instructor_id,String correct){
             this.description=description;

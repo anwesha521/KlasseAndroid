@@ -33,11 +33,12 @@ public class PdfAdapter extends ArrayAdapter<PDF>
     int layoutResourceId;
     ArrayList<PDF> data=new ArrayList<PDF>();
     PDF pdf;
-    String url = "http://10.12.48.32/feedback.php";
+    String url;
 
     public PdfAdapter(Activity activity, int layoutResourceId, ArrayList<PDF> data) {
         super(activity, layoutResourceId, data);
         this.activity=activity;
+        url = "http://"+activity.getResources().getString(R.string.ip)+"/Klasse/feedback.php";
         this.layoutResourceId=layoutResourceId;
         this.data=data;
     }
