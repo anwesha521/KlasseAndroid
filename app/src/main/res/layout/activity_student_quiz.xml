@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F5B149"
     tools:context="com.example.asus.klasseandroid.StudentQuiz">
 
     <TextView
@@ -25,7 +26,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:background="@drawable/week_button"
         android:text="@string/submit"
+        android:textColor="#ffffff"
         />
 
 </RelativeLayout>

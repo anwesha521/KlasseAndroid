@@ -24,12 +24,19 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import announcements.InstructorAnnounce;
 
 public class InstructorQuiz extends AppCompatActivity implements View.OnClickListener{
     InstructorQuizAdapter myAdapter;
@@ -38,9 +45,12 @@ public class InstructorQuiz extends AppCompatActivity implements View.OnClickLis
     RequestQueue requestQueue;
     EditText quiz_name;
     EditText week;
+    private static String HttpURLgetID;
+    private static String HttpURLsendnotif;
 
     int room_id;
     SharedPreferences pref;
+    final ArrayList<String> ids=new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -48,6 +58,9 @@ public class InstructorQuiz extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_instructor_quiz);
         ql.add(new InstructorQuizAdapter.question());
         url="http://"+getResources().getString(R.string.ip)+"/Klasse/upload_quiz.php";
+        HttpURLgetID = "http://"+getResources().getString(R.string.ip)+"/Klasse/get_user_ids.php?class_id=";
+        HttpURLsendnotif ="http://"+getResources().getString(R.string.ip)+"/Klasse/send_single_push.php";
+
         Intent intent=getIntent();
         room_id=intent.getIntExtra("id",11);
 
@@ -71,6 +84,83 @@ public class InstructorQuiz extends AppCompatActivity implements View.OnClickLis
     }
 
 
+    public void sendNotif(final String a)
+    {
+
+
+        RequestQueue requestQueue = Volley.newRequestQueue(InstructorQuiz.this);
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
+                Request.Method.GET, HttpURLgetID+room_id,
+                null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                        try{
+
+                            for(int i=0;i<response.length();i++){
+                                // Get current json object
+
+                                JSONObject ann = response.getJSONObject(i);
+                                ids.add(ann.getString("user_id"));
+
+
+                            }
+
+                            RequestQueue MyRequestQueue = Volley.newRequestQueue(InstructorQuiz.this);
+                            for(String i:ids) {
+                                final String id=i;
+
+                                StringRequest stringRequest = new StringRequest(Request.Method.POST, HttpURLsendnotif, new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+                                        Log.i("anwesha", "succesfully sent");
+                                    }
+                                }, new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
+                                        Log.i("anwesha", error.getMessage().toString());
+                                    }
+                                }) {
+                                    @Override
+                                    protected Map<String, String> getParams() {
+                                        Map<String, String> params = new HashMap<>();
+                                        params.put("title", "Quiz Posted");
+                                        params.put("message", "Starting");
+                                        params.put("user_id", id);
+
+
+                                        return params;
+                                    }
+                                };
+
+                                MyRequestQueue.add(stringRequest);
+                            }
+
+
+                            ids.clear();
+                        }catch (JSONException e){
+                            e.printStackTrace();
+                            Log.i("anwesha",e.getMessage().toString());
+                        }
+
+                    }
+                },
+                new Response.ErrorListener(){
+                    @Override
+                    public void onErrorResponse(VolleyError error){
+                        // Do something when error occurred
+                        Log.i("anwesha",error.getMessage());
+                    }
+                }
+        );
+        requestQueue.add(jsonArrayRequest);
+
+    }
+
+
     @Override
     public void onClick(View view) {
         ql=myAdapter.getQl();
@@ -81,6 +171,7 @@ public class InstructorQuiz extends AppCompatActivity implements View.OnClickLis
                         @Override
                         public void onResponse(String response) {
                             Toast.makeText(InstructorQuiz.this, response, Toast.LENGTH_SHORT).show();
+                            sendNotif("Quiz starting");
                         }
                     },
                     new Response.ErrorListener() {

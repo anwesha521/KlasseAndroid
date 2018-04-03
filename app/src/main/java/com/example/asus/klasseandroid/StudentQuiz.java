@@ -2,6 +2,7 @@ package com.example.asus.klasseandroid;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
@@ -29,6 +30,8 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,14 +40,14 @@ import java.util.Map;
 
 public class StudentQuiz extends AppCompatActivity implements View.OnClickListener{
     StudentQuizAdapter myAdapter;
-    String url2="http://"+getResources().getString(R.string.ip)+"/Klasse/get_quiz.php?class_id=";
-    String url3="http://"+getResources().getString(R.string.ip)+"/Klasse/submit.php";
+    String url2;
+    String url3;
     ArrayList<StudentQuizAdapter.question> sql=new ArrayList<>();
     StudentQuizAdapter.quiz quiz;
     ListView Questions;
     String quizName;
     String week;
-
+    SharedPreferences pref;
     int room_id;
 
     @Override
@@ -55,6 +58,9 @@ public class StudentQuiz extends AppCompatActivity implements View.OnClickListen
         Intent intent=getIntent();
         quizName=intent.getStringExtra("name");
         room_id=intent.getIntExtra("id",11);
+        url2="http://"+getResources().getString(R.string.ip)+"/Klasse/get_quiz.php?class_id=";
+        url3="http://"+getResources().getString(R.string.ip)+"/Klasse/submit.php";
+        pref = getApplicationContext().getSharedPreferences("UserDetails", MODE_PRIVATE);
 
         TextView name=(TextView)findViewById(R.id.quizName);
         name.setText(quizName);
@@ -113,13 +119,14 @@ public class StudentQuiz extends AppCompatActivity implements View.OnClickListen
     @Override
     public void onClick(View view) {
         RequestQueue requestQueue=Volley.newRequestQueue(StudentQuiz.this);
-        //upload the answer to database
-        //Toast.makeText(StudentQuiz.this,Answer.toString(),Toast.LENGTH_LONG).show();
+
         StringRequest stringRequest=new StringRequest(Request.Method.POST, url3,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Toast.makeText(StudentQuiz.this,response,Toast.LENGTH_LONG).show();
+                        Document doc = Jsoup.parse(response);
+                        String result = doc.body().text();
+                        Toast.makeText(StudentQuiz.this,result,Toast.LENGTH_LONG).show();
                     }
                 },
                 new Response.ErrorListener() {
@@ -132,7 +139,7 @@ public class StudentQuiz extends AppCompatActivity implements View.OnClickListen
             protected Map<String,String> getParams(){
                 Map<String,String> params=new HashMap<>();
                 params.put("quizname",quizName);
-                params.put("id","");
+                params.put("student_id",pref.getString("id","0"));
                 params.put("answers",myAdapter.getAnswer().toString());
                 params.put("week",week);
                 params.put("correct",myAdapter.getCorrect().toString());

@@ -9,7 +9,7 @@
     <string name="save_button">Save</string>
     <string name="delete_button">Delete</string>
     <string name="add_next">Add</string>
-    <string name="mark">Mark: </string>
+    <string name="mark">Marks for the question: </string>
     <string name="A">A</string>
     <string name="B">B</string>
     <string name="C">C</string>

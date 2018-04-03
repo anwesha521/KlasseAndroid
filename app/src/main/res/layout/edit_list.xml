@@ -47,6 +47,8 @@
         android:hint="Question Description"/>
     <Button
         android:id="@+id/addNext"
+        android:background="@drawable/week_button"
+        android:textColor="#ffffff"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/add_next"
@@ -54,6 +56,8 @@
         android:layout_below="@id/description"/>
     <Button
         android:id="@+id/delete"
+        android:background="@drawable/week_button"
+        android:textColor="#ffffff"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/delete_button"

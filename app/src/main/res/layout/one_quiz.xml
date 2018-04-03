@@ -35,9 +35,13 @@
             android:id="@+id/view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/week_button"
+            android:textColor="#ffffff"
             android:text="@string/view"/>
 
         <Button
+            android:background="@drawable/week_button"
+            android:textColor="#ffffff"
             android:id="@+id/edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
