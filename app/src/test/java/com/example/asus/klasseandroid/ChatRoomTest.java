@@ -4,6 +4,15 @@ package com.example.asus.klasseandroid;
  * Created by 1001737 on 3/4/18.
  */
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.support.design.widget.FloatingActionButton;
+import android.text.TextUtils;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.android.gms.auth.api.Auth;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,10 +30,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
+import org.robolectric.shadows.ShadowToast;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 /**
  * Created by 1001737 on 2/4/18.
  */
@@ -33,25 +46,32 @@ import org.robolectric.annotation.Config;
 public class ChatRoomTest {
 
     private ChatRoom chatroom;
+
+
     @Before
     public void setUp() throws Exception {
-        activity = Robolectric.buildActivity( WelcomeActivity.class )
+        chatroom = Robolectric.buildActivity( ChatRoom.class )
                 .create()
                 .resume()
                 .get();
 
     }
 
-    @After
-    public void tearDown() throws Exception {
+    @Test
+    public void shouldNotBeNull() throws Exception
+    {
+        assertNotNull( chatroom );
     }
 
-    @Test
-    public void onStart() throws Exception {
-    }
+
 
     @Test
-    public void onCreate() throws Exception {
+    public void testFloatingActionButtonIfNoInput() throws Exception {
+        FloatingActionButton fab = (FloatingActionButton) chatroom.findViewById(R.id.fab);
+        assertNotNull(fab);
+        fab.performClick();
+        String txt = "";
+        assertEquals((String)ShadowToast.getTextOfLatestToast(),"Please enter message.");
     }
 
     @Test

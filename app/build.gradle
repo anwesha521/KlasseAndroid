@@ -78,6 +78,7 @@ dependencies {
 
     // Robolectric
     testCompile "org.robolectric:robolectric:3.3.2"
+    testCompile "org.robolectric:shadows-multidex:3.0"
     testImplementation "org.robolectric:robolectric:3.8"
 
     android {
