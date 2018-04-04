@@ -1,13 +1,10 @@
 package com.example.asus.klasseandroid;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+/**
+ * Created by 1001737 on 4/4/18.
+ */
 import android.content.SharedPreferences;
-import android.support.design.widget.FloatingActionButton;
-import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import com.google.firebase.FirebaseApp;
 
@@ -19,9 +16,12 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowToast;
 
+import java.util.ArrayList;
+
+import announcements.Announcements;
 import announcements.InstructorAnnounce;
-import chatroom.ChatMessage;
-import chatroom.ChatRoom;
+import announcements.InstructorViewAnnounce;
+import announcements.StudentAnnounce;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -32,9 +32,13 @@ import static org.junit.Assert.assertNotNull;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class)
-public class InstructorAnnounceTest {
-
-    private InstructorAnnounce announce;
+public class StudentAnnounceTest {
+    private Announcements a;
+    private StudentAnnounce announce;
+    private ArrayList<String> content = new ArrayList<String>();
+    private ArrayList<String> names=new ArrayList<>();
+    private ArrayList<Integer> ids=new ArrayList<>();
+    //private ArrayList<Announcements> announce=new ArrayList<>();
     int type = 0;
     String id;
     //final EditText e=announce.findViewById(R.id.announcetext);
@@ -48,7 +52,7 @@ public class InstructorAnnounceTest {
 
     @Before
     public void setUp() throws Exception {
-        announce = Robolectric.buildActivity( InstructorAnnounce.class )
+        announce = Robolectric.buildActivity( StudentAnnounce.class )
                 .create()
                 .resume()
                 .get();
@@ -68,13 +72,16 @@ public class InstructorAnnounceTest {
 
     @Test
     public void testButtonIfNoInput() throws Exception {
-        Button b = (Button) announce.findViewById(R.id.postannounce);
-        assertNotNull(b);
-        b.performClick();
-        String a = "";
-        assertEquals((String) ShadowToast.getTextOfLatestToast(),"Please enter message.");
+        a.setClassnum(11);
+        content.add(a.getContent());
+        names.add(a.getProf());
+        ids.add(a.getId());
+        assertEquals(content,a.getContent());
+        assertEquals(names,a.getProf());
+        assertEquals(ids,a.getId());
+
+
     }
 
 
 }
-

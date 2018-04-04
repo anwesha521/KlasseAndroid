@@ -1,13 +1,12 @@
 package com.example.asus.klasseandroid;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+/**
+ * Created by 1001737 on 4/4/18.
+ */
 import android.content.SharedPreferences;
-import android.support.design.widget.FloatingActionButton;
-import android.view.View;
+import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.google.firebase.FirebaseApp;
 
@@ -19,25 +18,24 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowToast;
 
-import announcements.InstructorAnnounce;
 import chatroom.ChatMessage;
 import chatroom.ChatRoom;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-
-/**
- * Created by 1001737 on 4/4/18.
- */
 
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class)
-public class InstructorAnnounceTest {
+public class StudentMainTest {
 
-    private InstructorAnnounce announce;
-    int type = 0;
+    private studentMain main;
+    String type;
     String id;
-    //final EditText e=announce.findViewById(R.id.announcetext);
+    boolean CheckEditText;
+    Button btnlogin = main.findViewById(R.id.signin);
+    EditText email = main.findViewById(R.id.userId);
+    EditText pw = main.findViewById(R.id.password);
     SharedPreferences pref;
     SharedPreferences prefName;
     SharedPreferences.Editor editor;
@@ -48,33 +46,23 @@ public class InstructorAnnounceTest {
 
     @Before
     public void setUp() throws Exception {
-        announce = Robolectric.buildActivity( InstructorAnnounce.class )
+        main = Robolectric.buildActivity( studentMain.class )
                 .create()
                 .resume()
                 .get();
-        if (FirebaseApp.getApps(announce).isEmpty()) {
-            FirebaseApp.initializeApp(announce);
-        }
 
     }
 
     @Test
     public void shouldNotBeNull() throws Exception
     {
-        assertNotNull( announce );
+        assertNotNull( main );
     }
 
 
 
     @Test
-    public void testButtonIfNoInput() throws Exception {
-        Button b = (Button) announce.findViewById(R.id.postannounce);
-        assertNotNull(b);
-        b.performClick();
-        String a = "";
-        assertEquals((String) ShadowToast.getTextOfLatestToast(),"Please enter message.");
+    public void testStudentAnalytics() throws Exception {
+
     }
-
-
 }
-
