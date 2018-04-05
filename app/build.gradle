@@ -71,6 +71,9 @@ dependencies {
     //this is for pdf upload
     compile 'com.github.barteksc:android-pdf-viewer:2.0.3'
 
+    // http client
+    compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.2'
+
     // Required -- JUnit 4 framework
     testCompile 'junit:junit:4.12'
     // Optional -- Mockito framework
