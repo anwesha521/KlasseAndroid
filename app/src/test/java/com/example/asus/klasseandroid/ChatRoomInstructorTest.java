@@ -52,13 +52,7 @@ import chatroom.ChatMessage;
 import chatroom.ChatRoom;
 import chatroom.ChatRoomInstructor;
 
-import org.robolectric.Robolectric;
-import org.robolectric.RobolectricTestRunner;
-import org.robolectric.annotation.Config;
-import org.robolectric.shadows.ShadowToast;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.*;
     /**
      * Created by 1001737 on 2/4/18.
      */
