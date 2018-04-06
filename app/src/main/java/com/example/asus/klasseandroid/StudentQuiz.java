@@ -59,7 +59,7 @@ public class StudentQuiz extends AppCompatActivity implements View.OnClickListen
 
         Intent intent=getIntent();
         quizName=intent.getStringExtra("name");
-        room_id=intent.getIntExtra("id",11);
+        room_id=intent.getIntExtra("id",0);
         url2="http://"+getResources().getString(R.string.ip)+"/Klasse/get_quiz.php?class_id=";
         url3="http://"+getResources().getString(R.string.ip)+"/Klasse/submit.php";
         pref = getApplicationContext().getSharedPreferences("UserDetails", MODE_PRIVATE);

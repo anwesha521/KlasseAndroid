@@ -1,5 +1,7 @@
 package com.example.asus.klasseandroid;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -15,8 +17,11 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.Shadows;
 import org.robolectric.annotation.Config;
+import org.robolectric.shadows.ShadowActivity;
 import org.robolectric.shadows.ShadowListView;
+import org.robolectric.shadows.ShadowToast;
 
+import static android.content.Context.MODE_PRIVATE;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertNotEquals;
@@ -29,6 +34,7 @@ import static org.junit.Assert.assertNotEquals;
 
 import com.example.asus.klasseandroid.StudentViewQuiz.*;
 
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Scheduler;
@@ -41,7 +47,6 @@ import io.reactivex.plugins.RxJavaPlugins;
  */
 
 @RunWith(RobolectricTestRunner.class)
-//@Config(constants = BuildConfig.class)
 @Config(sdk = Build.VERSION_CODES.JELLY_BEAN_MR2)
 
 public class StudentViewQuizTest {
@@ -50,10 +55,15 @@ public class StudentViewQuizTest {
 
     @Before
     public void setUp() throws Exception{
-        activity = Robolectric.buildActivity(StudentViewQuiz.class)
+        Intent intent=new Intent();
+        intent.putExtra("id",11);
+        activity = Robolectric.buildActivity(StudentViewQuiz.class,intent)
                 .create()
                 .resume()
                 .get();
+
+        activity.pref=activity.getApplicationContext().getSharedPreferences("UserDetails", MODE_PRIVATE);
+        activity.pref.edit().putString("id","2000003").commit();
     }
 
     @Test
@@ -65,8 +75,12 @@ public class StudentViewQuizTest {
     }
 
     @Test
-    public void checkActivityNotNull() throws Exception{
+    public void checkActivityDefault() throws Exception{
         assertNotNull(activity);
+        Intent intent=activity.getIntent();
+        int id=intent.getIntExtra("id",1);
+        assertEquals(11,id);
+        assertEquals("2000003",activity.pref.getString("id","1"));
     }
 
     @Test
@@ -78,7 +92,7 @@ public class StudentViewQuizTest {
         shadowListView.populateItems();
 
         StudentViewAdapter adapter=(StudentViewAdapter) listView.getAdapter();
-        if(listView.getChildCount()>0){
+        if(adapter.getCount()>0){
             assertNotNull(adapter.viewQuizzes);
             assertNotNull(adapter.context);
             assertNotNull(adapter.statuses);
@@ -92,17 +106,31 @@ public class StudentViewQuizTest {
         }
     }
 
+    @Test
+    public void listViewClickTest() throws Exception{
+        ListView listView=(ListView)activity.findViewById(R.id.quiz);
+        assertNotNull(listView);
 
+        ShadowListView shadowListView=Shadows.shadowOf(listView);
+        shadowListView.populateItems();
 
-    public View getViewByPosition(int pos, ListView listView) {
-        final int firstListItemPosition = listView.getFirstVisiblePosition();
-        final int lastListItemPosition = firstListItemPosition + listView.getChildCount() - 1;
+        StudentViewAdapter adapter=(StudentViewAdapter)listView.getAdapter();
 
-        if (pos < firstListItemPosition || pos > lastListItemPosition ) {
-            return listView.getAdapter().getView(pos, null, listView);
-        } else {
-            final int childIndex = pos - firstListItemPosition;
-            return listView.getChildAt(childIndex);
+        //assertNotEquals(0,listView.getChildCount());
+        if(adapter.getCount()>0){
+            ArrayList<String> status=adapter.statuses;
+            for(int i=0;i<status.size();i++){
+                if(status.get(i).equals("Completed")){
+                    shadowListView.performItemClick(i);
+                    assertThat(ShadowToast.getTextOfLatestToast(),equalTo("You have already completed this quiz."));
+                }else if(status.get(i).equals("")){
+                    shadowListView.performItemClick(i);
+                    Intent intent=Shadows.shadowOf(activity).peekNextStartedActivity();
+                    assertEquals(StudentQuiz.class.getCanonicalName(),intent.getComponent().getClassName());
+                }else {
+                    fail();
+                }
+            }
         }
     }
 }

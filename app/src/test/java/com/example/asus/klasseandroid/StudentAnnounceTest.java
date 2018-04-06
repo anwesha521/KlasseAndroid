@@ -3,15 +3,24 @@ package com.example.asus.klasseandroid;
 /**
  * Created by 1001737 on 4/4/18.
  */
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.view.View;
 import android.widget.Button;
 
+import com.android.volley.Cache;
 import com.android.volley.Header;
+import com.android.volley.Network;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonRequest;
 import com.google.firebase.FirebaseApp;
 
+import org.json.JSONArray;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,6 +52,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import announcements.Announcements;
+import announcements.DisplayAdapter;
 import announcements.InstructorAnnounce;
 import announcements.InstructorViewAnnounce;
 import announcements.StudentAnnounce;
@@ -68,12 +78,6 @@ public class StudentAnnounceTest {
     String id;
     //final EditText e=announce.findViewById(R.id.announcetext);
     SharedPreferences pref;
-    SharedPreferences prefName;
-    SharedPreferences.Editor editor;
-    SharedPreferences.Editor editorName;
-    String t;
-    String q = "";
-    private ListView lstView;
 
 
     @Before
@@ -82,29 +86,43 @@ public class StudentAnnounceTest {
                 .create()
                 .resume()
                 .get();
-        lstView=(ListView)announce.findViewById(R.id.list_of_announcements);
+        pref=announce.getApplicationContext().getSharedPreferences("UserDetails", Context.MODE_PRIVATE);
+        pref.edit().putString("id","1000004").commit();
+        Intent intent=new Intent();
+
 
 
     }
 
     @Test
-    public void shouldNotBeNull() throws Exception {
+    public void checkActivityDefault() throws Exception{
         assertNotNull(announce);
+
+        Intent intent=announce.getIntent();
+        intent.putExtra("id",11);
+        int id=intent.getIntExtra("id",11);
+        assertEquals(11,id);
+        assertEquals("1000004",pref.getString("id","1"));
     }
-/*
+
+
     @Test
-    public void shouldFindListView()throws Exception{
-        assertNotNull("ListView not found ", lstView);
-        ShadowListView shadowListView = Shadows.shadowOf(lstView); //we need to shadow the list view
+    public void checkListView() throws Exception{
+        ListView listView=(ListView)announce.findViewById(R.id.list_of_announcements);
+        DisplayAdapter adapter=(DisplayAdapter) listView.getAdapter();
+        assertEquals(1,adapter.getCount());
 
-        shadowListView.populateItems();// will populate the adapter
-        ShadowLog.d("Checking the first country name in adapter " ,
-                (lstView.getAdapter().getItem(0)).getCountry());
+        View view=adapter.getView(0,null,null);
+        assertNotNull(view);
 
-        assertTrue("Country Japan doesnt exist", "Japan".equals(((RowModel) lstView.getAdapter().getItem(0)).getCountry()));
-        assertTrue(3==lstView.getChildCount());
+        assertEquals(2,adapter.getCount());
+
+        View view1=adapter.getView(1,null,null);
+        Button del=(Button)view.findViewById(R.id.delete);
+        del.performClick();
+        assertEquals(1,adapter.getCount());
     }
-*/
+
     /* testing volley with database */
 
     // testing volley request queue
@@ -230,5 +248,35 @@ public class StudentAnnounceTest {
         new NetworkResponse(200, null, null, false);
         new NetworkResponse(200, null, null, false, 0L);
         new NetworkResponse(200, null, false, 0L, null);
+    }
+
+    // test if volley request queue methods are not null
+    @Test
+    public void publicMethods() throws Exception {
+        // for request queue
+        assertNotNull(RequestQueue.class.getConstructor(Cache.class, Network.class, int.class));
+        assertNotNull(RequestQueue.class.getConstructor(Cache.class, Network.class));
+
+        assertNotNull(RequestQueue.class.getMethod("start"));
+        assertNotNull(RequestQueue.class.getMethod("stop"));
+        assertNotNull(RequestQueue.class.getMethod("getSequenceNumber"));
+        assertNotNull(RequestQueue.class.getMethod("getCache"));
+        assertNotNull(RequestQueue.class.getMethod("cancelAll", RequestQueue.RequestFilter.class));
+        assertNotNull(RequestQueue.class.getMethod("cancelAll", Object.class));
+        assertNotNull(RequestQueue.class.getMethod("add", Request.class));
+        assertNotNull(RequestQueue.class.getDeclaredMethod("finish", Request.class));
+
+        // for json array request
+        assertNotNull(JsonRequest.class.getConstructor(String.class, String.class,
+                Response.Listener.class, Response.ErrorListener.class));
+        assertNotNull(JsonRequest.class.getConstructor(int.class, String.class, String.class,
+                Response.Listener.class, Response.ErrorListener.class));
+
+        assertNotNull(JsonArrayRequest.class.getConstructor(String.class,
+                Response.Listener.class, Response.ErrorListener.class));
+        assertNotNull(JsonArrayRequest.class.getConstructor(int.class, String.class, JSONArray.class,
+                Response.Listener.class, Response.ErrorListener.class));
+
+
     }
 }

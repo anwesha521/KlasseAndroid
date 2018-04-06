@@ -62,7 +62,7 @@ public class InstructorQuiz extends AppCompatActivity implements View.OnClickLis
         HttpURLsendnotif ="http://"+getResources().getString(R.string.ip)+"/Klasse/send_single_push.php";
 
         Intent intent=getIntent();
-        room_id=intent.getIntExtra("id",11);
+        room_id=intent.getIntExtra("id",0);
 
         quiz_name=(EditText)findViewById(R.id.quiz_name);
         week=(EditText)findViewById(R.id.week);
