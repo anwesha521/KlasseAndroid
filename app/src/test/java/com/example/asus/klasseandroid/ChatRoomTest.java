@@ -8,14 +8,18 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.design.widget.FloatingActionButton;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.android.gms.auth.api.Auth;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.FirebaseDatabase;
@@ -28,6 +32,7 @@ import org.junit.Test;
 
 import org.junit.runner.RunWith;
 
+import announcements.DisplayAdapaterInstructorAnnounce;
 import chatroom.ChatMessage;
 import chatroom.ChatRoom;
 
@@ -51,11 +56,6 @@ public class ChatRoomTest {
     int type = 0;
     String id;
     SharedPreferences pref;
-    SharedPreferences prefName;
-    SharedPreferences.Editor editor;
-    SharedPreferences.Editor editorName;
-    String t;
-    String q ="";
 
 
     @Before
@@ -67,16 +67,22 @@ public class ChatRoomTest {
         if (FirebaseApp.getApps(chatroom).isEmpty()) {
             FirebaseApp.initializeApp(chatroom);
         }
+        pref=chatroom .getApplicationContext().getSharedPreferences("UserDetails", Context.MODE_PRIVATE);
+        pref.edit().putString("id","1000004").commit();
+        Intent intent=new Intent();
+
 
     }
 
     @Test
-    public void shouldNotBeNull() throws Exception
-    {
-        assertNotNull( chatroom );
+    public void checkActivityDefault() throws Exception{
+        assertNotNull(chatroom );
+        Intent intent=chatroom .getIntent();
+        intent.putExtra("id",11);
+        int id=intent.getIntExtra("id",1);
+        assertEquals(11,id);
+        assertEquals("1000004",pref.getString("id","1"));
     }
-
-
 
     @Test
     public void testFloatingActionButtonIfNoInput() throws Exception {
@@ -109,45 +115,12 @@ public class ChatRoomTest {
         fab.performClick();
         EditText input = (EditText) chatroom.findViewById(R.id.input);
         String txt=input.getText().toString();
-        chatMessage = new ChatMessage(txt, "Harleen", "question", 11, id);
+        chatMessage = new ChatMessage(txt, "Roshni", "question", 11, id);
 
         assertEquals(chatMessage.getMessageType(),"question");
     }
-    @Test
-    public void testPopulateView() throws Exception {
-        View v = new View(chatroom);
-        final int position;
-        TextView messageText = (TextView) v.findViewById(R.id.message_text);
-        TextView messageUser = (TextView) v.findViewById(R.id.message_user);
-        TextView messageTime = (TextView) v.findViewById(R.id.message_time);
-        EditText input = (EditText) chatroom.findViewById(R.id.input);
-        String txt = input.getText().toString();
-        chatMessage = new ChatMessage(txt, "Harleen", "question", 11, id);
-        // Set their text
-        final String message = chatMessage.getMessageText();
-        final int msg_id = chatMessage.get_id();
 
-        assertEquals(message, txt);
-        assertEquals(msg_id, 11);
-
-        v.performClick();
-        new AlertDialog.Builder(chatroom)
-                .setMessage(
-                        "Reply to Question?")
-                .setPositiveButton(
-                        "Okay",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(
-                                    DialogInterface dialog,
-                                    int which) {
-                                dialog.cancel();
-                                type = 1;
-                                q = chatMessage.getMessageText();
-                            }});
-        //ShadowAlertDialog.ShadowBuilder di = new ShadowAlertDialog.ShadowBuilder();
-        //assertEquals(chatroom, "Reply to Question?");
-        //assertEquals(q,chatMessage);
 
 
     }
-}
+

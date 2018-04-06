@@ -1,5 +1,6 @@
 package com.example.asus.klasseandroid;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
@@ -81,14 +82,23 @@ import chatroom.ChatRoomInstructor;
             if (FirebaseApp.getApps(chatroom).isEmpty()) {
                 FirebaseApp.initializeApp(chatroom);
             }
+            pref=chatroom .getApplicationContext().getSharedPreferences("UserDetails", Context.MODE_PRIVATE);
+            pref.edit().putString("id","2000003").commit();
+            Intent intent=new Intent();
+
 
         }
 
         @Test
-        public void shouldNotBeNull() throws Exception
-        {
-            assertNotNull( chatroom );
+        public void checkActivityDefault() throws Exception{
+            assertNotNull(chatroom );
+            Intent intent=chatroom .getIntent();
+            intent.putExtra("id",11);
+            int id=intent.getIntExtra("id",1);
+            assertEquals(11,id);
+            assertEquals("2000003",pref.getString("id","1"));
         }
+
 
 
 
@@ -136,7 +146,7 @@ import chatroom.ChatRoomInstructor;
             TextView messageTime = (TextView) v.findViewById(R.id.message_time);
             EditText input = (EditText) chatroom.findViewById(R.id.input);
             String txt=input.getText().toString();
-            chatMessage = new ChatMessage(txt, "Harleen", "question", 11, id);
+            chatMessage = new ChatMessage(txt, "Sudipta", "question", 11, id);
             // Set their text
             final String message= chatMessage.getMessageText();
             final int msg_id = chatMessage.get_id();
