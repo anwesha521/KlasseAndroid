@@ -197,7 +197,6 @@ public class InstructorAnnounceTest {
         assertThat(expectedHeaders,
                 containsInAnyOrder(resp.allHeaders.toArray(new Header[resp.allHeaders.size()])));
     }
-
     @Test
     public void listToMap() {
         List<Header> headers = new ArrayList<>();
