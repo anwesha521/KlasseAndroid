@@ -1,8 +1,5 @@
 package com.example.asus.klasseandroid;
 
-/**
- * Created by 1001737 on 4/4/18.
- */
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
