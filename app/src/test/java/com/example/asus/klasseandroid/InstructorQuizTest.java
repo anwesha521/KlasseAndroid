@@ -17,7 +17,6 @@ import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowToast;
 
 import static android.content.Context.MODE_PRIVATE;
-import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.junit.Assert.*;
 import static org.hamcrest.core.IsEqual.equalTo;
 
