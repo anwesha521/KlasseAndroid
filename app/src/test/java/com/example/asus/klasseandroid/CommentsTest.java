@@ -20,7 +20,7 @@ import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
 import java.util.List;
 
-import javax.inject.Inject;
+//import javax.inject.Inject;
 
 import feedback.Comments;
 import feedback.FeedbackDisplayAdapter;
