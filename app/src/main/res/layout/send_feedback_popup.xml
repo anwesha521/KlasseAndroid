@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:padding="10dp"
     android:background="#114b66"
-    tools:context=".ViewPdf"
+    tools:context=".PdfAdapter"
     >
 
     <EditText

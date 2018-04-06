@@ -113,7 +113,7 @@ public class PdfAdapter extends ArrayAdapter<PDF>
                         dialog.cancel();
                         String feedback = feedbackText.getText().toString();
                         String pg = pgNumberText.getText().toString();
-                        ///////////I NEED TO FIX THE PAGE NUMBER ISSUE!!!///////
+
                         String pdfFileName = pdf.getName();
 
                         if (feedback.trim().equals(null)){

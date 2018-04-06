@@ -10,6 +10,7 @@
     >
 
     <Button
+        android:id="@+id/weekV1"
         android:padding="20dp"
         android:layout_margin="10dp"
         android:layout_width="wrap_content"
@@ -22,6 +23,7 @@
         android:layout_centerVertical="true"
         />
     <Button
+        android:id="@+id/weekV2"
         android:padding="20dp"
         android:layout_margin="10dp"
         android:layout_width="wrap_content"
@@ -34,6 +36,7 @@
         android:layout_centerVertical="true"
         />
     <Button
+        android:id="@+id/weekV3"
         android:padding="20dp"
         android:layout_margin="10dp"
         android:layout_width="wrap_content"

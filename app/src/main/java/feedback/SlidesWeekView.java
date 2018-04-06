@@ -9,14 +9,7 @@ import android.view.View;
 
 import com.example.asus.klasseandroid.R;
 
-/**
- * Created by harleen on 20/2/18.]
- * THis is where all the buttons for all the weeks
- * are displayed!
- * THe student can click on a button to
- * pull up a page where all pdfs uploaded for that week
- * can be viewed.
- */
+
 
 public class SlidesWeekView extends AppCompatActivity {
     private int room_id;
