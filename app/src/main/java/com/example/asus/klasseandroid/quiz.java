@@ -15,7 +15,7 @@ public class quiz extends AppCompatActivity {
         setContentView(R.layout.activity_quiz);
 
         Intent intent=getIntent();
-        room_id=intent.getIntExtra("id",11);
+        room_id=intent.getIntExtra("id",0);
 
         Button manage=(Button)findViewById(R.id.manage);
         Button create=(Button)findViewById(R.id.create);
