@@ -60,6 +60,7 @@ public class Comments extends AppCompatActivity {
         //this method will fetch and parse json
         //to display it in recyclerview
         loadFeedback();
+
     }
 
     private void loadFeedback() {

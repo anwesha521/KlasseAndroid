@@ -22,6 +22,7 @@ import java.util.List;
 
 //import javax.inject.Inject;
 
+
 import feedback.Comments;
 import feedback.FeedbackDisplayAdapter;
 import feedback.FeedbackLayout;
@@ -37,16 +38,16 @@ import static org.mockito.Mockito.verify;
  */
 
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class)
+@Config(constants = BuildConfig.class, sdk = 18)
 public class CommentsTest {
-    private Comments fragment;
-
+//    private TestableCommentsFragment fragment;
+//
 //    // We could not inject a layoutManager as a dependency because it is an Android class and it has no public, zero-argument constructor.
 //    // The solution here was to new one up in the real fragment in a method called getLayoutManager(), then subclass that fragment specifically for testing purposes
 //    // and override getLayoutManager() to return a layout manager from a field on the object.
 //    // we set that field to the mockLayoutManager seen below.
 //    private LinearLayoutManager mockLayoutManager;
-//
+
 //    @Inject
 //    FeedbackLayout mockBroadcastReceiver;
 //
@@ -109,7 +110,7 @@ public class CommentsTest {
 //
 //    //Here is the subclass of CandiesFragment that we use for testing. //It overrides getLayoutManager to return a mock so we can assert on the mock.
 //
-//    public static class TestableCandiesFragment extends Comments {
+//    public static class TestableCommentsFragment extends Comments {
 //        private LinearLayoutManager mockLayoutManager;
 //
 //        public void setLayoutManager(LinearLayoutManager mockLayoutManager) {
@@ -119,7 +120,7 @@ public class CommentsTest {
 //        @Override
 //        public LinearLayoutManager getLayoutManager() {
 //            return mockLayoutManager;
-//        }
+////        }
 //    }
 //}
 

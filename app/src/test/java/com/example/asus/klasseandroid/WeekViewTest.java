@@ -1,5 +1,11 @@
 package com.example.asus.klasseandroid;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,6 +13,7 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
+import chatroom.ChatMessage;
 import feedback.ChooseSlidesActivity;
 import feedback.WeekView;
 
@@ -34,6 +41,8 @@ public class WeekViewTest {
     {
         assertNotNull(weekView );
     }
+
+
 
 
 }
