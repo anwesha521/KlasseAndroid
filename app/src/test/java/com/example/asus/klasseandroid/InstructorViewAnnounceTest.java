@@ -1,25 +1,41 @@
 package com.example.asus.klasseandroid;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 
+import com.android.volley.Cache;
 import com.android.volley.Header;
+import com.android.volley.Network;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.ResponseDelivery;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonRequest;
 import com.google.firebase.FirebaseApp;
-
+import static org.robolectric.Shadows.shadowOf;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
+
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.Shadows;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowListView;
 import org.robolectric.shadows.ShadowLog;
 import org.robolectric.shadows.ShadowToast;
 import android.test.suitebuilder.annotation.SmallTest;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.android.volley.Request.Priority;
@@ -40,6 +56,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import announcements.Announcements;
+import announcements.DisplayAdapaterInstructorAnnounce;
 import announcements.InstructorAnnounce;
 import announcements.InstructorViewAnnounce;
 import announcements.StudentAnnounce;
@@ -60,7 +77,8 @@ public class InstructorViewAnnounceTest {
     private ArrayList<String> content = new ArrayList<String>();
     private ArrayList<String> names = new ArrayList<>();
     private ArrayList<Integer> ids = new ArrayList<>();
-    //private ArrayList<Announcements> announce=new ArrayList<>();
+    private int checkedItemPosition;
+    private List<String> announcements;
     int type = 0;
     String id;
     //final EditText e=announce.findViewById(R.id.announcetext);
@@ -70,7 +88,7 @@ public class InstructorViewAnnounceTest {
     SharedPreferences.Editor editorName;
     String t;
     String q = "";
-    private ListView lstView;
+    private ListView listView;
 
 
     @Before
@@ -79,30 +97,45 @@ public class InstructorViewAnnounceTest {
                 .create()
                 .resume()
                 .get();
-        lstView=(ListView)announce.findViewById(R.id.list_of_announcements);
+        pref=announce.getApplicationContext().getSharedPreferences("UserDetails", Context.MODE_PRIVATE);
+        pref.edit().putString("id","2000003").commit();
+        Intent intent=new Intent();
 
 
     }
 
     @Test
-    public void shouldNotBeNull() throws Exception {
+    public void checkActivityDefault() throws Exception{
         assertNotNull(announce);
+        Intent intent=announce.getIntent();
+        intent.putExtra("id",11);
+        int id=intent.getIntExtra("id",1);
+        assertEquals(11,id);
+        assertEquals("2000003",pref.getString("id","1"));
     }
-/*
+
+
     @Test
-    public void shouldFindListView()throws Exception{
-        assertNotNull("ListView not found ", lstView);
-        ShadowListView shadowListView = Shadows.shadowOf(lstView); //we need to shadow the list view
+    public void checkListView() throws Exception{
+        ListView listView=(ListView)announce.findViewById(R.id.list_of_announcements);
+        DisplayAdapaterInstructorAnnounce adapter=(DisplayAdapaterInstructorAnnounce) listView.getAdapter();
+        assertEquals(1,adapter.getCount());
 
-        shadowListView.populateItems();// will populate the adapter
-        ShadowLog.d("Checking the first country name in adapter " ,
-                (lstView.getAdapter().getItem(0)).getCountry());
+        View view=adapter.getView(0,null,null);
+        assertNotNull(view);
 
-        assertTrue("Country Japan doesnt exist", "Japan".equals(((RowModel) lstView.getAdapter().getItem(0)).getCountry()));
-        assertTrue(3==lstView.getChildCount());
+        Button add=(Button)view.findViewById(R.id.addNext);
+        add.performClick();
+        assertEquals(2,adapter.getCount());
+
+        View view1=adapter.getView(1,null,null);
+        Button del=(Button)view.findViewById(R.id.delete);
+        del.performClick();
+        assertEquals(1,adapter.getCount());
     }
-*/
-    /* testing volley with database */
+
+
+    /* testing volley which queries to database */
 
     // testing volley request queue
     @Test
@@ -228,4 +261,39 @@ public class InstructorViewAnnounceTest {
         new NetworkResponse(200, null, null, false, 0L);
         new NetworkResponse(200, null, false, 0L, null);
     }
+
+    // test if volley request queue methods are not null
+    @Test
+    public void publicMethods() throws Exception {
+        // for request queue
+        assertNotNull(RequestQueue.class.getConstructor(Cache.class, Network.class, int.class));
+        assertNotNull(RequestQueue.class.getConstructor(Cache.class, Network.class));
+
+        assertNotNull(RequestQueue.class.getMethod("start"));
+        assertNotNull(RequestQueue.class.getMethod("stop"));
+        assertNotNull(RequestQueue.class.getMethod("getSequenceNumber"));
+        assertNotNull(RequestQueue.class.getMethod("getCache"));
+        assertNotNull(RequestQueue.class.getMethod("cancelAll", RequestQueue.RequestFilter.class));
+        assertNotNull(RequestQueue.class.getMethod("cancelAll", Object.class));
+        assertNotNull(RequestQueue.class.getMethod("add", Request.class));
+        assertNotNull(RequestQueue.class.getDeclaredMethod("finish", Request.class));
+
+        // for json array request
+        assertNotNull(JsonRequest.class.getConstructor(String.class, String.class,
+                Response.Listener.class, Response.ErrorListener.class));
+        assertNotNull(JsonRequest.class.getConstructor(int.class, String.class, String.class,
+                Response.Listener.class, Response.ErrorListener.class));
+
+        assertNotNull(JsonArrayRequest.class.getConstructor(String.class,
+                Response.Listener.class, Response.ErrorListener.class));
+        assertNotNull(JsonArrayRequest.class.getConstructor(int.class, String.class, JSONArray.class,
+                Response.Listener.class, Response.ErrorListener.class));
+
+
+    }
+
+
+
+
+
 }

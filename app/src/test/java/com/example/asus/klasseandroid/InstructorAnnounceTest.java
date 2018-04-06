@@ -1,6 +1,9 @@
 package com.example.asus.klasseandroid;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.view.View;
 import android.widget.Button;
 
 import com.android.volley.Header;
@@ -40,6 +43,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import announcements.Announcements;
+import announcements.DisplayAdapaterInstructorAnnounce;
 import announcements.InstructorAnnounce;
 import announcements.InstructorViewAnnounce;
 import announcements.StudentAnnounce;
@@ -79,29 +83,26 @@ public class InstructorAnnounceTest {
                 .create()
                 .resume()
                 .get();
-        lstView=(ListView)announce.findViewById(R.id.list_of_announcements);
+        pref=announce.getApplicationContext().getSharedPreferences("UserDetails", Context.MODE_PRIVATE);
+        pref.edit().putString("id","2000003").commit();
+        Intent intent=new Intent();
 
 
     }
 
     @Test
-    public void shouldNotBeNull() throws Exception {
+    public void checkActivityDefault() throws Exception{
         assertNotNull(announce);
+        Intent intent=announce.getIntent();
+        intent.putExtra("id",11);
+        int id=intent.getIntExtra("id",1);
+        assertEquals(11,id);
+        assertEquals("2000003",pref.getString("id","1"));
     }
-/*
-    @Test
-    public void shouldFindListView()throws Exception{
-        assertNotNull("ListView not found ", lstView);
-        ShadowListView shadowListView = Shadows.shadowOf(lstView); //we need to shadow the list view
 
-        shadowListView.populateItems();// will populate the adapter
-        ShadowLog.d("Checking the first country name in adapter " ,
-                (lstView.getAdapter().getItem(0)).getCountry());
 
-        assertTrue("Country Japan doesnt exist", "Japan".equals(((RowModel) lstView.getAdapter().getItem(0)).getCountry()));
-        assertTrue(3==lstView.getChildCount());
-    }
-*/
+
+
     /* testing volley with database */
 
     // testing volley request queue
@@ -181,18 +182,17 @@ public class InstructorAnnounceTest {
     @Test
     public void mapToList() {
         Map<String, String> headers = new HashMap<>();
-        headers.put("professor", "Sudipta");
+        headers.put("title", "Announcement posted");
         headers.put("content", "Hello class");
-        headers.put("class", "11");
-        headers.put("pid", "1");
+        headers.put("user_id", "2000003");
+
 
         NetworkResponse resp = new NetworkResponse(200, null, headers, false);
 
         List<Header> expectedHeaders = new ArrayList<>();
-        expectedHeaders.add(new Header("professor", "Sudipta"));
+        expectedHeaders.add(new Header("title", "Announcement posted"));
         expectedHeaders.add(new Header("content", "Hello class"));
-        expectedHeaders.add(new Header("class", "11"));
-        expectedHeaders.add(new Header("pid", "1"));
+        expectedHeaders.add(new Header("user_id", "2000003"));
 
         assertThat(expectedHeaders,
                 containsInAnyOrder(resp.allHeaders.toArray(new Header[resp.allHeaders.size()])));
@@ -200,21 +200,17 @@ public class InstructorAnnounceTest {
     @Test
     public void listToMap() {
         List<Header> headers = new ArrayList<>();
-        headers.add(new Header("professor", "Sudipta"));
-        // wrong value
-        headers.add(new Header("content", "Sorry wrong value"));
+        headers.add(new Header("title", "Announcement posted"));
+        headers.add(new Header("content", "wrong"));
         headers.add(new Header("content", "Hello class"));
-        headers.add(new Header("class", "11"));
-        headers.add(new Header("pid", "1"));
+        headers.add(new Header("user_id", "2000003"));
 
         NetworkResponse resp = new NetworkResponse(200, null, false, 0L, headers);
 
         Map<String, String> expectedHeaders = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-        expectedHeaders.put("professor", "Sudipta");
+        expectedHeaders.put("title", "Announcement posted");
         expectedHeaders.put("content", "Hello class");
-        expectedHeaders.put("class", "11");
-        expectedHeaders.put("pid", "1");
-
+        expectedHeaders.put("user_id", "2000003");
         assertEquals(expectedHeaders, resp.headers);
     }
     // check if null does not crash volley
