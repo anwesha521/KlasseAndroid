@@ -15,9 +15,12 @@ import com.example.asus.klasseandroid.R;
  */
 
 public class ChooseSlidesActivity extends AppCompatActivity {
+    int room_id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent=getIntent();
+        room_id=intent.getIntExtra("id",11);
         setContentView(R.layout.activity_choose_slides_activity);
     }
 
@@ -25,12 +28,14 @@ public class ChooseSlidesActivity extends AppCompatActivity {
 
     public void uploadPdf(View view){
         Intent intent = new Intent (this, UploadSlides.class);
+        intent.putExtra("id",room_id);
 
         startActivity(intent);
 
     }
     public void viewFeedback(View view){
         Intent intent = new Intent (this, Comments.class);
+        intent.putExtra("id",room_id);
 
         startActivity(intent);
 
