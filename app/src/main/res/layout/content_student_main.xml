@@ -37,6 +37,7 @@
         android:textStyle="bold"
         android:textAllCaps="true"
         android:textSize="15sp"
+        android:textColor="#ffff"
     />
     <TextView
         android:id="@+id/esc_txt"
@@ -44,7 +45,7 @@
         android:padding="30dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
+        android:textColor="#ffff"
 
 
         />
@@ -54,6 +55,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
+        android:textColor="#ffff"
         />
     <TextView
         android:id="@+id/ps_txt"
@@ -61,6 +63,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
+        android:textColor="#ffff"
         />
     </LinearLayout>
 </LinearLayout>
