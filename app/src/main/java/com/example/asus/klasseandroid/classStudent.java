@@ -8,7 +8,7 @@ import android.widget.Button;
 
 import announcements.StudentAnnounce;
 import chatroom.ChatRoom;
-import feedback.SlidesWeekView;
+import feedback.studentFeedback.SlidesWeekView;
 
 public class classStudent extends AppCompatActivity {
     

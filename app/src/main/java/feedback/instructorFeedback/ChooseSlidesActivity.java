@@ -1,4 +1,4 @@
-package feedback;
+package feedback.instructorFeedback;
 
 import android.content.Intent;
 import android.os.Bundle;

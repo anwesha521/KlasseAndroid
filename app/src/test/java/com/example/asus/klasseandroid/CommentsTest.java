@@ -1,34 +1,12 @@
 package com.example.asus.klasseandroid;
 
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.TextView;
-
-import org.apache.tools.ant.types.Assertions;
-import org.hamcrest.Matchers;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
-import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
-
-import java.util.List;
 
 //import javax.inject.Inject;
 
 
-import feedback.Comments;
-import feedback.FeedbackDisplayAdapter;
-import feedback.FeedbackLayout;
-
-import static java.util.Arrays.asList;
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 
 /**

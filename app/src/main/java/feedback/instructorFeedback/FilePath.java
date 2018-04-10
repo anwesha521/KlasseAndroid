@@ -1,4 +1,4 @@
-package feedback;
+package feedback.instructorFeedback;
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
@@ -11,6 +11,8 @@ import android.provider.MediaStore;
 public class FilePath
 {
     /**
+     * LETS THE INSTRUCTOR CHOOSE FILE
+     * FROM DEVICE INTERNAL STORAGE
      * Method for return file path of Gallery image
      *
      * @param context

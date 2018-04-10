@@ -1,20 +1,13 @@
 package com.example.asus.klasseandroid;
 
-import android.app.Fragment;
-import android.view.View;
-
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
-import feedback.FeedbackDisplayAdapter;
+import feedback.studentFeedback.FeedbackDisplayAdapter;
 
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 
 /**

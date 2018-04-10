@@ -1,4 +1,4 @@
-package feedback;
+package feedback.studentFeedback;
 
 /**
  * Created by harleen on 28/3/18.

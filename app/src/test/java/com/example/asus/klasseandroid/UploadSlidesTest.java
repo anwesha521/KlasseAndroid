@@ -1,19 +1,14 @@
 package com.example.asus.klasseandroid;
 
-import android.content.Intent;
-import android.widget.Button;
-import android.widget.ImageButton;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.Shadows;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowToast;
 
-import feedback.UploadSlides;
+import feedback.instructorFeedback.UploadSlides;
 
 import static org.junit.Assert.*;
 
