@@ -12,9 +12,8 @@ import org.robolectric.Shadows;
 import org.robolectric.annotation.Config;
 
 
-import feedback.SlidesWeekView;
-import feedback.UploadSlides;
-import feedback.WeekView;
+import feedback.studentFeedback.SlidesWeekView;
+import feedback.studentFeedback.WeekView;
 
 import static org.junit.Assert.*;
 

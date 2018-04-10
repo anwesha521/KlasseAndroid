@@ -1,4 +1,4 @@
-package feedback;
+package feedback.instructorFeedback;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -21,6 +21,9 @@ import net.gotev.uploadservice.UploadNotificationConfig;
 
 import java.util.UUID;
 
+/**
+ * This page lets the instructor upload the slides
+ */
 public class UploadSlides extends AppCompatActivity {
 
     private ImageButton buttonChoose;
