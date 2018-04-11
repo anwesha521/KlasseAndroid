@@ -2,7 +2,7 @@
 
 include_once ("db_connect.php");
 
-if(isset($_GET['class'])
+if(isset($_GET['class']))
 {
   $class=$_GET['class'];
  //creating a query
@@ -12,7 +12,7 @@ if(isset($_GET['class'])
  $stmt->execute();
 
  //binding results to the query
- $stmt->bind_result($pid, $feedback, $pdfFileName, $pgNumber, $time);
+ $stmt->bind_result($pid, $feedback, $pdfFileName, $pgNumber, $time,$class);
 
  $feedbackArr = array();
 
