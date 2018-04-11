@@ -1,4 +1,4 @@
-package feedback;
+package feedback.studentFeedback;
 
 import android.os.Bundle;
 
@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.example.asus.klasseandroid.R;
 
+import feedback.studentFeedback.WeekView;
 
 
 public class SlidesWeekView extends AppCompatActivity {

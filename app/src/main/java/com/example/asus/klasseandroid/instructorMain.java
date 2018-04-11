@@ -53,7 +53,9 @@ public class instructorMain extends AppCompatActivity
     SharedPreferences.Editor ed;
     String HTTPUrl;
     ArrayList<StudentAnalytics> sa=new ArrayList<>();
-
+    NavigationView navigationView;
+    String HTTPUrlClasses;
+    final HashMap<String,Integer> classes=new HashMap<>();
     @Override
     protected void onStart() {
 
@@ -65,24 +67,12 @@ public class instructorMain extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_instructor_main);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         pref=getApplicationContext().getSharedPreferences("UserDetails",MODE_PRIVATE);
         ed=pref.edit();
-        HTTPUrl = "http://"+getResources().getString(R.string.ip)+"/Klasse/instructor_get_grades.php?instructor_id=";
-
-
-        String id=pref.getString("id","1000000");
-        HTTPUrl=HTTPUrl+id;
-
-        mChart = (BarChart) findViewById(R.id.barchartinstruct);
-        mChart.setDescription("");
-
-
-
-        request();
-
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -90,13 +80,86 @@ public class instructorMain extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
         navigationView.setNavigationItemSelectedListener(this);
         View header = navigationView.getHeaderView(0);
+
+
+        HTTPUrl = "http://"+getResources().getString(R.string.ip)+"/Klasse/instructor_get_grades.php?instructor_id=";
+        HTTPUrlClasses= "http://"+getResources().getString(R.string.ip)+"/Klasse/get_classes.php?user_id=";
+
+
+        String id=pref.getString("id","1000000");
+        HTTPUrl=HTTPUrl+id;
+        Log.i("anwesha",HTTPUrlClasses+pref.getString("id","0")+"url");
+
+        mChart = (BarChart) findViewById(R.id.barchartinstruct);
+        mChart.setDescription("");
+        requestClass();
+
+        request();
+
+
+
+
         TextView name=(TextView) header.findViewById(R.id.header_name);
         name.setText(pref.getString("name","Anonymous"));
+
     }
 
+    public void requestClass()
+    {
+
+        String url=HTTPUrlClasses+pref.getString("id","0");
+        RequestQueue requestQueue = Volley.newRequestQueue(instructorMain.this);
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
+                Request.Method.GET,
+                url
+                ,
+                null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.i("anwesha", "reached");
+                        try {
+
+
+                            JSONObject ann = response.getJSONObject(0);
+
+                            Log.i("anwesha", ann.getString("software_construction") + "esc");
+                            classes.put("software", Integer.valueOf(ann.getString("software_construction")));
+
+                            classes.put("computer", Integer.valueOf(ann.getString("computer_engineering")));
+                            Log.i("anwesha", ann.getString("computer_engineering") + "cse");
+                            classes.put("probability", Integer.valueOf(ann.getString("probability")));
+                            Log.i("anwesha", ann.getString("probability") + "pns");
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.i("anwesha", e.getMessage().toString());
+                        }
+                        Menu nav_Menu = navigationView.getMenu();
+                        if(classes.get("software")==0)
+                            nav_Menu.findItem(R.id.nav_1).setVisible(false);
+                        if(classes.get("computer")==0)
+                            nav_Menu.findItem(R.id.nav_2).setVisible(false);
+                        if(classes.get("probability")==0)
+                            nav_Menu.findItem(R.id.nav_3).setVisible(false);
+
+
+                    }
+                },
+                new Response.ErrorListener(){
+                    @Override
+                    public void onErrorResponse(VolleyError error){
+                        // Do something when error occurred
+                        Log.i("anwesha",error.getMessage());
+                    }
+                }
+        );
+        requestQueue.add(jsonArrayRequest);
+    }
     public void request()
     {
         RequestQueue requestQueue = Volley.newRequestQueue(instructorMain.this);
@@ -111,9 +174,11 @@ public class instructorMain extends AppCompatActivity
 
                         try{
 
-                            for(int i=0;i<response.length();i++){
+                            for(int i=0;i<response.length();i++)
+                            {
                                 // Get current json object
                                 JSONObject ann = response.getJSONObject(i);
+                                Log.i("anwesha",ann.getInt("week")+"week");
                                 sa.add(new StudentAnalytics(ann.getInt("week"),ann.getInt("percentage"),ann.getInt("class_id")));
 
                             }

@@ -1,21 +1,10 @@
 package com.example.asus.klasseandroid;
 
-import android.widget.Button;
-
-import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
-import org.robolectric.shadows.ShadowToast;
 
-import feedback.PDF;
-import feedback.PdfAdapter;
-import feedback.WeekView;
-
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.*;
+import feedback.studentFeedback.PdfAdapter;
 
 /**
  * Created by harleen on 4/4/18.

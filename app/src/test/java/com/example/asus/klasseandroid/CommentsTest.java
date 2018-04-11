@@ -1,33 +1,12 @@
 package com.example.asus.klasseandroid;
 
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.TextView;
-
-import org.apache.tools.ant.types.Assertions;
-import org.hamcrest.Matchers;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
-import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
-import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
-
-import java.util.List;
 
 //import javax.inject.Inject;
 
-import feedback.Comments;
-import feedback.FeedbackDisplayAdapter;
-import feedback.FeedbackLayout;
 
-import static java.util.Arrays.asList;
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -37,16 +16,16 @@ import static org.mockito.Mockito.verify;
  */
 
 @RunWith(RobolectricTestRunner.class)
-@Config(constants = BuildConfig.class)
+@Config(constants = BuildConfig.class, sdk = 18)
 public class CommentsTest {
-    private Comments fragment;
-
+//    private TestableCommentsFragment fragment;
+//
 //    // We could not inject a layoutManager as a dependency because it is an Android class and it has no public, zero-argument constructor.
 //    // The solution here was to new one up in the real fragment in a method called getLayoutManager(), then subclass that fragment specifically for testing purposes
 //    // and override getLayoutManager() to return a layout manager from a field on the object.
 //    // we set that field to the mockLayoutManager seen below.
 //    private LinearLayoutManager mockLayoutManager;
-//
+
 //    @Inject
 //    FeedbackLayout mockBroadcastReceiver;
 //
@@ -109,7 +88,7 @@ public class CommentsTest {
 //
 //    //Here is the subclass of CandiesFragment that we use for testing. //It overrides getLayoutManager to return a mock so we can assert on the mock.
 //
-//    public static class TestableCandiesFragment extends Comments {
+//    public static class TestableCommentsFragment extends Comments {
 //        private LinearLayoutManager mockLayoutManager;
 //
 //        public void setLayoutManager(LinearLayoutManager mockLayoutManager) {
@@ -119,7 +98,7 @@ public class CommentsTest {
 //        @Override
 //        public LinearLayoutManager getLayoutManager() {
 //            return mockLayoutManager;
-//        }
+////        }
 //    }
 //}
 

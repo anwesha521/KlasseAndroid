@@ -7,8 +7,7 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-import feedback.ChooseSlidesActivity;
-import feedback.WeekView;
+import feedback.studentFeedback.WeekView;
 
 import static org.junit.Assert.*;
 
@@ -34,6 +33,8 @@ public class WeekViewTest {
     {
         assertNotNull(weekView );
     }
+
+
 
 
 }

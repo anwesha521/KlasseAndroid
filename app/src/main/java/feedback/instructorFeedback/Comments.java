@@ -1,4 +1,4 @@
-package feedback;
+package feedback.instructorFeedback;
 
 
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +21,10 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import feedback.studentFeedback.FeedbackDisplayAdapter;
+import feedback.studentFeedback.FeedbackLayout;
+
 /**
  * Created by harleen on 28/3/18.
  * This page displays all comments submitted
@@ -60,6 +64,7 @@ public class Comments extends AppCompatActivity {
         //this method will fetch and parse json
         //to display it in recyclerview
         loadFeedback();
+
     }
 
     private void loadFeedback() {

@@ -1,15 +1,10 @@
 package com.example.asus.klasseandroid;
 
 
-import android.app.Activity;
-import android.app.Instrumentation;
 import android.content.Intent;
-import android.net.Uri;
-import android.provider.ContactsContract;
 import android.widget.Button;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
@@ -17,15 +12,15 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.Shadows;
 import org.robolectric.annotation.Config;
 
-import chatroom.ChatRoom;
-import feedback.ChooseSlidesActivity;
-import feedback.Comments;
-import feedback.UploadSlides;
+import feedback.instructorFeedback.ChooseSlidesActivity;
+import feedback.instructorFeedback.Comments;
+import feedback.instructorFeedback.UploadSlides;
 
 import static org.junit.Assert.*;
 
 /**
  * Created by harleen on 4/4/18.
+ * COMPLETED!!
  */
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class)

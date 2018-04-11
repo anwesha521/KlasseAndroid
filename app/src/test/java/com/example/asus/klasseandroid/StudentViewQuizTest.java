@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
+//import static org.junit.Assert.assertNotEquals;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -24,7 +24,7 @@ import org.robolectric.shadows.ShadowToast;
 import static android.content.Context.MODE_PRIVATE;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertNotEquals;
+//import static org.junit.Assert.assertNotEquals;
 import com.example.asus.klasseandroid.StudentViewQuiz.*;
 
 import java.util.ArrayList;
@@ -89,7 +89,7 @@ public class StudentViewQuizTest {
             assertNotNull(adapter.viewQuizzes);
             assertNotNull(adapter.context);
             assertNotNull(adapter.statuses);
-            assertNotEquals(0,adapter.room_id);
+            assertNotSame(0,adapter.room_id);
             assertEquals(adapter.statuses.size(),adapter.viewQuizzes.size());
 
             for(int i=0;i<adapter.viewQuizzes.size();i++){

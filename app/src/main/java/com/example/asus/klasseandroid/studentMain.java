@@ -54,18 +54,20 @@ public class studentMain extends AppCompatActivity
     SharedPreferences pref;
     SharedPreferences.Editor ed;
     String HTTPUrl;
+    String HTTPUrlGetGrade;
     TextView esc;
     TextView cse;
     TextView ps;
    ArrayList<StudentAnalytics> sa=new ArrayList<>();
+
 
    /*@Override
    protected void onStart() {
 
        super.onStart();
        request();
-   }*/
-
+   }
+*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +77,7 @@ public class studentMain extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         HTTPUrl = "http://"+getResources().getString(R.string.ip)+"/Klasse/student_get_grades.php?student_id=";
-
+        HTTPUrlGetGrade="http://"+getResources().getString(R.string.ip)+"/Klasse/get_max_grades.php";
         pref=getApplicationContext().getSharedPreferences("UserDetails",MODE_PRIVATE);
         ed=pref.edit();
         String id=pref.getString("id","1000000");
@@ -86,8 +88,8 @@ public class studentMain extends AppCompatActivity
         esc=(TextView) findViewById(R.id.esc_txt);
         cse=(TextView) findViewById(R.id.cse_txt);
         ps=(TextView) findViewById(R.id.ps_txt);
-
         request();
+
         mChart = (LineChart) findViewById(R.id.linechart);
         mChart.setDragEnabled(true);
         mChart.setScaleEnabled(true);
@@ -111,6 +113,7 @@ public class studentMain extends AppCompatActivity
 
     public void request()
     {
+        Log.i("anwesha","reached request");
         RequestQueue requestQueue = Volley.newRequestQueue(studentMain.this);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
@@ -127,14 +130,14 @@ public class studentMain extends AppCompatActivity
                                 // Get current json object
                                 JSONObject ann = response.getJSONObject(i);
                                 sa.add(new StudentAnalytics(ann.getInt("week"),ann.getInt("percentage"),ann.getInt("class_id")));
-                                Log.i("anwesha",ann.getInt("percentage")+" ");
+
                             }
                         }catch (JSONException e){
                             e.printStackTrace();
                             Log.i("anwesha",e.getMessage().toString());
                         }
-                        setData();
-                        setClasses();
+                        request1();
+
                     }
                 },
                 new Response.ErrorListener(){
@@ -193,61 +196,133 @@ public class studentMain extends AppCompatActivity
 
 
     }
-    private void setData() {
 
+    private void request1()
+    {  final ArrayList<weeklyGrade> wg=new ArrayList<>();
+        Log.i("anwesha","reached request1");
+        RequestQueue requestQueue = Volley.newRequestQueue(studentMain.this);
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
+                Request.Method.GET,
+                HTTPUrlGetGrade,
+                null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+
+                        try{
+
+                            for(int i=0;i<response.length();i++){
+                                // Get current json object
+                                JSONObject ann = response.getJSONObject(i);
+                                wg.add(new weeklyGrade(ann.getInt("week"),ann.getInt("percentage")));
+                                Log.i("anweshawg",ann.getInt("week")+"week");
+
+                            }
+
+                        }catch (JSONException e){
+                            e.printStackTrace();
+                            Log.i("anwesha",e.getMessage().toString());
+                        }
+                        setData(wg);
+
+                    }
+                },
+                new Response.ErrorListener(){
+                    @Override
+                    public void onErrorResponse(VolleyError error){
+                        // Do something when error occurred
+                        Log.i("anwesha",error.getMessage());
+                    }
+                }
+        );
+        requestQueue.add(jsonArrayRequest);
+
+    }
+    private void setData(ArrayList<weeklyGrade> wg) {
+        Log.i("anwesha","reached setData");
         ArrayList<StudentAnalytics> s=sa;
         ArrayList<String> xVals = new ArrayList<String>();
         ArrayList<Entry> yVals = new ArrayList<Entry>();
+        ArrayList<Entry> yVals1 = new ArrayList<Entry>();
+
 
         Map<Integer, StudentAnalytics> map = new HashMap<>();
         int count=1;
-
-        for (StudentAnalytics p : s)
-        {
-            int week = p.getWeek();
-            StudentAnalytics sum = map.get(week);
-            if (sum == null) {
-                count=1;
-                sum = new StudentAnalytics(week, 0,0);
-                map.put(week, sum);
-            }
-            sum.setPercentage((sum.getPercentage() + p.getPercentage())/count++);
-
-        }
-        Map<Integer, StudentAnalytics> m = new TreeMap<>(map);
-        s=new ArrayList<StudentAnalytics>(m.values());
-
         int i=0;
-        for(StudentAnalytics stest:s) {
 
-          xVals.add("Week "+stest.getWeek());
-          yVals.add(new Entry(stest.getPercentage(),i));
-          i++;
 
+        int c=0;
+
+        if(wg.size()>0) {
+            for (StudentAnalytics p : s) {
+
+                int week = p.getWeek();
+                StudentAnalytics sum = map.get(week);
+                if (sum == null) {
+                    count = 1;
+                    sum = new StudentAnalytics(week, 0, 0);
+                    map.put(week, sum);
+                }
+                sum.setPercentage((sum.getPercentage() + p.getPercentage()) / count++);
+                c++;
+            }
+
+            Map<Integer, StudentAnalytics> m = new TreeMap<>(map);
+            s = new ArrayList<StudentAnalytics>(m.values());
+
+
+            for (weeklyGrade w : wg) {
+                yVals1.add(new Entry(w.getPercentage(), i));
+                xVals.add("Week " + w.getWeek());
+                boolean flag=true;
+                for(int j=0;j<s.size();j++)
+                {
+                    if(s.get(j)!=null)
+                    if(s.get(j).getWeek()==w.getWeek()) {
+
+                        flag=false;
+                        yVals.add(new Entry(s.get(j).getPercentage(), i));
+                        break;
+                    }
+
+                }
+                if(flag)
+                    yVals.add(new Entry(0, i));
+
+                Log.i("anwesha", w.getPercentage() + "hhhh");
+                i++;
+            }
         }
 
         LineDataSet set1;
+        LineDataSet set2;
 
         set1 = new LineDataSet(yVals, "Your Performance");
+        set2=new LineDataSet(yVals1, "Maximum Performance");
         set1.setFillAlpha(110);
-
         set1.setColor(Color.BLACK);
         set1.setCircleColor(Color.BLACK);
         set1.setLineWidth(1f);
         set1.setCircleRadius(3f);
         set1.setDrawCircleHole(false);
         set1.setValueTextSize(9f);
-        //set1.setDrawFilled(true);
-        //set1.setFillColor(R.color.colorPrimaryDark);
+
+        set2.setFillAlpha(110);
+        set2.setColor(Color.RED);
+        set2.setCircleColor(Color.RED);
+        set2.setLineWidth(1f);
+        set2.setCircleRadius(3f);
+        set2.setDrawCircleHole(false);
+        set2.setValueTextSize(9f);
 
         ArrayList<ILineDataSet> dataSets = new ArrayList<ILineDataSet>();
         dataSets.add(set1); // add the datasets
-
-        // create a data object with the datasets
+        dataSets.add(set2);
         LineData data = new LineData(xVals, dataSets);
-        //set1.setColors(ColorTemplate);
-        // set data
+
         mChart.setData(data);
+        setClasses();
 
     }
     @Override
@@ -312,5 +387,27 @@ public class studentMain extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true; //test
+    }
+
+    class weeklyGrade
+    {
+        private int weeks;
+        private int percentage;
+
+        public weeklyGrade(int w, int p)
+        {
+            weeks=w;
+            percentage=p;
+        }
+
+        public int getPercentage()
+        {
+            return percentage;
+        }
+
+        public int getWeek()
+        {
+            return weeks;
+        }
     }
 }
