@@ -75,6 +75,7 @@ public class WeekView  extends AppCompatActivity {
                                 String pdfUrl = jsonObject.getString("url");
                                 pdf.setName(pdfName);
                                 pdf.setUrl(pdfUrl);
+                                pdf.setRoomId(room_id+" ");
 
                                 pdfList.add(pdf);
 
