@@ -52,7 +52,7 @@ public class WeekView  extends AppCompatActivity {
 
     private void getPdfs() {
 
-
+        //is this where anwesha gets all the pdfs from the particular week?
         StringRequest stringRequest = new StringRequest(Request.Method.GET, PDF_FETCH_URL+week+"&class="+room_id,
 
                 new Response.Listener<String>() {
@@ -80,7 +80,7 @@ public class WeekView  extends AppCompatActivity {
 
                             }
 
-                            pdfAdapter=new PdfAdapter(WeekView.this,R.layout.pdf_list_layout, pdfList);
+                            pdfAdapter=new PdfAdapter(room_id,WeekView.this,R.layout.pdf_list_layout, pdfList);
 
                             listView.setAdapter(pdfAdapter);
 

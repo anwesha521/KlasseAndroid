@@ -29,18 +29,21 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class PdfAdapter extends ArrayAdapter<PDF>
 {
+    //how does she pass in the pdf name? i need to pass in the room id like that
     Activity activity;
     int layoutResourceId;
     ArrayList<PDF> data=new ArrayList<PDF>();
     PDF pdf;
     String url;
+    private int room;
 
-    public PdfAdapter(Activity activity, int layoutResourceId, ArrayList<PDF> data) {
+    public PdfAdapter(int room,Activity activity, int layoutResourceId, ArrayList<PDF> data) {
         super(activity, layoutResourceId, data);
         this.activity=activity;
         url = "http://"+activity.getResources().getString(R.string.ip)+"/Klasse/feedback.php";
         this.layoutResourceId=layoutResourceId;
         this.data=data;
+        this.room=room;
     }
 
     @Override
@@ -55,6 +58,7 @@ public class PdfAdapter extends ArrayAdapter<PDF>
             holder.viewpdf= (Button) row.findViewById(R.id.pdfView);
             holder.feedback= (Button) row.findViewById(R.id.pdffeedback);
             holder.name=(TextView)row.findViewById(R.id.pdfName);
+            holder.roomid = (TextView)row.findViewById(R.id.roomid);
             row.setTag(holder);
         }
         else
@@ -65,6 +69,7 @@ public class PdfAdapter extends ArrayAdapter<PDF>
         pdf = data.get(position);
 
         holder.name.setText("Name: "+pdf.getName());
+        holder.roomid.setText("Class: "+pdf.getRoomId());
         holder.viewpdf.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -115,6 +120,7 @@ public class PdfAdapter extends ArrayAdapter<PDF>
                         String pg = pgNumberText.getText().toString();
 
                         String pdfFileName = pdf.getName();
+                        String pdfClassName = pdf.getRoomId();
 
                         if (feedback.trim().equals(null)){
                             Toast.makeText(activity, "Feedback empty!", Toast.LENGTH_SHORT).show();
@@ -124,7 +130,7 @@ public class PdfAdapter extends ArrayAdapter<PDF>
                         }
                         else {
 
-                            submitFeedback(feedback, pdfFileName, pg);
+                            submitFeedback(feedback, pdfFileName, pg, pdfClassName);
                         }
                     }
                 });
@@ -154,8 +160,9 @@ public class PdfAdapter extends ArrayAdapter<PDF>
     {
         Button viewpdf,feedback;
         TextView name;
+        TextView roomid;
     }
-    private void submitFeedback(final String comments, final String filename, final String pgNumber) {
+    private void submitFeedback(final String comments, final String filename, final String pgNumber, final String pdfClassName) {
 
         RequestQueue MyRequestQueue = Volley.newRequestQueue(activity);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -170,12 +177,14 @@ public class PdfAdapter extends ArrayAdapter<PDF>
                 //Log.e("VOLLEY", error.getMessage());
             }
         }) {
+
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("feedback", comments);
                 params.put("pdfFileName",filename);
                 params.put("pgNumber",pgNumber);
+                params.put("class", pdfClassName);
 
 
                 return params;

@@ -2,9 +2,11 @@
 
 include_once ("db_connect.php");
 
-
+if(isset($_GET['class'])
+{
+  $class=$_GET['class'];
  //creating a query
- $stmt = $con->prepare("SELECT * FROM feedback;");
+ $stmt = $con->prepare("SELECT * FROM feedback WHERE class=$class;");
 
  //executing the query
  $stmt->execute();
@@ -24,6 +26,7 @@ include_once ("db_connect.php");
  $temp['time'] = $time;
  array_push($feedbackArr, $temp);
  }
+}
 
  //displaying the result in json format
  echo json_encode($feedbackArr);

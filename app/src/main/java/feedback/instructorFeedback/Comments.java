@@ -1,6 +1,7 @@
 package feedback.instructorFeedback;
 
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -46,10 +47,18 @@ public class Comments extends AppCompatActivity {
     //the recyclerview
     RecyclerView recyclerView;
 
+    //room id
+
+    private int room_id;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //setting the room id stuff
+        Intent intent = getIntent();
+        room_id=intent.getIntExtra("id", 11);
+
         setContentView(R.layout.activity_comments);
         URL = "http://"+getResources().getString(R.string.ip)+"/Klasse/api.php";
         //getting the recyclerview from xml
@@ -76,7 +85,7 @@ public class Comments extends AppCompatActivity {
         * Then we have a Response Listener and a Error Listener
         * In response listener we will get the JSON response as a String
         * */
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL+"?class="+room_id,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {

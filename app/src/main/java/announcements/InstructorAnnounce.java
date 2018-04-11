@@ -93,8 +93,9 @@ public class InstructorAnnounce extends AppCompatActivity {
                             }
 
                             RequestQueue MyRequestQueue = Volley.newRequestQueue(InstructorAnnounce.this);
-                            for(String i:ids) {
-                                final String id=i;
+                            for(String i:ids) { //this iterates through all the ids
+                                final String id=i; //sets current id = current element
+                                //loops through everything
 
                                 StringRequest stringRequest = new StringRequest(Request.Method.POST, HttpURLsendnotif, new Response.Listener<String>() {
                                     @Override
