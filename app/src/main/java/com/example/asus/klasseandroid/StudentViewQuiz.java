@@ -87,7 +87,7 @@ public class StudentViewQuiz extends AppCompatActivity {
                             for (int i = 0; i < array.length(); i++) {
                                 names.add(array.getJSONObject(i).getString("quiz_name"));
                                 weeks.add(array.getJSONObject(i).getInt("week"));
-                                Log.i("anwesha",i+array.getJSONObject(i).getString("quiz_name")+" ");
+
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

@@ -92,7 +92,7 @@ public class InstructorEditQuiz extends AppCompatActivity implements View.OnClic
                             for(int i=0;i<array.length();i++)
                             {
                                 JSONObject question=array.getJSONObject(i);
-                                Log.i("anweshatest",question.getInt("week")+" "+week_number);
+
                                 if(question.getInt("week")==week_number){
 
                                     instructor_id=question.getString("instructor_id");

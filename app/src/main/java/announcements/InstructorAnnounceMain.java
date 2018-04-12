@@ -32,7 +32,7 @@ public class InstructorAnnounceMain extends AppCompatActivity {
         });
 
     }
-    public void startMake()
+    public void startMake() //to activity where instructor can post announcements
     {
         Intent launch = new Intent(this, InstructorAnnounce.class);
         launch.putExtra("id",room_id);
@@ -40,7 +40,7 @@ public class InstructorAnnounceMain extends AppCompatActivity {
 
     }
 
-    public void startView()
+    public void startView() //to activity where instructor can view announcements
     {
         Intent launch = new Intent(this, InstructorViewAnnounce.class);
         launch.putExtra("id",room_id);

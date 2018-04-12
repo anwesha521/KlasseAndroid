@@ -1,15 +1,7 @@
-package com.example.asus.klasseandroid;
+package general;
 
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.StrictMode;
-import android.provider.DocumentsContract;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -25,12 +17,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.asus.klasseandroid.R;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -149,7 +140,7 @@ public class Login extends AppCompatActivity {
                 result = doc.body().text();
                 ed.putString("id",email);
                 ed.commit();
-                Log.i("anwesharesult",result);
+
                 postSuccess(result);
 
             }
@@ -162,7 +153,7 @@ public class Login extends AppCompatActivity {
         }) {
             protected Map<String, String> getParams() {
                 Map<String, String> MyData = new HashMap<String, String>();
-                Log.i("anweshalogin",email+password);
+
                 MyData.put("user_id", email);
                 MyData.put("password",password);
                 return MyData;
@@ -190,7 +181,7 @@ public class Login extends AppCompatActivity {
             ed.putString("name",vals[0]);
             ed.commit();
             register();
-            Log.i("anwesha",vals[0]+","+vals[1]+" TESTTYPE ");
+
             if(type.equalsIgnoreCase("student")&& vals[1].equalsIgnoreCase("student"))
             {
                 Intent intent = new Intent(Login.this, studentMain.class);

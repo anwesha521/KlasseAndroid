@@ -7,7 +7,7 @@
         android:weightSum="4"
         xmlns:tools="http://schemas.android.com/tools"
 
-        tools:context="com.example.asus.klasseandroid.classStudent"
+        tools:context="com.example.asus.klasseandroid.general.classStudent"
         >
 
 

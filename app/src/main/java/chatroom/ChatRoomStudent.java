@@ -1,5 +1,9 @@
 package chatroom;
 
+//chatroom for students have reply to question and post question capabilities
+//green message = reply
+//yellow message=verified reply by instructor
+//blue message=question/general message
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -22,7 +26,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.database.FirebaseDatabase;
 
 
-public class ChatRoom extends AppCompatActivity {
+public class ChatRoomStudent extends AppCompatActivity {
     private FirebaseAnalytics mFirebaseAnalytics;
     private FirebaseListAdapter<ChatMessage> adapter;
     private EditText input;
@@ -32,8 +36,8 @@ public class ChatRoom extends AppCompatActivity {
     int room_id;
 
     SharedPreferences pref;
-    SharedPreferences prefName;
     SharedPreferences.Editor editor;
+    SharedPreferences prefName;
     SharedPreferences.Editor editorName;
     String t;
     String id;
@@ -56,7 +60,6 @@ public class ChatRoom extends AppCompatActivity {
         prefName=getApplicationContext().getSharedPreferences("UserDetails",MODE_PRIVATE);
         editorName=prefName.edit();
         room_id = intent.getIntExtra("id", 11);
-        Log.i("anwesha",room_id+"=room id");
 
         FloatingActionButton fab =
                 (FloatingActionButton) findViewById(R.id.fab);
@@ -70,10 +73,11 @@ public class ChatRoom extends AppCompatActivity {
                 input = (EditText) findViewById(R.id.input);
                 String txt=input.getText().toString();
                 if (TextUtils.isEmpty(txt)) {
-                    Toast.makeText(ChatRoom.this, "Please enter message.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(ChatRoomStudent.this, "Please enter message.", Toast.LENGTH_LONG).show();
                 } else {
 
-                    if (type == 1) {
+                    if (type == 1) //type 1 corresponds to a reply, hence type will be saved to firebase database as reply
+                    {
 
 
                         id = FirebaseDatabase.getInstance()
@@ -88,7 +92,8 @@ public class ChatRoom extends AppCompatActivity {
                         type = 0;
 
 
-                    } else {
+                    } else //if type!= 1 then type is by default considered to be a question
+                        {
                         id = FirebaseDatabase.getInstance()
                                 .getReference()
                                 .push().getKey();
@@ -109,7 +114,7 @@ public class ChatRoom extends AppCompatActivity {
 
 
     }
-
+    //populates chatroom using a firebaselistadapter
     public void displayChatMessages() {
 
         adapter = new FirebaseListAdapter<ChatMessage>(this, ChatMessage.class,
@@ -124,14 +129,14 @@ public class ChatRoom extends AppCompatActivity {
                 // Set their text
                 final String message = model.getMessageText();
                 final int id = model.get_id();
-                Log.i("anweshaid",id+"");
+
 
                 if (id == room_id) {
-                    if(model.getMessageType().equalsIgnoreCase("question"))
+                    if(model.getMessageType().equalsIgnoreCase("question")) //long click allows student to reply to a message
                     v.setOnLongClickListener(new View.OnLongClickListener() {
                         @Override
                         public boolean onLongClick(View v) {
-                            new AlertDialog.Builder(ChatRoom.this)
+                            new AlertDialog.Builder(ChatRoomStudent.this)
                                     .setMessage(
                                             "Reply to Question?")
                                     .setPositiveButton(
@@ -154,7 +159,7 @@ public class ChatRoom extends AppCompatActivity {
 
                                 }
                             }).show();
-                            Log.i("anwesha", "type=" + type);
+
                             return false;
                         }
                     });

@@ -1,5 +1,5 @@
 package announcements;
-
+//Allows instructor to post announcements to all students enrolled in his/her class
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
@@ -28,7 +28,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class InstructorAnnounce extends AppCompatActivity {
+public class InstructorAnnounce extends AppCompatActivity
+{
     private int room_id;
     private static String HttpURL;
     private static String HttpURLsendnotif ;
@@ -68,6 +69,7 @@ public class InstructorAnnounce extends AppCompatActivity {
 
     }
 
+    //sends notifications to all students enrolled in the class
     public void sentNotif(final String a)
     {
 
@@ -144,10 +146,13 @@ public class InstructorAnnounce extends AppCompatActivity {
         requestQueue.add(jsonArrayRequest);
 
     }
+
+    //sends announcement to databse
     public void postAnnouncement(final String name, final EditText e, final String a)
     {
         RequestQueue MyRequestQueue = Volley.newRequestQueue(InstructorAnnounce.this);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, HttpURL, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, HttpURL, new Response.Listener<String>()
+        {
             @Override
             public void onResponse(String response) {
                 if (response.contains("success")) {

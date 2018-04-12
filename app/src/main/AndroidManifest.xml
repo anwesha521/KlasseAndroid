@@ -20,7 +20,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Welcome">
+        <activity android:name="general.Welcome">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,19 +28,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Login"
+            android:name="general.Login"
             android:label="@string/title_activity_student_login" />
         <activity
-            android:name=".studentMain"
+            android:name="general.studentMain"
             android:label="@string/title_activity_student_main"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".instructorMain"
+            android:name="general.instructorMain"
             android:label="@string/title_activity_instructor_main"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <service
-            android:name=".MyFirebaseInstanceIDService"
+            android:name="notifications.MyFirebaseInstanceIDService"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -48,24 +48,34 @@
             </intent-filter>
         </service>
         <service
-            android:name=".MyFirebaseMessagingService"
+            android:name="notifications.MyFirebaseMessagingService"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <activity android:name=".StudentViewQuiz"/>
-        <activity android:name=".classStudent" />
-        <activity android:name=".StudentQuiz" />
+        <activity android:name=".StudentViewQuiz"
+            android:noHistory="true"/>
+        <activity android:name="general.classStudent"
+            android:noHistory="true"
+            android:parentActivityName="general.studentMain">
+
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="general.studentMain"/>
+        </activity>
+        <activity android:name=".StudentQuiz"
+            android:noHistory="true"/>
         <activity android:name="chatroom.ChatRoomInstructor" />
-        <activity android:name="chatroom.ChatRoom" />
+        <activity android:name="chatroom.ChatRoomStudent" />
         <activity android:name="feedback.studentFeedback.SlidesWeekView" />
         <activity android:name="feedback.instructorFeedback.ChooseSlidesActivity" />
         <activity android:name="feedback.studentFeedback.WeekView" />
         <activity android:name="announcements.StudentAnnounce" />
         <activity android:name="announcements.InstructorAnnounce" />
-        <activity android:name=".classInstructor" />
+        <activity android:name="general.classInstructor"
+            android:parentActivityName="general.instructorMain"/>
         <activity android:name="feedback.instructorFeedback.UploadSlides" />
         <activity android:name=".InstructorQuiz" />
         <activity android:name="feedback.instructorFeedback.Comments" />

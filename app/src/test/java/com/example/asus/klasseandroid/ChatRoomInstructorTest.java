@@ -18,7 +18,6 @@ import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowToast;
 
 import chatroom.ChatMessage;
-import chatroom.ChatRoom;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -29,28 +28,8 @@ import static org.junit.Assert.assertNotNull;
 
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.support.design.widget.FloatingActionButton;
-import android.text.TextUtils;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.android.gms.auth.api.Auth;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.database.FirebaseDatabase;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 
 
-
-import org.junit.runner.RunWith;
-
-import chatroom.ChatMessage;
-import chatroom.ChatRoom;
 import chatroom.ChatRoomInstructor;
 
 

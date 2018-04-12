@@ -6,7 +6,6 @@ package com.example.asus.klasseandroid;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import static org.robolectric.Shadows.shadowOf;
@@ -19,7 +18,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonRequest;
-import com.google.firebase.FirebaseApp;
 
 import org.json.JSONArray;
 import org.junit.Before;
@@ -28,9 +26,6 @@ import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
-import org.robolectric.shadows.ShadowActivity;
-import org.robolectric.shadows.ShadowIntent;
-import org.robolectric.shadows.ShadowToast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,8 +33,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import chatroom.ChatMessage;
-import chatroom.ChatRoom;
+import general.studentMain;
 
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.Assert.assertEquals;

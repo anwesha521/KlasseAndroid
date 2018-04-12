@@ -115,7 +115,7 @@ public class InstructorQuiz extends AppCompatActivity implements View.OnClickLis
                                 StringRequest stringRequest = new StringRequest(Request.Method.POST, HttpURLsendnotif, new Response.Listener<String>() {
                                     @Override
                                     public void onResponse(String response) {
-                                        Log.i("anwesha", "succesfully sent");
+
                                     }
                                 }, new Response.ErrorListener() {
                                     @Override
@@ -166,6 +166,20 @@ public class InstructorQuiz extends AppCompatActivity implements View.OnClickLis
         ql=myAdapter.getQl();
         //upload the question list to database
         for(final InstructorQuizAdapter.question q:ql){
+            if(q.type!=0) {
+                if (quiz_name.getText().toString().trim().equals("") || week.getText().toString().trim().equals("") || q.description.trim().equals("") || q.point.trim().equals("") ||
+                        q.a.trim().equals("") || q.b.trim().equals("") || q.c.trim().equals("") || q.d.trim().equals("") || q.answer.trim().equals("")) {
+                    Toast.makeText(InstructorQuiz.this, "Please fill all fields in!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+            else
+            if (quiz_name.getText().toString().trim().equals("") || week.getText().toString().trim().equals("") || q.description.trim().equals("") || q.point.trim().equals("") ||
+                    q.answer.trim().equals("")) {
+                Toast.makeText(InstructorQuiz.this, "Please fill all fields in!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             StringRequest stringRequest=new StringRequest(Request.Method.POST, url,
                     new Response.Listener<String>() {
                         @Override

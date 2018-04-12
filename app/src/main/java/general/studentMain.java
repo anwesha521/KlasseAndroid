@@ -1,14 +1,10 @@
-package com.example.asus.klasseandroid;
+package general;
 
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.support.v4.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -27,12 +23,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.asus.klasseandroid.R;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.github.mikephil.charting.utils.ColorTemplate;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,12 +36,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
 
 
 public class studentMain extends AppCompatActivity
@@ -66,8 +58,8 @@ public class studentMain extends AppCompatActivity
 
        super.onStart();
        request();
-   }
-*/
+   }*/
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,9 +103,10 @@ public class studentMain extends AppCompatActivity
 
     }
 
+    //queries database for current student's grades
     public void request()
     {
-        Log.i("anwesha","reached request");
+
         RequestQueue requestQueue = Volley.newRequestQueue(studentMain.this);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
@@ -129,6 +122,7 @@ public class studentMain extends AppCompatActivity
                             for(int i=0;i<response.length();i++){
                                 // Get current json object
                                 JSONObject ann = response.getJSONObject(i);
+                                Log.i("anwesha",ann.getInt("week")+"weekann");
                                 sa.add(new StudentAnalytics(ann.getInt("week"),ann.getInt("percentage"),ann.getInt("class_id")));
 
                             }
@@ -150,15 +144,15 @@ public class studentMain extends AppCompatActivity
         );
         requestQueue.add(jsonArrayRequest);
     }
-
+//displays average grades of student for every single class they are enrolled in/have taken quizzes for
     private void setClasses()
     {
         ArrayList<StudentAnalytics> s=sa;
         Map<Integer, StudentAnalytics> map = new HashMap<>();
         Map<Integer, Integer> total=new HashMap<>();
 
-        for (StudentAnalytics p : s) {
-            int c = p.getClassId();
+        for (int i=0;i<s.size();i++) {
+            int c = s.get(i).getClassId();
             StudentAnalytics sum = map.get(c);
             if (sum == null) {
 
@@ -167,9 +161,9 @@ public class studentMain extends AppCompatActivity
                 total.put(c,0);
 
             }
-            sum.setPercentage(sum.getPercentage() + p.getPercentage());
+            sum.setPercentage(sum.getPercentage() + s.get(i).getPercentage());
             total.put(c,total.get(c)+1);
-            Log.i("anwesha",total.get(c)+" ");
+
 
         }
         Map<Integer, StudentAnalytics> m = new TreeMap<>(map);
@@ -196,10 +190,10 @@ public class studentMain extends AppCompatActivity
 
 
     }
-
+//queries database for maximum grades
     private void request1()
     {  final ArrayList<weeklyGrade> wg=new ArrayList<>();
-        Log.i("anwesha","reached request1");
+
         RequestQueue requestQueue = Volley.newRequestQueue(studentMain.this);
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
@@ -216,7 +210,7 @@ public class studentMain extends AppCompatActivity
                                 // Get current json object
                                 JSONObject ann = response.getJSONObject(i);
                                 wg.add(new weeklyGrade(ann.getInt("week"),ann.getInt("percentage")));
-                                Log.i("anweshawg",ann.getInt("week")+"week");
+
 
                             }
 
@@ -224,7 +218,7 @@ public class studentMain extends AppCompatActivity
                             e.printStackTrace();
                             Log.i("anwesha",e.getMessage().toString());
                         }
-                        setData(wg);
+                        setData1(wg);
 
                     }
                 },
@@ -239,8 +233,9 @@ public class studentMain extends AppCompatActivity
         requestQueue.add(jsonArrayRequest);
 
     }
-    private void setData(ArrayList<weeklyGrade> wg) {
-        Log.i("anwesha","reached setData");
+    //populates graph with overall average weekly grades of the student as well as the maximum weekly grades to show a comparison
+    private void setData1(ArrayList<weeklyGrade> wg) {
+
         ArrayList<StudentAnalytics> s=sa;
         ArrayList<String> xVals = new ArrayList<String>();
         ArrayList<Entry> yVals = new ArrayList<Entry>();
@@ -252,20 +247,24 @@ public class studentMain extends AppCompatActivity
         int i=0;
 
 
-        int c=0;
+        Log.i("anwesha","length="+s.size());
 
         if(wg.size()>0) {
-            for (StudentAnalytics p : s) {
+            for (StudentAnalytics p:s)
+            {
 
                 int week = p.getWeek();
+                Log.i("anwesha",week+"week");
                 StudentAnalytics sum = map.get(week);
                 if (sum == null) {
-                    count = 1;
+
                     sum = new StudentAnalytics(week, 0, 0);
+                    Log.i("anwesha","entered");
                     map.put(week, sum);
                 }
-                sum.setPercentage((sum.getPercentage() + p.getPercentage()) / count++);
-                c++;
+                sum.setPercentage((sum.getPercentage() + p.getPercentage()) / sum.getAndSet());
+                Log.i("anwesha",sum.getPercentage()+"sum"+sum.getCount());
+
             }
 
             Map<Integer, StudentAnalytics> m = new TreeMap<>(map);
@@ -290,13 +289,13 @@ public class studentMain extends AppCompatActivity
                 if(flag)
                     yVals.add(new Entry(0, i));
 
-                Log.i("anwesha", w.getPercentage() + "hhhh");
+
                 i++;
             }
         }
 
-        LineDataSet set1;
-        LineDataSet set2;
+        LineDataSet set1; //set1 displays current student's grades
+        LineDataSet set2; //set2 displays maximum performance
 
         set1 = new LineDataSet(yVals, "Your Performance");
         set2=new LineDataSet(yVals1, "Maximum Performance");

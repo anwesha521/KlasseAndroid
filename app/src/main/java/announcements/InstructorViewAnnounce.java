@@ -1,5 +1,6 @@
 package announcements;
 
+//allows instructor to view list of current announcements and delete them when necessary
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
@@ -51,7 +52,7 @@ public class InstructorViewAnnounce extends AppCompatActivity {
 
 
         TextView head=findViewById(R.id.instruct_view_header);
-        switch(room_id)
+        switch(room_id) //sets header according to which class is being viewed
         {
             case 11:
                 head.setText("Your announcements for Elements of Software Construction");
@@ -73,7 +74,7 @@ public class InstructorViewAnnounce extends AppCompatActivity {
         disadpt = new DisplayAdapaterInstructorAnnounce(InstructorViewAnnounce.this, content,names,ids);
         list.setAdapter(disadpt);
     }
-    public void loadAnnouncements()
+    public void loadAnnouncements() //loads all announcements for a particular class
     {
 
         RequestQueue requestQueue = Volley.newRequestQueue(InstructorViewAnnounce.this);

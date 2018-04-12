@@ -1,4 +1,4 @@
-package com.example.asus.klasseandroid;
+package notifications;
 
 import android.content.Intent;
 import android.util.Log;
@@ -8,6 +8,8 @@ import com.google.firebase.messaging.RemoteMessage;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import general.studentMain;
 
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {

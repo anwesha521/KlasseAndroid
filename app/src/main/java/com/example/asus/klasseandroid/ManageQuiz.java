@@ -41,7 +41,7 @@ public class ManageQuiz extends AppCompatActivity {
 
         Intent intent=getIntent();
         room_id=intent.getIntExtra("id",11);
-        Log.i("anweshaquiz",room_id+" ");
+
         url="http://"+getResources().getString(R.string.ip)+"/Klasse/get_quiz.php?class_id=";
         Quizzes=new ArrayList<>();
 

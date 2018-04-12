@@ -1,4 +1,4 @@
-package com.example.asus.klasseandroid;
+package notifications;
 
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -14,7 +14,6 @@ import com.example.asus.klasseandroid.R;
 
 public class MyNotificationManager {
 
-    public static final int ID_BIG_NOTIFICATION = 234;
     public static final int ID_SMALL_NOTIFICATION = 235;
 
     private Context mCtx;

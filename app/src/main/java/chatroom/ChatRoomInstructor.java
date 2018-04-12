@@ -1,5 +1,10 @@
 package chatroom;
 
+//this version of chatroom has added capabilities of allowing instructors to verify replies
+//green message = reply
+//yellow message=verified reply by instructor
+//blue message=question/general message
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -66,7 +71,7 @@ public class ChatRoomInstructor extends AppCompatActivity {
                 if (TextUtils.isEmpty(txt)) {
                     Toast.makeText(ChatRoomInstructor.this, "Please enter message.", Toast.LENGTH_LONG).show();
                 } else {
-                    if (type == 1) {
+                    if (type == 1) { //type 1= reply
 
 
                         id = FirebaseDatabase.getInstance()
@@ -81,7 +86,7 @@ public class ChatRoomInstructor extends AppCompatActivity {
                         type = 0;
 
 
-                    } else {
+                    } else { //type by default considered question (blue)
                         id = FirebaseDatabase.getInstance()
                                 .getReference()
                                 .push().getKey();
@@ -103,6 +108,7 @@ public class ChatRoomInstructor extends AppCompatActivity {
 
 
     }
+    //populates chatroom using a firebaselistadapter
     public void displayChatMessages() {
 
         adapter = new FirebaseListAdapter<ChatMessage>(this, ChatMessage.class,
@@ -119,7 +125,6 @@ public class ChatRoomInstructor extends AppCompatActivity {
                 final int id = model.get_id();
 
 
-                Log.i("anwesha", model.getMessageText() + " " + model.getVerified() + " "+id);
                 if (id == room_id) {
                     messageTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)",
                             model.getMessageTime()));

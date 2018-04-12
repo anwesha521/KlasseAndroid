@@ -1,10 +1,13 @@
-package com.example.asus.klasseandroid;
+package general;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import com.example.asus.klasseandroid.R;
+import com.example.asus.klasseandroid.quiz;
 
 import announcements.InstructorAnnounceMain;
 import chatroom.ChatRoomInstructor;

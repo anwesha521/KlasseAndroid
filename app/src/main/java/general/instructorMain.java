@@ -1,8 +1,7 @@
-package com.example.asus.klasseandroid;
+package general;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,15 +21,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.asus.klasseandroid.R;
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import org.json.JSONArray;
@@ -107,6 +102,7 @@ public class instructorMain extends AppCompatActivity
 
     }
 
+    //displays only the classes that the instructor teaches in the navigation drawer
     public void requestClass()
     {
 
@@ -160,6 +156,8 @@ public class instructorMain extends AppCompatActivity
         );
         requestQueue.add(jsonArrayRequest);
     }
+
+    //queries database for all the grades of students enrolled in the instructors class/classes
     public void request()
     {
         RequestQueue requestQueue = Volley.newRequestQueue(instructorMain.this);
@@ -178,7 +176,7 @@ public class instructorMain extends AppCompatActivity
                             {
                                 // Get current json object
                                 JSONObject ann = response.getJSONObject(i);
-                                Log.i("anwesha",ann.getInt("week")+"week");
+
                                 sa.add(new StudentAnalytics(ann.getInt("week"),ann.getInt("percentage"),ann.getInt("class_id")));
 
                             }
@@ -200,6 +198,8 @@ public class instructorMain extends AppCompatActivity
         );
         requestQueue.add(jsonArrayRequest);
     }
+
+    //populates chart with average grades every week of all students enrolled in a class
 
     public void setDataChart()
     {
@@ -233,7 +233,7 @@ public class instructorMain extends AppCompatActivity
 
             BARENTRY.add(new BarEntry((float)p.getPercentage()/total.get(p.getWeek()),count++));
             BarEntryLabels.add("Week "+p.getWeek());
-            Log.i("anwesha",(float)p.getPercentage()/total.get(p.getWeek())+" "+p.getWeek()+"w");
+
 
         }
         Bardataset = new BarDataSet(BARENTRY, "Average scores");

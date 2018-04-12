@@ -1,6 +1,6 @@
 package announcements;
 
-
+//Allows students to view all announcements for a particular class in a checklist format
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

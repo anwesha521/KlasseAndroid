@@ -1,13 +1,17 @@
-package com.example.asus.klasseandroid;
+package general;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.asus.klasseandroid.R;
+import com.example.asus.klasseandroid.StudentViewQuiz;
+
 import announcements.StudentAnnounce;
-import chatroom.ChatRoom;
+import chatroom.ChatRoomStudent;
 import feedback.studentFeedback.SlidesWeekView;
 
 public class classStudent extends AppCompatActivity {
@@ -75,9 +79,10 @@ public class classStudent extends AppCompatActivity {
 
 
     }
+
     public void startChat()
     {
-        Intent launch = new Intent(this, ChatRoom.class);
+        Intent launch = new Intent(this, ChatRoomStudent.class);
         launch.putExtra("id",room_id);
         startActivity(launch);
     }
