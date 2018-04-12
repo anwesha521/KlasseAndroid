@@ -20,11 +20,11 @@ Green: Reply
 Yellow: Verified answer
 
 ### **Analytics**
-Both instructors and students will be greeted by an analytics page after logging in. For instructors they can see the average performance of all their students throughout the term in teh form of a bar graph that displays average grade percentage vs week. For students they can also see their performance in the form of a line graph of average percentage vs week. It will also show their performance in each individual subject throughout the term.
+Both instructors and students will be greeted by an analytics page after logging in. For instructors they can see the average performance of all their students throughout the term in the form of a bar graph that displays average grade percentage vs week. For students they can also see their performance in the form of a line graph of average percentage vs week. It will also show their performance in each individual subject throughout the term.
 
 ## Database and backend
 
-We used Volley a framework we used to query our MySql database. Volley is a framework on top of android framework. With Volley, you don’t need to write code in an Async task for accessing the network as this is managed by volley itself. Thus, with the exception of Chatroom (which uses Firebase) and push notifications (which uses FCM), all our features use volley request to POST and GET request to our database.
+We used Volley a framework that we used to query our MySql database. Volley is a framework on top of android framework. With Volley, you don’t need to write code in an Async task for accessing the network as this is managed by volley itself. Thus, with the exception of Chatroom (which uses Firebase) and push notifications (which uses FCM), all our features use volley request to POST and GET request to our database.
 
 ## Unit Testing
 
