@@ -36,9 +36,10 @@ import static org.mockito.MockitoAnnotations.initMocks;
 // Doing Integration test for Volley which is used in all classes except chatroom
 
 
+
+//@Config(manifest = "app/src/main/AndroidManifest.xml", sdk = 18)
 @RunWith(RobolectricTestRunner.class)
 @Config(shadows = {ShadowSystemClock.class})
-
 public class VolleyIntegrationTest {
 
     private ResponseDelivery mDelivery;

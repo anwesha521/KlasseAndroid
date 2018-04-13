@@ -102,9 +102,9 @@ dependencies {
             }
         }
     }
-    testCompile('org.robolectric:shadows-support-v4:3.0') {
-        exclude module: 'support-v4'
-    }
+//    testCompile('org.robolectric:shadows-support-v4:3.0') {
+//        exclude module: 'support-v4'
+//    }
     androidTestCompile 'com.android.support.test.espresso:espresso-intents:3.0.1'
 //    //testing recyclerView!!!
 //    compile 'com.squareup.dagger:dagger:1.2.2'
