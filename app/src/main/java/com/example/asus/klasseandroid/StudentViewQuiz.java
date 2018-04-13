@@ -48,9 +48,12 @@ public class StudentViewQuiz extends AppCompatActivity {
         setContentView(R.layout.activity_student_view_quiz);
 
         Intent intent = getIntent();
-        room_id = intent.getIntExtra("id", 0);
+        //room_id = intent.getIntExtra("id", 0);
+        room_id = 11;
         url1 = "http://" + getResources().getString(R.string.ip) + "/Klasse/get_quiz.php?class_id=";
         url2 = "http://" + getResources().getString(R.string.ip) + "/Klasse/get_answers.php";
+        //url1 = "http://10.12.176.11/get_quiz.php?class_id=";
+        //url2 = "http://10.12.176.11/get_answers.php";
 
         requestQueue = Volley.newRequestQueue(StudentViewQuiz.this);
         listView = (ListView) findViewById(R.id.quiz);
@@ -85,9 +88,11 @@ public class StudentViewQuiz extends AppCompatActivity {
                         try {
                             JSONArray array = new JSONArray(response);
                             for (int i = 0; i < array.length(); i++) {
-                                names.add(array.getJSONObject(i).getString("quiz_name"));
-                                weeks.add(array.getJSONObject(i).getInt("week"));
-                                Log.i("anwesha",i+array.getJSONObject(i).getString("quiz_name")+" ");
+                                if(array.getJSONObject(i).getString("status").equals("active")){
+                                    names.add(array.getJSONObject(i).getString("quiz_name"));
+                                    weeks.add(array.getJSONObject(i).getInt("week"));
+                                    Log.i("anwesha",i+array.getJSONObject(i).getString("quiz_name")+" ");
+                                }
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

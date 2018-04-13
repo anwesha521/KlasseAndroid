@@ -47,6 +47,7 @@ public class InstructorEditQuiz extends AppCompatActivity implements View.OnClic
     int week_number;
     String instructor_id;
     int id;
+    String quiz_name;
 
     SharedPreferences pref;
 
@@ -63,6 +64,8 @@ public class InstructorEditQuiz extends AppCompatActivity implements View.OnClic
 
         url="http://"+getResources().getString(R.string.ip)+"/Klasse/update_quiz.php";
         url2="http://"+getResources().getString(R.string.ip)+"/Klasse/get_quiz_edit.php?class_id=";
+        //url="http://10.12.176.11/update_quiz.php";
+        //url2="http://10.12.176.11/get_quiz_edit.php?class_id=";
 
         TextView week=(TextView)findViewById(R.id.firstLine);
         String weekText="Week "+week_number;
@@ -94,8 +97,7 @@ public class InstructorEditQuiz extends AppCompatActivity implements View.OnClic
                                 JSONObject question=array.getJSONObject(i);
                                 Log.i("anweshatest",question.getInt("week")+" "+week_number);
                                 if(question.getInt("week")==week_number){
-
-                                    instructor_id=question.getString("instructor_id");
+                                    quiz_name=question.getString("quiz_name");
                                     ql.add(new InstructorEditQuizAdapter.question(
                                             question.getString("description"),
                                             question.getString("type"),
@@ -110,7 +112,7 @@ public class InstructorEditQuiz extends AppCompatActivity implements View.OnClic
                             }
 
                             Log.i("shunqi",ql.get(0).description);
-                            myAdapter=new InstructorEditQuizAdapter(ql,Integer.valueOf(instructor_id),InstructorEditQuiz.this);
+                            myAdapter=new InstructorEditQuizAdapter(ql,quiz_name,InstructorEditQuiz.this);
                             listView.setAdapter(myAdapter);
                         }catch (JSONException e){
                             e.printStackTrace();
@@ -121,7 +123,7 @@ public class InstructorEditQuiz extends AppCompatActivity implements View.OnClic
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                            Log.i("anwesha",error.getMessage().toString());
+                            //Log.i("anwesha",error.getMessage().toString());
                     }
                 });
         getRequestQueue().add(stringRequest);
@@ -151,8 +153,9 @@ public class InstructorEditQuiz extends AppCompatActivity implements View.OnClic
                 @Override
                 protected Map<String,String> getParams(){
                     Map<String,String> params=new HashMap<>();
+                    params.put("quiz_name",myAdapter.quiz_name);
                     params.put("week",week_number+"");
-                    params.put("instructor_id",myAdapter.instructor_id+"");
+                    params.put("instructor_id",instructor_id+"");
                     params.put("description",q.description);
                     if(q.type==0){
                         params.put("type","QNA");
@@ -178,12 +181,12 @@ public class InstructorEditQuiz extends AppCompatActivity implements View.OnClic
 class InstructorEditQuizAdapter extends BaseAdapter {
     private ArrayList<question> ql=new ArrayList<>();
     private Context context;
-    int instructor_id;
+    String quiz_name;
 
-    public InstructorEditQuizAdapter(ArrayList<question> input,int instructor_id, Context context){
+    public InstructorEditQuizAdapter(ArrayList<question> input,String quiz_name, Context context){
         ql=input;
         this.context=context;
-        this.instructor_id=instructor_id;
+        this.quiz_name=quiz_name;
     }
 
     @Override

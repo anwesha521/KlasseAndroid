@@ -15,8 +15,8 @@
     <string name="C">C</string>
     <string name="D">D</string>
     <string name="submit">Submit</string>
-    <string name="ip">192.168.1.185</string>
-    <string name="ip1">10.12.195.1</string>
+    <string name="ip1">192.168.1.185</string>
+    <string name="ip">10.12.195.1</string>
 
     <string name="prompt_password">Password (optional)</string>
     <string name="action_sign_in">Sign in or register</string>
@@ -44,4 +44,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="manage">Manage Quizzes</string>
     <string name="create">Create a Quiz</string>
+    <string name="start">Start</string>
+    <string name="end">Delete</string>
 </resources>
