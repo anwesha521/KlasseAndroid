@@ -7,6 +7,7 @@ import android.support.annotation.IdRes;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -46,12 +48,16 @@ public class InstructorViewQuiz extends AppCompatActivity implements View.OnClic
     int week;
     int id;
     String status;
+    private static String HttpURLsendnotif;
+    final ArrayList<String> ids=new ArrayList<>();
+    private String HttpURLgetID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_instructor_view_quiz);
-
+        HttpURLsendnotif ="http://"+getResources().getString(R.string.ip)+"/Klasse/send_single_push.php";
+        HttpURLgetID = "http://"+getResources().getString(R.string.ip)+"/Klasse/get_user_ids.php?class_id=";
         Intent intent=getIntent();
         week=intent.getIntExtra("week",1);
         id=intent.getIntExtra("id",11);
@@ -76,6 +82,24 @@ public class InstructorViewQuiz extends AppCompatActivity implements View.OnClic
             @Override
             public void onClick(View view) {
                 startQuiz(week);
+                String cl="";
+                switch(id)
+                {
+                    case 11:
+                        cl="Elements of software construction";
+                        break;
+                    case 21:
+                        cl="Computer Systems Engineering";
+                        break;
+                    case 31:
+                        cl="Probability and Statistics";
+                        break;
+                    default:
+                        cl="Elements of software construction";
+
+                }
+                sendNotif("Quiz starting in "+cl);
+
             }
         });
 
@@ -85,6 +109,82 @@ public class InstructorViewQuiz extends AppCompatActivity implements View.OnClic
                 deleteQuiz(week);
             }
         });
+    }
+
+    public void sendNotif(final String a)
+    {
+
+
+        RequestQueue requestQueue = Volley.newRequestQueue(InstructorViewQuiz.this);
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
+                Request.Method.GET, HttpURLgetID+id,
+                null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+
+                        try{
+
+                            for(int i=0;i<response.length();i++){
+                                // Get current json object
+
+                                JSONObject ann = response.getJSONObject(i);
+                                ids.add(ann.getString("user_id"));
+
+
+                            }
+
+                            RequestQueue MyRequestQueue = Volley.newRequestQueue(InstructorViewQuiz.this);
+                            for(String i:ids) {
+                                final String id=i;
+
+                                StringRequest stringRequest = new StringRequest(Request.Method.POST, HttpURLsendnotif, new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+
+                                    }
+                                }, new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
+                                        Log.i("anwesha", error.getMessage().toString());
+                                    }
+                                }) {
+                                    @Override
+                                    protected Map<String, String> getParams() {
+                                        Map<String, String> params = new HashMap<>();
+                                        params.put("title", "Quiz Posted");
+                                        params.put("message", "Starting");
+                                        params.put("user_id", id);
+
+
+                                        return params;
+                                    }
+                                };
+
+                                MyRequestQueue.add(stringRequest);
+                            }
+
+
+                            ids.clear();
+                        }catch (JSONException e){
+                            e.printStackTrace();
+                            Log.i("anwesha",e.getMessage().toString());
+                        }
+
+                    }
+                },
+                new Response.ErrorListener(){
+                    @Override
+                    public void onErrorResponse(VolleyError error){
+                        // Do something when error occurred
+                        Log.i("anwesha",error.getMessage());
+                    }
+                }
+        );
+        requestQueue.add(jsonArrayRequest);
+
     }
 
     public void deleteQuiz(int week){

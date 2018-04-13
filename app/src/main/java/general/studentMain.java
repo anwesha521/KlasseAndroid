@@ -53,12 +53,12 @@ public class studentMain extends AppCompatActivity
    ArrayList<StudentAnalytics> sa=new ArrayList<>();
 
 
-   /*@Override
-   protected void onStart() {
 
-       super.onStart();
+   protected void onRestart() {
+
+       super.onRestart();
        request();
-   }*/
+   }
 
 
     @Override
