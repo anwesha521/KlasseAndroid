@@ -86,82 +86,6 @@ public class InstructorQuiz extends AppCompatActivity implements View.OnClickLis
     }
 
 
-    public void sendNotif(final String a)
-    {
-
-
-        RequestQueue requestQueue = Volley.newRequestQueue(InstructorQuiz.this);
-
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
-                Request.Method.GET, HttpURLgetID+room_id,
-                null,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-
-                        try{
-
-                            for(int i=0;i<response.length();i++){
-                                // Get current json object
-
-                                JSONObject ann = response.getJSONObject(i);
-                                ids.add(ann.getString("user_id"));
-
-
-                            }
-
-                            RequestQueue MyRequestQueue = Volley.newRequestQueue(InstructorQuiz.this);
-                            for(String i:ids) {
-                                final String id=i;
-
-                                StringRequest stringRequest = new StringRequest(Request.Method.POST, HttpURLsendnotif, new Response.Listener<String>() {
-                                    @Override
-                                    public void onResponse(String response) {
-
-                                    }
-                                }, new Response.ErrorListener() {
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-                                        Toast.makeText(getApplicationContext(), "Failed", Toast.LENGTH_SHORT).show();
-                                        Log.i("anwesha", error.getMessage().toString());
-                                    }
-                                }) {
-                                    @Override
-                                    protected Map<String, String> getParams() {
-                                        Map<String, String> params = new HashMap<>();
-                                        params.put("title", "Quiz Posted");
-                                        params.put("message", "Starting");
-                                        params.put("user_id", id);
-
-
-                                        return params;
-                                    }
-                                };
-
-                                MyRequestQueue.add(stringRequest);
-                            }
-
-
-                            ids.clear();
-                        }catch (JSONException e){
-                            e.printStackTrace();
-                            Log.i("anwesha",e.getMessage().toString());
-                        }
-
-                    }
-                },
-                new Response.ErrorListener(){
-                    @Override
-                    public void onErrorResponse(VolleyError error){
-                        // Do something when error occurred
-                        Log.i("anwesha",error.getMessage());
-                    }
-                }
-        );
-        requestQueue.add(jsonArrayRequest);
-
-    }
-
 
     @Override
     public void onClick(View view) {
@@ -187,7 +111,7 @@ public class InstructorQuiz extends AppCompatActivity implements View.OnClickLis
                         @Override
                         public void onResponse(String response) {
                             Toast.makeText(InstructorQuiz.this, response, Toast.LENGTH_SHORT).show();
-                            sendNotif("Quiz starting");
+                           
                         }
                     },
                     new Response.ErrorListener() {
