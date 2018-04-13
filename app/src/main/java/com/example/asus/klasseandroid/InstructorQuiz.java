@@ -37,6 +37,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import announcements.InstructorAnnounce;
+import feedback.studentFeedback.SlidesWeekView;
 
 public class InstructorQuiz extends AppCompatActivity implements View.OnClickListener{
     InstructorQuizAdapter myAdapter;
@@ -219,7 +220,13 @@ public class InstructorQuiz extends AppCompatActivity implements View.OnClickLis
             };
 
             getRequestQueue().add(stringRequest);
+
+
         }
+
+        Intent launch = new Intent(this, quiz.class);
+        launch.putExtra("id",room_id);
+        startActivity(launch);
     }
 }
 
