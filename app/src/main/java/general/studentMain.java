@@ -122,7 +122,7 @@ public class studentMain extends AppCompatActivity
                             for(int i=0;i<response.length();i++){
                                 // Get current json object
                                 JSONObject ann = response.getJSONObject(i);
-                                Log.i("anwesha",ann.getInt("week")+"weekann");
+
                                 sa.add(new StudentAnalytics(ann.getInt("week"),ann.getInt("percentage"),ann.getInt("class_id")));
 
                             }
@@ -247,23 +247,21 @@ public class studentMain extends AppCompatActivity
         int i=0;
 
 
-        Log.i("anwesha","length="+s.size());
-
         if(wg.size()>0) {
             for (StudentAnalytics p:s)
             {
 
                 int week = p.getWeek();
-                Log.i("anwesha",week+"week");
+
                 StudentAnalytics sum = map.get(week);
                 if (sum == null) {
 
                     sum = new StudentAnalytics(week, 0, 0);
-                    Log.i("anwesha","entered");
+
                     map.put(week, sum);
                 }
                 sum.setPercentage((sum.getPercentage() + p.getPercentage()) / sum.getAndSet());
-                Log.i("anwesha",sum.getPercentage()+"sum"+sum.getCount());
+
 
             }
 
