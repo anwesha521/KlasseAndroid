@@ -154,7 +154,7 @@ public class InstructorViewQuiz extends AppCompatActivity implements View.OnClic
                                     @Override
                                     protected Map<String, String> getParams() {
                                         Map<String, String> params = new HashMap<>();
-                                        params.put("title", "Quiz Posted");
+                                        params.put("title", a);
                                         params.put("message", "Starting");
                                         params.put("user_id", id);
 
