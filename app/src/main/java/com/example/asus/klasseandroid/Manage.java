@@ -7,8 +7,10 @@ package com.example.asus.klasseandroid;
 class Manage{
     int week;
     int questions;
-    public Manage(int week,int questions){
+    String status;
+    public Manage(int week,int questions,String status){
         this.week=week;
         this.questions=questions;
+        this.status=status;
     }
 }

@@ -58,6 +58,7 @@ public class InstructorQuiz extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_instructor_quiz);
         ql.add(new InstructorQuizAdapter.question());
         url="http://"+getResources().getString(R.string.ip)+"/Klasse/upload_quiz.php";
+        //url="http://10.12.176.11/upload_quiz.php";
         HttpURLgetID = "http://"+getResources().getString(R.string.ip)+"/Klasse/get_user_ids.php?class_id=";
         HttpURLsendnotif ="http://"+getResources().getString(R.string.ip)+"/Klasse/send_single_push.php";
 

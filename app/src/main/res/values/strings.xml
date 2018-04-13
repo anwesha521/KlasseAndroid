@@ -44,4 +44,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="manage">Manage Quizzes</string>
     <string name="create">Create a Quiz</string>
+    <string name="start">Start</string>
+    <string name="end">Delete</string>
 </resources>

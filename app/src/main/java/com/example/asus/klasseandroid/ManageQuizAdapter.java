@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -72,10 +73,14 @@ class ManageQuizAdapter extends BaseAdapter {
         Edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent launch=new Intent(view.getContext(),InstructorEditQuiz.class);
-                launch.putExtra("week",quizzes.get(position).week);
-                launch.putExtra("id",id);
-                view.getContext().startActivity(launch);
+                if(quizzes.get(position).status.equals("inactive")){
+                    Intent launch=new Intent(view.getContext(),InstructorEditQuiz.class);
+                    launch.putExtra("week",quizzes.get(position).week);
+                    launch.putExtra("id",id);
+                    view.getContext().startActivity(launch);
+                }else if(quizzes.get(position).status.equals("active")){
+                    Toast.makeText(view.getContext(),"This Quiz Has Been Started.",Toast.LENGTH_LONG).show();
+                }
             }
         });
 

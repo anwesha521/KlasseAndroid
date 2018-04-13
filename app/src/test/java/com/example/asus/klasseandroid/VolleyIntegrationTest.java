@@ -38,6 +38,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(shadows = {ShadowSystemClock.class})
+
 public class VolleyIntegrationTest {
 
     private ResponseDelivery mDelivery;

@@ -43,6 +43,7 @@ public class ManageQuiz extends AppCompatActivity {
         room_id=intent.getIntExtra("id",11);
 
         url="http://"+getResources().getString(R.string.ip)+"/Klasse/get_quiz.php?class_id=";
+        //url="http://10.12.176.11/get_quiz.php?class_id=";
         Quizzes=new ArrayList<>();
 
         listView=(ListView)findViewById(R.id.quiz_list);
@@ -55,20 +56,23 @@ public class ManageQuiz extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        Log.i("shunqi",response);
                         try {
                             JSONArray array=new JSONArray(response);
                             Map<Integer,Integer> weekMap=new HashMap<>();
+                            Map<Integer,String> weekStatus=new HashMap<>();
                             for(int i=0;i<array.length();i++){
                                 JSONObject week=array.getJSONObject(i);
                                 int weekNumber=week.getInt("week");
                                 if(!weekMap.containsKey(weekNumber)){
                                     weekMap.put(weekNumber,1);
+                                    weekStatus.put(weekNumber,week.getString("status"));
                                 }else {
                                     weekMap.put(weekNumber,weekMap.get(weekNumber)+1);
                                 }
                             }
                             for(int w:weekMap.keySet()){
-                                Quizzes.add(new Manage(w,weekMap.get(w)));
+                                Quizzes.add(new Manage(w,weekMap.get(w),weekStatus.get(w)));
                             }
                             ManageQuizAdapter myAdapter=new ManageQuizAdapter(Quizzes,room_id,ManageQuiz.this);
                             listView.setAdapter(myAdapter);

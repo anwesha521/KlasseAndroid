@@ -19,7 +19,6 @@ import org.robolectric.shadows.ShadowListView;
 
 import static android.content.Context.MODE_PRIVATE;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
 /**

@@ -11,10 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,14 +33,19 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class InstructorViewQuiz extends AppCompatActivity implements View.OnClickListener{
     InstructorViewStudentQuizAdapter myAdapter;
     String url2;
+    String url_update;
+    String url_end;
     ArrayList<InstructorViewStudentQuizAdapter.question> sql=new ArrayList<>();
     ListView Questions;
     int week;
     int id;
+    String status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +56,93 @@ public class InstructorViewQuiz extends AppCompatActivity implements View.OnClic
         week=intent.getIntExtra("week",1);
         id=intent.getIntExtra("id",11);
         url2="http://"+getResources().getString(R.string.ip)+"/Klasse/get_quiz.php?class_id=";
-        TextView name=(TextView)findViewById(R.id.quizName);
+        //url2="http://10.12.176.11/get_quiz.php?class_id=";
+//        url_update="http://10.12.176.11/update_status.php";
+//        url_end="http://10.12.176.11/delete.php";
+        url_update="http://"+getResources().getString(R.string.ip)+"/Klasse/update_status.php";
+        url_end="http://"+getResources().getString(R.string.ip)+"/Klasse/delete.php";
+
+        TextView name=(TextView)findViewById(R.id.view_quiz_name);
         String nameText="Week "+week;
         name.setText(nameText);
 
-        Questions=(ListView)findViewById(R.id.question_list);
+        Questions=(ListView)findViewById(R.id.view_question_list);
         getQuestions();
+
+        Button start=(Button)findViewById(R.id.start);
+        Button end=(Button)findViewById(R.id.end);
+
+        start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startQuiz(week);
+            }
+        });
+
+        end.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteQuiz(week);
+            }
+        });
+    }
+
+    public void deleteQuiz(int week){
+        final int week_num=week;
+        if(myAdapter.getStatus().equals("active")){
+            Toast.makeText(InstructorViewQuiz.this,"This Quiz Has Been Started!",Toast.LENGTH_LONG).show();
+        }else if(myAdapter.getStatus().equals("inactive")){
+            RequestQueue requestQueue=Volley.newRequestQueue(InstructorViewQuiz.this);
+            StringRequest stringRequest=new StringRequest(Request.Method.POST, url_end,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Toast.makeText(InstructorViewQuiz.this,response,Toast.LENGTH_LONG).show();
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                        }
+                    }){
+                @Override
+                protected Map<String,String> getParams(){
+                    Map<String,String> params=new HashMap<>();
+                    params.put("week",week_num+"");
+                    return params;
+                }
+            };
+            requestQueue.add(stringRequest);
+        }
+    }
+
+    public void startQuiz(int week){
+        final int week_num=week;
+        if(myAdapter.getStatus().equals("active")){
+            Toast.makeText(InstructorViewQuiz.this,"The quiz has started already!",Toast.LENGTH_LONG).show();
+        }else if(myAdapter.getStatus().equals("inactive")){
+            RequestQueue requestQueue=Volley.newRequestQueue(InstructorViewQuiz.this);
+            StringRequest stringRequest=new StringRequest(Request.Method.POST, url_update,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Toast.makeText(InstructorViewQuiz.this,response,Toast.LENGTH_LONG).show();
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                        }
+                    }){
+                @Override
+                protected Map<String,String> getParams(){
+                    Map<String,String> params=new HashMap<>();
+                    params.put("week",week_num+"");
+                    return params;
+                }
+            };
+            requestQueue.add(stringRequest);
+        }
     }
 
     public void getQuestions(){
@@ -77,9 +165,10 @@ public class InstructorViewQuiz extends AppCompatActivity implements View.OnClic
                                             question.getString("c_choice"),
                                             question.getString("d_choice")
                                     ));
+                                    status=question.getString("status");
                                 }
                             }
-                            myAdapter=new InstructorViewStudentQuizAdapter(sql,InstructorViewQuiz.this);
+                            myAdapter=new InstructorViewStudentQuizAdapter(sql,InstructorViewQuiz.this,status);
                             Questions.setAdapter(myAdapter);
                         }catch (JSONException e){
                             e.printStackTrace();
@@ -111,8 +200,9 @@ class InstructorViewStudentQuizAdapter extends BaseAdapter {
     private ArrayList<Integer> marks;
     private ArrayList<String> correct;
     private ArrayList<String> type;
+    private String status;
 
-    public InstructorViewStudentQuizAdapter(ArrayList<question> ql, Context context){
+    public InstructorViewStudentQuizAdapter(ArrayList<question> ql, Context context,String status){
         questions=ql;
         this.context=context;
         int size=questions.size();
@@ -120,6 +210,11 @@ class InstructorViewStudentQuizAdapter extends BaseAdapter {
         marks=new ArrayList<>(Arrays.asList(new Integer[size]));
         correct=new ArrayList<>(Arrays.asList(new String[size]));
         type=new ArrayList<>(Arrays.asList(new String[size]));
+        this.status=status;
+    }
+
+    public String getStatus(){
+        return status;
     }
 
     @Override

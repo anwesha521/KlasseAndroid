@@ -51,7 +51,6 @@ public class StudentQuiz extends AppCompatActivity implements View.OnClickListen
     String quizName;
     String week;
     SharedPreferences pref;
-    SharedPreferences.Editor editor;
 
     int room_id;
     public boolean flag = false;
@@ -61,13 +60,15 @@ public class StudentQuiz extends AppCompatActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_quiz);
 
-        Intent intent = getIntent();
-        quizName = intent.getStringExtra("name");
-        room_id = intent.getIntExtra("id", 0);
-        url2 = "http://" + getResources().getString(R.string.ip) + "/Klasse/get_quiz.php?class_id=";
-        url3 = "http://" + getResources().getString(R.string.ip) + "/Klasse/submit.php";
+        Intent intent=getIntent();
+        quizName=intent.getStringExtra("name");
+        room_id=intent.getIntExtra("id",0);
+        url2="http://"+getResources().getString(R.string.ip)+"/Klasse/get_quiz.php?class_id=";
+        url3="http://"+getResources().getString(R.string.ip)+"/Klasse/submit.php";
+        //url2="http://10.12.176.11/get_quiz.php?class_id=";
+        //url3="http://10.12.176.11/submit.php";
+
         pref = getApplicationContext().getSharedPreferences("UserDetails", MODE_PRIVATE);
-        editor=pref.edit();
 
         TextView name = (TextView) findViewById(R.id.quizName);
         name.setText(quizName);

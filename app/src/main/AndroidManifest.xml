@@ -81,10 +81,10 @@
         <activity android:name="feedback.instructorFeedback.Comments" />
         <activity android:name="announcements.InstructorAnnounceMain" />
         <activity android:name="announcements.InstructorViewAnnounce" />
-        <activity android:name=".quiz"></activity>
-        <activity android:name=".ManageQuiz"></activity>
-        <activity android:name=".InstructorEditQuiz"></activity>
-        <activity android:name=".InstructorViewQuiz"></activity>
+        <activity android:name=".quiz"/>
+        <activity android:name=".ManageQuiz"/>
+        <activity android:name=".InstructorEditQuiz"/>
+        <activity android:name=".InstructorViewQuiz"/>
 
 
     </application>
