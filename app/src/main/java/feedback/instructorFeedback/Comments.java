@@ -102,9 +102,9 @@ public class Comments extends AppCompatActivity {
                                 //adding the product to feedback list
                                 feedbackList.add(new FeedbackLayout(
                                         feedback.getString("feedback"),
-                                        "file name: " + feedback.getString("pdfFileName"),
-                                        "Page no: " + feedback.getString("pgNumber"),
-                                        "date: " + feedback.getString("time")
+                                        feedback.getString("pdfFileName").trim(),
+                                        " pg " + feedback.getString("pgNumber"),
+                                        feedback.getString("time")
                                 ));
                                 Log.i("anwesha",feedback.getString("feedback"));
                             }
