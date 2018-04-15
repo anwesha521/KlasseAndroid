@@ -27,6 +27,8 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 import org.robolectric.shadows.ShadowToast;
 
+import java.util.Random;
+
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.*;
 /**
@@ -92,6 +94,18 @@ public class ChatRoomTest {
                 //.getReference().child(id).setValue(chatMessage);
         assertEquals(chatMessage.getMessageType(),"reply");
     }
+
+    @Test
+    public void testFuzzerMessage() throws Exception {
+        type = 1;
+
+        EditText input = (EditText) chatroom.findViewById(R.id.input);
+        String f=fuzzer();
+        input.setText(f);
+        chatMessage = new ChatMessage(f, "Harleen", "reply", 11, id);
+
+        assertEquals(chatMessage.getMessageText().equals(input.getText().toString()),true);
+    }
     @Test
     public void testFloatingActionButtonIfTypeisNotOne() throws Exception {
         type = 0;
@@ -106,6 +120,39 @@ public class ChatRoomTest {
     }
 
 
+    public String fuzzer()
+    {
+        Random rand = new Random();
+
+        int  len = rand.nextInt(25) + 0;
+        String s="";
+
+        for(int i=0;i<len;i++)
+        {
+
+            int j=rand.nextInt(3) + 1;
+            switch(j)
+            {
+                case 1:
+                    s=s+Character.toString((char)(rand.nextInt(10)+48));
+                    break;
+                case 2:
+                    s=s+Character.toString((char)(rand.nextInt(26)+65));
+                    break;
+                case 3:
+                    s=s+Character.toString((char)(rand.nextInt(26)+97));
+                    break;
+
+                default:
+                    System.out.println("Error");
+
+            }
+
+
+        }
+
+        return s;
+    }
 
     }
 

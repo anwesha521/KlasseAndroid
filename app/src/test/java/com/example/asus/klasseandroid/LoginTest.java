@@ -16,6 +16,8 @@ import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
+import java.util.Random;
+
 import general.Login;
 
 import static org.junit.Assert.assertEquals;
@@ -30,15 +32,14 @@ public class LoginTest {
     String type;
     String id;
     boolean CheckEditText;
-    Button btnlogin = login.findViewById(R.id.signin);
-    EditText email = login.findViewById(R.id.userId);
-    EditText pw = login.findViewById(R.id.password);
+
     SharedPreferences pref;
     SharedPreferences prefName;
     SharedPreferences.Editor editor;
     SharedPreferences.Editor editorName;
     String t;
     String q ="";
+    int l;
 
 
     @Before
@@ -66,5 +67,51 @@ public class LoginTest {
             CheckEditText = false;
         }
         assertFalse(CheckEditText);
+    }
+
+    @Test
+    public void testCFuzzerEmail() throws Exception {
+        EditText emailEdit = login.findViewById(R.id.userId);
+        String f=fuzzer();
+        emailEdit.setText(f);
+
+        assertEquals(f.equals(emailEdit.getText().toString()),true);
+    }
+
+
+    public String fuzzer()
+    {
+        Random rand = new Random();
+
+        int  len = rand.nextInt(25) + 0;
+        String s="";
+
+        for(int i=0;i<len;i++)
+        {
+
+            int j=rand.nextInt(3) + 1;
+            switch(j)
+            {
+                case 1:
+                    s=s+Character.toString((char)(rand.nextInt(10)+48));
+                    break;
+                case 2:
+                    s=s+Character.toString((char)(rand.nextInt(26)+65));
+                    break;
+                case 3:
+                    s=s+Character.toString((char)(rand.nextInt(26)+97));
+                    break;
+
+                default:
+                    System.out.println("Error");
+
+            }
+
+
+        }
+        s=s+"A";
+        l=s.length();
+
+        return s;
     }
 }
