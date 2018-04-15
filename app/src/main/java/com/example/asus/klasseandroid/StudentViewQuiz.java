@@ -48,8 +48,8 @@ public class StudentViewQuiz extends AppCompatActivity {
         setContentView(R.layout.activity_student_view_quiz);
 
         Intent intent = getIntent();
-        //room_id = intent.getIntExtra("id", 0);
-        room_id = 11;
+        room_id = intent.getIntExtra("id", 0);
+        //room_id = 11;
         url1 = "http://" + getResources().getString(R.string.ip) + "/Klasse/get_quiz.php?class_id=";
         url2 = "http://" + getResources().getString(R.string.ip) + "/Klasse/get_answers.php";
         //url1 = "http://10.12.176.11/get_quiz.php?class_id=";
@@ -102,6 +102,7 @@ public class StudentViewQuiz extends AppCompatActivity {
                         final ArrayList<String> real_status=new ArrayList<>();
 
                         for(String name:names){
+                            if(!real_names.contains(name))
                             real_names.add(name);
                         }
 

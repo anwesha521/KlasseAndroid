@@ -147,7 +147,7 @@ class Update  {
             }*/
 
             for (int i = 0; i < answer.length; ++i) {
-                int thisQuestion = Integer.parseInt(marks[i]);
+                int thisQuestion = Integer.parseInt(marks[i].trim());
 
                 if (type[i].trim().equals("MCQ")) {
                     if (answer[i].toLowerCase().equals(correct[i].toLowerCase())) {

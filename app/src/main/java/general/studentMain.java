@@ -187,6 +187,7 @@ public class studentMain extends AppCompatActivity
 
             }
         }
+        sa.clear();
 
 
     }
